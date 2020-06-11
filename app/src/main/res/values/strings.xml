@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">lifeSim</string>
+    <string name="tutorial">type comand and then tap on button for help type \"help\"</string>
+    <string name="note1">you have been sent to prison</string>
+    <string name="note2">you perform a successful robbery</string>
+    <string name="help" translatable="false">off, rob, help,shopping,sh items,reset,home</string>
+    <string name="screwdriver">screwdriver 20</string>
+    <string name="fries">fries 10</string>
+    <string name="gun">gun 100</string>
+    <string name="knife">knife 60</string>
+    <string name="baton">baton 30</string>
+    <string name="palacinky">pancakes 20</string>
+    <string name="err">nothink written in bonus try to use extend or reduce. list: fries,screwdriver, gun ,knife,baton,pancakes</string>
+    <string name="err2">insufficient funds</string>
+    <string name="note4">"you successfully bought "</string>
+    <string name="za">for</string>
+    <string name="err3">item not found</string>
+    <string name="note5">you successfully escaped from prison</string>
+    <string name="note6">you survived solitary</string>
+    <string name="note7">you death in solitary</string>
+    <string name="note8">it\'s morning</string>
+    <string name="note9">choose weapon</string>
+    <string name="note10">it\'s evening</string>
+    <string name="title_activity_skil_show_activity" translatable="false">skil_show_activity</string>
+    <string name="tab_text_1" translatable="false">Tab 1</string>
+    <string name="tab_text_2" translatable="false">Tab 2</string>
+    <string name="note11">you death on electric chair</string>
+
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="collector">garbage collector</string>
+    <string name="button1">accept</string>
+    <string name="button2">decline</string>
+    <string name="note12">exit showing contracts</string>
+
+
+</resources>

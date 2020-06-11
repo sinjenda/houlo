@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">simulátor života</string>
+    <string name="tutorial">napište příkaz a poté stiskněte tlačítko pro nápovědu napište \"help\"</string>
+    <string name="note1">jste ve vězení</string>
+    <string name="note2">provedli jste úspěšnou krádež</string>
+    <string name="fries">hranolky 10</string>
+    <string name="gun">pistole 100</string>
+    <string name="knife">nůž 60</string>
+    <string name="baton">obušek 30</string>
+    <string name="note4">"úspěšně jste si koupil/a "</string>
+    <string name="palacinky">palačinky 20</string>
+    <string name="screwdriver">šroubovák 20</string>
+    <string name="err">nic není napsáno v bonusovém okně zkuste použít extend nebo reduce seznam: fries, screwdriver,gun,knife,baton,pancakes</string>
+    <string name="err2">nedostatek peněz</string>
+    <string name="za">za</string>
+    <string name="err3">předmět nenalezen</string>
+    <string name="note5">úspěšně jste utekl/a z vězení</string>
+    <string name="note6">přežil jste samotku</string>
+    <string name="note7">umřel jste na samotce</string>
+    <string name="note8">je dopoledne</string>
+    <string name="note9">vyber si zbraň</string>
+    <string name="note10">je odpoledne</string>
+    <string name="note11">umřel jste na elektrickém křesle</string>
+    <string name="collector">popelář</string>
+    <string name="button1">přijmout</string>
+    <string name="button2">odmítnout</string>
+    <string name="note12">ukončit zobrazení</string>
+</resources>
