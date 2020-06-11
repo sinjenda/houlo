@@ -1,0 +1,2 @@
+rootProject.name='lifeSim'
+include ':app'
