@@ -1,6 +1,8 @@
 package com.sin.lifesim.work.smlouva.podminka;
 
+@SuppressWarnings("unused")
 public class podminkaError extends RuntimeException {
+    @SuppressWarnings("unused")
     public podminkaError() {
         super();
     }

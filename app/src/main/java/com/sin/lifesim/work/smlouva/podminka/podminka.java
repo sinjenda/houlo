@@ -4,13 +4,12 @@ import com.sin.lifesim.Krmic;
 import com.sin.lifesim.work.smlouva.Smlouva;
 import com.sin.lifesim.work.work;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings("unused")
-public class podminka implements Serializable {
+public class podminka {
     String[] podminkyLow = {"free work time", "many promotions"};
     String[] podminkyMedium = {"4 work hours", "promotion avaible"};
     String[] podminkyHard = {"8 work hours", "noPromotion"};

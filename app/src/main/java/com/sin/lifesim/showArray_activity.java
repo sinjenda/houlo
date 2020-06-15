@@ -22,11 +22,12 @@ public class showArray_activity extends AppCompatActivity {
         Intent i = getIntent();
 
         strings = i.getStringArrayExtra(DATA);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, strings);
+        @SuppressWarnings("ConstantConditions") ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, strings);
         list.setAdapter(adapter);
     }
 
 
+    @SuppressWarnings("unused")
     public void shskillsArrayOnclick(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

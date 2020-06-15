@@ -1,8 +1,16 @@
 package com.sin.lifesim;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.sin.lifesim.work.smlouva.Smlouva;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings("unused")
@@ -62,6 +70,146 @@ public class Krmic implements Serializable {
             nams.add(s);
         }
         return nams;
+    }
+
+    HashMap<Smlouva, Boolean> wendSmlouva(ArrayList<String> titles, ArrayList<String> podminky, ArrayList<Integer> zkusenost, ArrayList<Boolean> booleans) {
+        int test = 1;
+        String s;
+
+
+        HashMap<Smlouva, Boolean> ret = new HashMap<>();
+        boolean b;
+        for (int i2 = 0; i2 != titles.size(); ) {
+            Smlouva smlouva = new Smlouva(titles.get(i2), podminky.get(i2), zkusenost.get(i2), null);
+            ret.put(smlouva, booleans.get(i2));
+            i2++;
+        }
+        return ret;
+    }
+
+    Set<String> smlouvasGetTitles(HashMap<Smlouva, Boolean> smlouvas) {
+        Set<String> strings = null;
+        Set<Smlouva> entry;
+        entry = smlouvas.keySet();
+
+        for (Smlouva smlouva : entry) {
+
+            strings.add(smlouva.getTitle());
+        }
+        return strings;
+    }
+
+    Set<String> smlouvasGetPodminky(HashMap<Smlouva, Boolean> smlouvas) {
+        Set<String> strings = null;
+        Set<Smlouva> entry;
+        entry = smlouvas.keySet();
+
+        for (Smlouva smlouva : entry) {
+
+            strings.add(smlouva.getPodminky());
+        }
+        return strings;
+
+    }
+
+    Set<String> smlouvasGetZkusenost(HashMap<Smlouva, Boolean> smlouvas) {
+        Set<String> strings = null;
+        Set<Smlouva> entry;
+        entry = smlouvas.keySet();
+
+        for (Smlouva smlouva : entry) {
+
+            strings.add(String.valueOf(smlouva.getZkusenost()));
+        }
+        return strings;
+
+    }
+
+    Set<String> smlouvaGetBooleans(HashMap<Smlouva, Boolean> smlouvas) {
+        Collection<Boolean> entry;
+        entry = smlouvas.values();
+        Set<String> ret = new Set<String>() {
+            @Override
+            public int size() {
+                return 0;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+
+            @Override
+            public boolean contains(@Nullable Object o) {
+                return false;
+            }
+
+            @NonNull
+            @Override
+            public Iterator<String> iterator() {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            public Object[] toArray() {
+                return new Object[0];
+            }
+
+            @NonNull
+            @Override
+            public <T> T[] toArray(@NonNull T[] a) {
+                return null;
+            }
+
+            @Override
+            public boolean add(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean remove(@Nullable Object o) {
+                return false;
+            }
+
+            @Override
+            public boolean containsAll(@NonNull Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public boolean addAll(@NonNull Collection<? extends String> c) {
+                return false;
+            }
+
+            @Override
+            public boolean retainAll(@NonNull Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public boolean removeAll(@NonNull Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public void clear() {
+
+            }
+        };
+        for (Boolean b : entry) {
+            ret.add(Boolean.toString(b));
+        }
+
+        return ret;
+    }
+
+    ArrayList<Boolean> booleanconverter(Set<String> entry) {
+        ArrayList<Boolean> ret = new ArrayList<>();
+        for (String s : entry) {
+            ret.add(Boolean.getBoolean(s));
+        }
+        return ret;
     }
 
     public ArrayList<Integer> polePut(int[] pole) {

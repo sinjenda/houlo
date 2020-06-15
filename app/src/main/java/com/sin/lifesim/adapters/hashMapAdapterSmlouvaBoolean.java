@@ -51,9 +51,10 @@ public class hashMapAdapterSmlouvaBoolean extends BaseAdapter {
         }
 
         Map.Entry<Smlouva, Boolean> item = getItem(position);
-
+        Smlouva show = item.getKey();
+        String sh = show.getTitle() + show.getPodminky() + show.getZkusenost();
         // TODO replace findViewById by ViewHolder
-        ((TextView) result.findViewById(android.R.id.text1)).setText(String.valueOf(item.getKey()));
+        ((TextView) result.findViewById(android.R.id.text1)).setText(String.valueOf(sh));
         ((TextView) result.findViewById(android.R.id.text2)).setText(String.valueOf(item.getValue()));
 
         return result;

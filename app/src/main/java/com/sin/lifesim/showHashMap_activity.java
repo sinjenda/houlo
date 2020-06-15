@@ -23,6 +23,11 @@ public class showHashMap_activity extends AppCompatActivity {
     ListView list;
     Intent i;
     Krmic krmic = new Krmic();
+    ArrayList<String> titles = new ArrayList<>();
+    ArrayList<String> podminky = new ArrayList<>();
+    ArrayList<Integer> zkusenost = new ArrayList<>();
+    ArrayList<Boolean> booleans = new ArrayList<>();
+    ArrayList<String> ret = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,21 +39,44 @@ public class showHashMap_activity extends AppCompatActivity {
 
     @SuppressWarnings({"ConstantConditions", "unchecked"})
     public void showList() {
-        Map<Smlouva, Boolean> hashMapa = null;
-        Map<String, Integer> hashMapb = null;
-        String[] s = {};
+
+        Map<Smlouva, Boolean> hashMapa = new HashMap<>();
+        Map<String, Integer> hashMapb = new HashMap<>();
+        String s;
         list = findViewById(R.id.list);
         try {
-            //s=i.getStringArrayExtra("map");
+            int i1 = 1;
+            int test = 1;
+            boolean fin = true;
+            boolean b;
+
+            while (test != 0) {
+                s = i.getStringExtra("title" + i1);
+                titles.add(s);
+                s = i.getStringExtra("podminky" + i1);
+                podminky.add(s);
+                test = i.getIntExtra("zkusenost" + i1, 0);
+                zkusenost.add(test);
+                b = i.getBooleanExtra("booleans" + i1, false);
+                booleans.add(b);
+                i1++;
+            }
+
             Button button = findViewById(R.id.butt);
             button.setText(R.string.note12);
+
         } catch (ClassCastException e) {
+            e.getStackTrace();
             hashMapb = (HashMap<String, Integer>) i.getSerializableExtra(CALL);
         }
         if (i.getStringExtra(WHICH).equals("smlouva")) {
-            ArrayList<Object> o = (ArrayList<Object>) i.getSerializableExtra(CALL);
-            ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(this, android.R.layout.simple_list_item_1, o);
-            list.setAdapter(adapter);
+            for (int i = 0; i != titles.size(); ) {
+                Smlouva smlouva = new Smlouva(titles.get(i), podminky.get(i), zkusenost.get(i), null);
+                ret.add(titles.get(i) + " " + podminky.get(i) + " \nzkusenost: " + zkusenost.get(i) + "\n" + booleans.get(i));
+                i++;
+            }
+            ArrayAdapter<String> adapterSmlouvaBoolean = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ret);
+            list.setAdapter(adapterSmlouvaBoolean);
         } else {
             hashMapAdapterStringInteger adapterStringInteger = new hashMapAdapterStringInteger(hashMapb);
             list.setAdapter(adapterStringInteger);
@@ -57,7 +85,7 @@ public class showHashMap_activity extends AppCompatActivity {
     }
 
 
-    public void shskillsOnclick(View view) {
+    public void shskillsOnclick(@SuppressWarnings("unused") View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

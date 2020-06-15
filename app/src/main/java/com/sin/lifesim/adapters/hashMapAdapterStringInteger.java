@@ -12,9 +12,11 @@ import com.sin.lifesim.R;
 import java.util.ArrayList;
 import java.util.Map;
 
+@SuppressWarnings("rawtypes")
 public class hashMapAdapterStringInteger extends BaseAdapter {
     private final ArrayList mData;
 
+    @SuppressWarnings("unchecked")
     public hashMapAdapterStringInteger(Map<String, Integer> map) {
         mData = new ArrayList();
         mData.addAll(map.entrySet());
@@ -26,6 +28,7 @@ public class hashMapAdapterStringInteger extends BaseAdapter {
         return mData.size();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Map.Entry<String, Integer> getItem(int position) {
         return (Map.Entry) mData.get(position);

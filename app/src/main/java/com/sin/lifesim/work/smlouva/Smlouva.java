@@ -1,11 +1,11 @@
 package com.sin.lifesim.work.smlouva;
 
+import androidx.annotation.NonNull;
+
 import com.sin.lifesim.work.smlouva.podminka.podminka;
 import com.sin.lifesim.work.work;
 
-import java.io.Serializable;
-
-public class Smlouva implements Serializable {
+public class Smlouva {
     String title;
     String podminky;
     int zkusenost;
@@ -27,7 +27,7 @@ public class Smlouva implements Serializable {
     }
 
 
-    public Smlouva(String title, String podminky, int zkusenost, work work) {
+    public Smlouva(@NonNull String title, String podminky, int zkusenost, work work) {
         this.title = title;
         this.podminky = podminky;
         this.zkusenost = zkusenost;

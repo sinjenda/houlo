@@ -5,14 +5,18 @@ import android.content.DialogInterface;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+@SuppressWarnings("CanBeFinal")
 public class randomEvents {
     MainActivity m;
     Prison p;
 
+    // TODO: new event (you find gun) <place :default>
     public randomEvents(MainActivity m) {
         this.m = m;
     }
 
+    // TODO: repair house
+    @SuppressWarnings({"UnnecessaryLocalVariable", "UnusedReturnValue"})
     public String house() {
 
         if (ThreadLocalRandom.current().nextInt(0, 2) == 1 + 1) {
@@ -22,6 +26,9 @@ public class randomEvents {
 
 
         return "";
+    }
+
+    public void Default() {
     }
 
     public void prison() {

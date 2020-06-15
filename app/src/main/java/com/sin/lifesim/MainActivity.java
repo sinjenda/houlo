@@ -21,15 +21,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 
+@SuppressWarnings({"CanBeFinal", "EmptyMethod", "unused", "unchecked"})
 public class MainActivity extends AppCompatActivity {
     //view and string variables
     EditText input;
     EditText bonus;
     Button button;
-    String dat;
     String dat2;
     String dat3 = "";
     String place = "default";
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public int money = 100;
-    public int chance;
 
     //array lists
 
@@ -77,6 +77,22 @@ public class MainActivity extends AppCompatActivity {
         w = new work(this, getApplication());
         w.setZamestnani("garbage");
         click(new View(getApplication()));
+    }
+
+    public void window(final method.onmet method, final String[] items) {
+        final String[] selectedText = new String[1];
+        final String[] ret = new String[1];
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                selectedText[0] = items[item];
+                ret[0] = selectedText[0];
+                method.methoda(ret);
+            }
+        });
+
+        AlertDialog alertDialogObject = builder.create();
+        alertDialogObject.show();
     }
 
     public void windowkill() {
@@ -163,7 +179,8 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences data = getPreferences(MODE_PRIVATE);
         final SharedPreferences.Editor editor = data.edit();
         String s = input.getText().toString();
-        if (data.getString("started", "ne").equals("ano")) {
+
+        if (!data.getString("started", "ne").equals("ano")) {
             money = 100;
             out.setText(R.string.tutorial);
             editor.putString("started", "ano");
@@ -172,6 +189,11 @@ public class MainActivity extends AppCompatActivity {
             editor.putInt("luck", basicskills.get("luck"));
             editor.putInt("money", money);
             editor.putString("workplace", "garbage");
+            editor.putString("place", place);
+            editor.putStringSet("titles", (Set<String>) krmn.smlouvasGetTitles(w.getSmlouvyHistorie()));
+            editor.putStringSet("podminky", (Set<String>) krmn.smlouvasGetPodminky(w.getSmlouvyHistorie()));
+            editor.putStringSet("zkusenost", (Set<String>) krmn.smlouvasGetZkusenost(w.getSmlouvyHistorie()));
+            editor.putString("place", place);
             w.first();
             editor.commit();
         } else {
@@ -180,45 +202,53 @@ public class MainActivity extends AppCompatActivity {
             basicskills.put("luck", -1);
             money = data.getInt("money", -1);
             w.setZamestnani(data.getString("workplace", null));
+            place = data.getString("place", null);
+            Set<String> titles = data.getStringSet("titles", null);
+            Set<String> podminky = data.getStringSet("podminky", null);
+            Set<String> zkusenost = data.getStringSet("zkusenost", null);
+            Set<String> booleans = data.getStringSet("booleans", (Set<String>) krmn.smlouvaGetBooleans(w.getSmlouvyHistorie()));
+            try {
 
+
+                w.setSmlouvyHistorie(krmn.wendSmlouva((ArrayList<String>) titles, (ArrayList<String>) podminky, krmn.polePut(krmn.poleConverter(krmn.poleConverter(krmn.polepull((ArrayList) zkusenost)))), krmn.booleanconverter(booleans)));
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
         if (place.equals("default")) {
             switch (s) {
                 case "work":
-
-                    final String[] selectedText = new String[1];
                     final String[] jmena = {"1", "2", "3", "4", "showContracts"};
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setItems(jmena, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int item) {
-                            selectedText[0] = jmena[item];
-                            String ret = selectedText[0];
+                    window(new method.onmet() {
+                        @Override
+                        public void methoda(String[] string) {
                             try {
-                                w.goWork(Integer.parseInt(ret));
+                                w.goWork(Integer.parseInt(string[0]));
                             } catch (NumberFormatException e) {
-                                if (ret.equals("showContracts")) {
+                                if (string[0].equals("showContracts")) {
                                     Intent intent = new Intent(getApplicationContext(), showHashMap_activity.class);
+                                    int i = 1;
                                     for (Smlouva s : w.getSmlouvy()) {
                                         String S = s.getTitle();
-                                        intent.putExtra("map", S);
+                                        String s1 = String.valueOf(i);
+                                        intent.putExtra("title" + s1, S);
                                         S = s.getPodminky();
-                                        intent.putExtra("podminky", S);
-                                        S = String.valueOf(s.getZkusenost());
-                                        intent.putExtra("zkusenost", S);
-
+                                        intent.putExtra("podminky" + s1, S);
+                                        intent.putExtra("zkusenost" + s1, s.getZkusenost());
+                                        i++;
                                     }
+                                    i = 1;
                                     for (Smlouva s : w.getSmlouvy()) {
-                                        intent.putExtra("booleans", w.getSmlouvyHistorie().get(s));
+                                        intent.putExtra("booleans" + i, w.getSmlouvyHistorie().get(s));
+                                        i++;
                                     }
                                     intent.putExtra(showHashMap_activity.WHICH, "smlouva");
                                     startActivity(intent);
                                 }
                             }
                         }
-                    });
+                    }, jmena);
 
-                    AlertDialog alertDialogObject = builder.create();
-                    alertDialogObject.show();
                     break;
                 case ("apply"):
                     w.apply();
@@ -261,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
                 case ("shitems"):
                     Intent i = new Intent(this, showArray_activity.class);
                     i.putExtra(showArray_activity.DATA, krmn.poleConverter(krmn.polepull(itemshave)));
-
+                    startActivity(i);
                 case ("reset"):
                     editor.clear();
                     editor.commit();
@@ -279,8 +309,6 @@ public class MainActivity extends AppCompatActivity {
         }
         if (place.equals("prison")) {
             alcatraz.prison();
-            dat = "lock";
-            chance = 0;
             Calendar kalendar;
 
 
@@ -377,30 +405,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void window() {
-
-        final String[] selectedText = new String[1];
-        final String[] jmena = krmn.poleConverter(krmn.polepull(nms));
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setItems(jmena, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                selectedText[0] = jmena[item];
-                String ret = selectedText[0];
-                alcatraz.fkill(ret);
-            }
-        });
-
-        AlertDialog alertDialogObject = builder.create();
-        alertDialogObject.show();
-    }
-
     public void shskills() {
         Intent intent = new Intent(this, showHashMap_activity.class);
         intent.putExtra(showHashMap_activity.CALL, basicskills);
         startActivity(intent);
     }
 }
-
-
-
-

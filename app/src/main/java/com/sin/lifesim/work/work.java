@@ -14,20 +14,11 @@ import com.sin.lifesim.R;
 import com.sin.lifesim.work.smlouva.Smlouva;
 import com.sin.lifesim.work.smlouva.display_smlouva_activity;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static android.content.Context.MODE_PRIVATE;
-
 @SuppressWarnings({"unused", "ConstantConditions", "unchecked"})
-public class work implements Serializable {
+public class work {
     Krmic k = new Krmic();
 
     public ArrayList<Smlouva> getSmlouvy() {
@@ -63,45 +54,20 @@ public class work implements Serializable {
 
     public work(MainActivity m, Context context) {
         this.m = m;
-        try {
-            smlouvyCteni();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
 
 
     }
 
-    private void smlouvyCteni() {
-        File file = new File(m.getDir("data", MODE_PRIVATE), "map");
-        ObjectInputStream ois = null;
-        try {
-            ois = new ObjectInputStream(new FileInputStream(file));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // read and print an object and cast it as string
-        try {
-            smlouvyHistorie = (HashMap<Smlouva, Boolean>) ois.readObject();
-        } catch (ClassNotFoundException | IOException e) {
-            e.printStackTrace();
-        }
-
-        // read and print an object and cast it as string
-
-
-    }
 
     public void first() {
         Smlouva garbage = new Smlouva(getStringByIdName(m.getApplicationContext(), R.string.collector), "free work time \n 15 crowns per hour \n no promotion avaible", 0, this);
         smlouvy.add(garbage);
         smlouvyHistorie.put(garbage, true);
-        smlouvyZapis();
+
     }
 
     public void apply() {
-        smlouvyZapis();
+
         //noinspection SuspiciousMethodCalls
         smlouvy.remove(zamestnani);
 
@@ -120,20 +86,6 @@ public class work implements Serializable {
             Intent i = new Intent(m, display_smlouva_activity.class);
             i.putExtra(display_smlouva_activity.SMLOUVA, smlouvy);
             m.startActivity(i);
-        }
-    }
-
-    private void smlouvyZapis() {
-        try {
-            File file = new File(m.getDir("data", MODE_PRIVATE), "map");
-            ObjectOutputStream oout = new ObjectOutputStream(new FileOutputStream(file));
-
-            // write something in the file
-            oout.writeObject(smlouvyHistorie);
-            oout.flush();
-            oout.close();
-        } catch (RuntimeException | IOException e) {
-            e.printStackTrace();
         }
     }
 

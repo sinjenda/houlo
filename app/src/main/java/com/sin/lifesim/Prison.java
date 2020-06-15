@@ -77,8 +77,13 @@ public class Prison {
 
 
         }
-
-        m.window();
+        final String[] jmena = krmic.poleConverter(krmic.polepull(prisonNames));
+        m.window(new method.onmet() {
+            @Override
+            public void methoda(String[] string) {
+                fkill(string[0]);
+            }
+        }, jmena);
 
     }
 
