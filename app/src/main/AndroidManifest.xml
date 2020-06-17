@@ -14,11 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+
+        <service
+            android:name=".work.workService_test"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity android:name=".work.smlouva.display_smlouva_activity" />
         <activity android:name=".showArray_activity" />
         <activity android:name=".showHashMap_activity" />
-
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

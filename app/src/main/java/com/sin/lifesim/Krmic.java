@@ -1,15 +1,13 @@
 package com.sin.lifesim;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.sin.lifesim.work.smlouva.Smlouva;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -63,7 +61,7 @@ public class Krmic implements Serializable {
     }
 
     @SuppressWarnings({"UseBulkOperation", "ManualArrayToCollectionCopy"})
-    public ArrayList<String> polePut(String[] pole) {
+    public ArrayList<String> polePut(@NotNull String[] pole) {
         ArrayList<String> nams = new ArrayList<String>();
 
         for (String s : pole) {
@@ -79,129 +77,62 @@ public class Krmic implements Serializable {
 
         HashMap<Smlouva, Boolean> ret = new HashMap<>();
         boolean b;
+
         for (int i2 = 0; i2 != titles.size(); ) {
-            Smlouva smlouva = new Smlouva(titles.get(i2), podminky.get(i2), zkusenost.get(i2), null);
+            Smlouva smlouva = new Smlouva(titles.get(i2), podminky.get(i2), zkusenost.get(i2));
             ret.put(smlouva, booleans.get(i2));
             i2++;
         }
         return ret;
     }
 
-    Set<String> smlouvasGetTitles(HashMap<Smlouva, Boolean> smlouvas) {
-        Set<String> strings = null;
+    Set<String> smlouvasGetTitles(@NotNull HashMap<Smlouva, Boolean> smlouvas) {
+
         Set<Smlouva> entry;
         entry = smlouvas.keySet();
-
+        HashMap<String, Integer> strings = new HashMap<>();
         for (Smlouva smlouva : entry) {
 
-            strings.add(smlouva.getTitle());
+            strings.put(smlouva.getTitle(), 1);
         }
-        return strings;
+
+        return strings.keySet();
     }
 
     Set<String> smlouvasGetPodminky(HashMap<Smlouva, Boolean> smlouvas) {
-        Set<String> strings = null;
+        HashMap<String, Integer> strings = new HashMap<>();
         Set<Smlouva> entry;
         entry = smlouvas.keySet();
 
         for (Smlouva smlouva : entry) {
 
-            strings.add(smlouva.getPodminky());
+            strings.put(String.valueOf(smlouva.getPodminky()), 1);
         }
-        return strings;
+        return strings.keySet();
 
     }
 
     Set<String> smlouvasGetZkusenost(HashMap<Smlouva, Boolean> smlouvas) {
-        Set<String> strings = null;
         Set<Smlouva> entry;
         entry = smlouvas.keySet();
-
+        HashMap<String, Integer> strings = new HashMap<>();
         for (Smlouva smlouva : entry) {
 
-            strings.add(String.valueOf(smlouva.getZkusenost()));
+            strings.put(String.valueOf(smlouva.getZkusenost()), 1);
         }
-        return strings;
+        return strings.keySet();
 
     }
 
     Set<String> smlouvaGetBooleans(HashMap<Smlouva, Boolean> smlouvas) {
         Collection<Boolean> entry;
         entry = smlouvas.values();
-        Set<String> ret = new Set<String>() {
-            @Override
-            public int size() {
-                return 0;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public boolean contains(@Nullable Object o) {
-                return false;
-            }
-
-            @NonNull
-            @Override
-            public Iterator<String> iterator() {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public Object[] toArray() {
-                return new Object[0];
-            }
-
-            @NonNull
-            @Override
-            public <T> T[] toArray(@NonNull T[] a) {
-                return null;
-            }
-
-            @Override
-            public boolean add(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean remove(@Nullable Object o) {
-                return false;
-            }
-
-            @Override
-            public boolean containsAll(@NonNull Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public boolean addAll(@NonNull Collection<? extends String> c) {
-                return false;
-            }
-
-            @Override
-            public boolean retainAll(@NonNull Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public boolean removeAll(@NonNull Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public void clear() {
-
-            }
-        };
+        HashMap<String, Integer> ret = new HashMap<>();
         for (Boolean b : entry) {
-            ret.add(Boolean.toString(b));
+            ret.put(Boolean.toString(b), 1);
         }
 
-        return ret;
+        return ret.keySet();
     }
 
     ArrayList<Boolean> booleanconverter(Set<String> entry) {
@@ -229,7 +160,7 @@ public class Krmic implements Serializable {
         return nams;
     }
 
-    public Object[] polepull(@SuppressWarnings("rawtypes") ArrayList plou) {
+    public Object[] polepull(@SuppressWarnings("rawtypes") @NotNull ArrayList plou) {
 
         Object[] stockArr = new Object[plou.size()];
         stockArr = plou.toArray(stockArr);

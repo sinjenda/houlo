@@ -190,11 +190,19 @@ public class MainActivity extends AppCompatActivity {
             editor.putInt("money", money);
             editor.putString("workplace", "garbage");
             editor.putString("place", place);
-            editor.putStringSet("titles", (Set<String>) krmn.smlouvasGetTitles(w.getSmlouvyHistorie()));
-            editor.putStringSet("podminky", (Set<String>) krmn.smlouvasGetPodminky(w.getSmlouvyHistorie()));
-            editor.putStringSet("zkusenost", (Set<String>) krmn.smlouvasGetZkusenost(w.getSmlouvyHistorie()));
-            editor.putString("place", place);
             w.first();
+            Intent i = getIntent();
+            if (i.getBooleanExtra("test", false)) {
+                for (Smlouva s1 : w.getSmlouvyHistorie().keySet()) {
+                    if (w.getSmlouvyHistorie().get(s1))
+                        w.test(i.getStringArrayExtra("data"), s1);
+                }
+            }
+
+            editor.putStringSet("titles", krmn.smlouvasGetTitles(w.getSmlouvyHistorie()));
+            editor.putStringSet("podminky", krmn.smlouvasGetPodminky(w.getSmlouvyHistorie()));
+            editor.putStringSet("zkusenost", krmn.smlouvasGetZkusenost(w.getSmlouvyHistorie()));
+            editor.putString("place", place);
             editor.commit();
         } else {
             basicskills.put("agility", data.getInt("agility", -1));
@@ -206,12 +214,12 @@ public class MainActivity extends AppCompatActivity {
             Set<String> titles = data.getStringSet("titles", null);
             Set<String> podminky = data.getStringSet("podminky", null);
             Set<String> zkusenost = data.getStringSet("zkusenost", null);
-            Set<String> booleans = data.getStringSet("booleans", (Set<String>) krmn.smlouvaGetBooleans(w.getSmlouvyHistorie()));
+            Set<String> booleans = data.getStringSet("booleans", null);
             try {
 
 
                 w.setSmlouvyHistorie(krmn.wendSmlouva((ArrayList<String>) titles, (ArrayList<String>) podminky, krmn.polePut(krmn.poleConverter(krmn.poleConverter(krmn.polepull((ArrayList) zkusenost)))), krmn.booleanconverter(booleans)));
-            } catch (NullPointerException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -232,8 +240,8 @@ public class MainActivity extends AppCompatActivity {
                                         String S = s.getTitle();
                                         String s1 = String.valueOf(i);
                                         intent.putExtra("title" + s1, S);
-                                        S = s.getPodminky();
-                                        intent.putExtra("podminky" + s1, S);
+                                        String Sa = s.getPodminky();
+                                        intent.putExtra("podminky" + s1, Sa);
                                         intent.putExtra("zkusenost" + s1, s.getZkusenost());
                                         i++;
                                     }

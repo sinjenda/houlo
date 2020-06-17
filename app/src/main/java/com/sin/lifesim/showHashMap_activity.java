@@ -24,7 +24,6 @@ public class showHashMap_activity extends AppCompatActivity {
     Intent i;
     Krmic krmic = new Krmic();
     ArrayList<String> titles = new ArrayList<>();
-    ArrayList<String> podminky = new ArrayList<>();
     ArrayList<Integer> zkusenost = new ArrayList<>();
     ArrayList<Boolean> booleans = new ArrayList<>();
     ArrayList<String> ret = new ArrayList<>();
@@ -50,12 +49,10 @@ public class showHashMap_activity extends AppCompatActivity {
             boolean fin = true;
             boolean b;
 
-            while (test != 0) {
+            while (test != -1) {
                 s = i.getStringExtra("title" + i1);
                 titles.add(s);
-                s = i.getStringExtra("podminky" + i1);
-                podminky.add(s);
-                test = i.getIntExtra("zkusenost" + i1, 0);
+                test = i.getIntExtra("zkusenost" + i1, -1);
                 zkusenost.add(test);
                 b = i.getBooleanExtra("booleans" + i1, false);
                 booleans.add(b);
@@ -66,13 +63,14 @@ public class showHashMap_activity extends AppCompatActivity {
             button.setText(R.string.note12);
 
         } catch (ClassCastException e) {
-            e.getStackTrace();
+            e.printStackTrace();
             hashMapb = (HashMap<String, Integer>) i.getSerializableExtra(CALL);
         }
         if (i.getStringExtra(WHICH).equals("smlouva")) {
+            ret = krmic.polePut(i.getStringArrayExtra("podminky"));
             for (int i = 0; i != titles.size(); ) {
-                Smlouva smlouva = new Smlouva(titles.get(i), podminky.get(i), zkusenost.get(i), null);
-                ret.add(titles.get(i) + " " + podminky.get(i) + " \nzkusenost: " + zkusenost.get(i) + "\n" + booleans.get(i));
+                Smlouva smlouva = new Smlouva(titles.get(i), this.i.getStringExtra("podminky"), zkusenost.get(i));
+                ret.add(titles.get(i) + " " + " \nzkusenost: " + zkusenost.get(i) + "\n" + booleans.get(i));
                 i++;
             }
             ArrayAdapter<String> adapterSmlouvaBoolean = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ret);

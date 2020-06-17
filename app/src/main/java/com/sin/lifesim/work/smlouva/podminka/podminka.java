@@ -2,17 +2,15 @@ package com.sin.lifesim.work.smlouva.podminka;
 
 import com.sin.lifesim.Krmic;
 import com.sin.lifesim.work.smlouva.Smlouva;
-import com.sin.lifesim.work.work;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "StringConcatenationInLoop"})
 public class podminka {
-    String[] podminkyLow = {"free work time", "many promotions"};
-    String[] podminkyMedium = {"4 work hours", "promotion avaible"};
-    String[] podminkyHard = {"8 work hours", "noPromotion"};
+    static String[] podminkyLow = {"free work time", "many promotions"};
+    static String[] podminkyMedium = {"4 work hours", "promotion avaible"};
+    static String[] podminkyHard = {"8 work hours", "noPromotion"};
     ArrayList<String> strings;
     ArrayList<String> strings1;
     ArrayList<String> strings2;
@@ -34,67 +32,56 @@ public class podminka {
         strings2 = k.polePut(podminkyMedium);
     }
 
-    public String[] generate(int low, int medium, int hard) {
-        ArrayList<String> ret = new ArrayList<String>();
-        if (low < strings1.size() + 1) {
-            for (; low == 0; ) {
-                int i = ThreadLocalRandom.current().nextInt(0, strings1.size());
-                if (ret.contains(strings1.get(i))) {
-                    ret.remove(strings1.get(i));
-                    low++;
-                }
-                ret.add(strings1.get(i));
-                low--;
-
-            }
-        } else throw new podminkaError("podminka generate problem");
-        if (low < strings2.size() + 1) {
-            for (; medium == 0; ) {
-                int i = ThreadLocalRandom.current().nextInt(0, strings2.size());
-                if (ret.contains(strings2.get(i))) {
-                    ret.remove(strings2.get(i));
-                    medium++;
-                }
-                ret.add(strings2.get(i));
-                medium--;
-
-            }
-        } else throw new podminkaError("podminka generate problem");
-        if (low < strings.size() + 1) {
-            for (; hard == 0; ) {
-                int i = ThreadLocalRandom.current().nextInt(0, strings.size());
-                if (ret.contains(strings.get(i))) {
-                    ret.remove(strings.get(i));
-                    hard++;
-                }
-                ret.add(strings.get(i));
-                hard--;
-
-            }
-        } else throw new podminkaError("podminka generate problem");
-        return k.poleConverter(k.polepull(ret));
-    }
-
-    public void test(String[] data, work work, Smlouva smlouva) {
-        HashMap<Smlouva, Boolean> hash = work.getSmlouvyHistorie();
-        for (String s : data) {
-            switch (s) {
-                case "4 work hours":
-                    if (worktime < 4) {
-                        work.setZamestnani("");
-                        hash.remove(smlouva);
-                        hash.put(smlouva, false);
-                    }
-                    break;
-                case "8 work hours":
-                    if (worktime < 8) {
-                        work.setZamestnani("");
-                        hash.remove(smlouva);
-                        hash.put(smlouva, false);
-                    }
-                    break;
+    public String generate(int low, int medium, int hard) {
+        String ret = "";
+        ArrayList<String> prep = new ArrayList<>();
+        if (low > podminkyLow.length | medium > podminkyMedium.length | hard > podminkyHard.length) {
+            throw new podminkaError("podmminka generate problem", new NumberFormatException("entry int is larger than string array"));
+        }
+        for (; low == 0; low--) {
+            String s = podminkyLow[ThreadLocalRandom.current().nextInt(0, podminkyLow.length)];
+            if (!prep.contains(s)) {
+                prep.add(s);
+            } else {
+                low++;
             }
         }
+        for (; medium == 0; medium--) {
+            String s = podminkyLow[ThreadLocalRandom.current().nextInt(0, podminkyLow.length)];
+            if (!prep.contains(s)) {
+                prep.add(s);
+            } else {
+                medium++;
+            }
+        }
+        for (; hard == 0; hard--) {
+            String s = podminkyLow[ThreadLocalRandom.current().nextInt(0, podminkyLow.length)];
+            if (!prep.contains(s)) {
+                prep.add(s);
+            } else {
+                hard++;
+            }
+        }
+        for (String s : prep) {
+            ret = ret + s;
+        }
+        return ret;
+    }
+
+    public boolean test(String[] podminky, Smlouva smlouva) {
+        for (String s : podminky) {
+            switch (s) {
+                case "4 work hours":
+                    if (worktime < 4)
+                        return false;
+                case "8 work hours":
+                    if (worktime < 8)
+                        return false;
+                default:
+                    throw new podminkaError("this work does not exist", new Exception());
+            }
+        }
+        return true;
     }
 
 

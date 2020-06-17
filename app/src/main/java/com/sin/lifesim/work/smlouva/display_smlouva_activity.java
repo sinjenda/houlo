@@ -53,7 +53,7 @@ public class display_smlouva_activity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int item) {
                 selectedText[0] = smlouvy.get(item);
                 Smlouva ret = selectedText[0];
-                podminky.setText(ret.getPodminky());
+                podminky.setText(String.valueOf(ret.getPodminky()));
                 request.setText(ret.getZkusenost());
                 title.setText(ret.getTitle());
             }

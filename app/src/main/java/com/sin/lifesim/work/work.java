@@ -17,7 +17,7 @@ import com.sin.lifesim.work.smlouva.display_smlouva_activity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@SuppressWarnings({"unused", "ConstantConditions", "unchecked"})
+@SuppressWarnings({"unused"})
 public class work {
     Krmic k = new Krmic();
 
@@ -60,9 +60,10 @@ public class work {
 
 
     public void first() {
-        Smlouva garbage = new Smlouva(getStringByIdName(m.getApplicationContext(), R.string.collector), "free work time \n 15 crowns per hour \n no promotion avaible", 0, this);
+        String[] strings = {"free work time", "15 crowns per hour", "no promotion avaible"};
+        Smlouva garbage = new Smlouva(getStringByIdName(m.getApplicationContext(), R.string.collector), strings[0] + strings[1] + strings[2], 0);
         smlouvy.add(garbage);
-        smlouvyHistorie.put(garbage, true);
+        smlouvyHistorie.put(garbage, false);
 
     }
 
@@ -116,6 +117,14 @@ public class work {
                 garbageCollector(time);
             case "janitor":
 
+        }
+    }
+
+    public void test(String[] data, Smlouva smlouva) {
+        if (!smlouva.test(data, smlouva)) {
+            HashMap<Smlouva, Boolean> ret;
+            ret = getSmlouvyHistorie();
+            ret.remove(smlouva);
         }
     }
 }
