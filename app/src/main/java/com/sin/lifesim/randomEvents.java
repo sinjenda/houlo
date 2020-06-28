@@ -1,14 +1,10 @@
 package com.sin.lifesim;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings("CanBeFinal")
 public class randomEvents {
     MainActivity m;
-    Prison p;
 
     // TODO: new event (you find gun) <place :default>
     public randomEvents(MainActivity m) {
@@ -32,59 +28,36 @@ public class randomEvents {
     }
 
     public void prison() {
+        String[] acte = {"enter helicopter", "let it be"};
+        String[] acteA = {"pickup bomb", "let it be"};
         int i = ThreadLocalRandom.current().nextInt(0, 2 + 1);
         switch (i) {
             case 1:
-                a();
+                m.window(new method.onmet() {
+                    @Override
+                    public void methoda(String[] string) {
+                        String ret = string[0];
+                        if (ret.equals("enter helicopter")) {
+                            m.place = "default";
+                        }
+                    }
+                }, acte);
             case 2:
-                b();
+                m.window(new method.onmet() {
+                    @Override
+                    public void methoda(String[] string) {
+                        if (string[0].equals("pickup bomb")) {
+                            if (ThreadLocalRandom.current().nextInt(1, 8) > 4) {
+                                m.itemshave.add("bomb");
+                            } else {
+                                m.alcatraz.solitary(10);
+                            }
+                        }
+                    }
+                }, acteA);
             default:
         }
     }
 
-    private void a() {
-        String[] acte = {"enter helicopter", "let it be"};
-        final String[] selectedText = new String[1];
-        final String[] jmena = acte;
-        AlertDialog.Builder builder = new AlertDialog.Builder(m);
-        builder.setTitle("helicopter come to prison");
-        builder.setItems(jmena, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                selectedText[0] = jmena[item];
-                String ret = selectedText[0];
-                if (ret.equals("enter helicopter")) {
-                    m.place = "default";
-                }
-            }
-        });
-
-        AlertDialog alertDialogObject = builder.create();
-        alertDialogObject.show();
-    }
-
-    private void b() {
-        String[] acte = {"pickup bomb", "let it be"};
-        final String[] selectedText = new String[1];
-        final String[] jmena = acte;
-        AlertDialog.Builder builder = new AlertDialog.Builder(m);
-        builder.setTitle("you found bomb");
-        builder.setItems(jmena, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                selectedText[0] = jmena[item];
-                String ret = selectedText[0];
-                if (ret.equals("pickup bomb")) {
-                    if (ThreadLocalRandom.current().nextInt(1, 8) > 4) {
-                        m.itemshave.add("bomb");
-                    } else {
-                        p = new Prison(m);
-                        p.solitary(10);
-                    }
-                }
-            }
-        });
-
-        AlertDialog alertDialogObject = builder.create();
-        alertDialogObject.show();
-    }
 
 }

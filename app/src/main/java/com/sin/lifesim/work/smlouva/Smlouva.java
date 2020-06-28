@@ -30,7 +30,7 @@ public class Smlouva {
         this.title = title;
         this.podminky = podminky;
         this.zkusenost = zkusenost;
-
+        podminka = new podminka();
     }
 
     public Smlouva(String title, int zkusenost) {
@@ -38,8 +38,8 @@ public class Smlouva {
         podminky = podminka.generate(ThreadLocalRandom.current().nextInt(1, 2), ThreadLocalRandom.current().nextInt(1, 2), ThreadLocalRandom.current().nextInt(1, 2));
     }
 
-    public boolean test(String[] data, Smlouva smlouva) {
-        return podminka.test(data, smlouva);
+    public boolean test(Smlouva smlouva) {
+        return podminka.test(podminky, smlouva);
     }
 
     public void send(int hours) {

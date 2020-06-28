@@ -3,14 +3,17 @@ package com.sin.lifesim.work.smlouva.podminka;
 import com.sin.lifesim.Krmic;
 import com.sin.lifesim.work.smlouva.Smlouva;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings({"unused", "StringConcatenationInLoop"})
 public class podminka {
     static String[] podminkyLow = {"free work time", "many promotions"};
-    static String[] podminkyMedium = {"4 work hours", "promotion avaible"};
-    static String[] podminkyHard = {"8 work hours", "noPromotion"};
+    static String[] podminkyMedium = {"4WorkHours", "promotion avaible"};
+    static String[] podminkyHard = {"8WorkHours", "noPromotion"};
     ArrayList<String> strings;
     ArrayList<String> strings1;
     ArrayList<String> strings2;
@@ -36,7 +39,7 @@ public class podminka {
         String ret = "";
         ArrayList<String> prep = new ArrayList<>();
         if (low > podminkyLow.length | medium > podminkyMedium.length | hard > podminkyHard.length) {
-            throw new podminkaError("podmminka generate problem", new NumberFormatException("entry int is larger than string array"));
+            throw new podminkaError("podminka generate problem", new NumberFormatException("entry int is larger than string array"));
         }
         for (; low == 0; low--) {
             String s = podminkyLow[ThreadLocalRandom.current().nextInt(0, podminkyLow.length)];
@@ -63,22 +66,27 @@ public class podminka {
             }
         }
         for (String s : prep) {
-            ret = ret + s;
+            ret = ret + s + " ";
         }
         return ret;
     }
 
-    public boolean test(String[] podminky, Smlouva smlouva) {
-        for (String s : podminky) {
-            switch (s) {
-                case "4 work hours":
+    public boolean test(@NotNull String podminky, Smlouva smlouva) {
+        Scanner scnr = new Scanner(podminky);
+        while (scnr.hasNext()) {
+            String s;
+            switch (s = scnr.next()) {
+                case "4WorkHours":
                     if (worktime < 4)
                         return false;
-                case "8 work hours":
+                case "8WorkHours":
                     if (worktime < 8)
                         return false;
                 default:
-                    throw new podminkaError("this work does not exist", new Exception());
+                    if (!k.polePut(podminkyMedium).contains(s) | !k.polePut(podminkyHard).contains(s) | !k.polePut(podminkyLow).contains(s)) {
+                        throw new podminkaError("this podminka does not exist", new Exception());
+                    }
+
             }
         }
         return true;

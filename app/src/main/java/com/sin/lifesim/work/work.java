@@ -60,11 +60,11 @@ public class work {
 
 
     public void first() {
+
         String[] strings = {"free work time", "15 crowns per hour", "no promotion avaible"};
         Smlouva garbage = new Smlouva(getStringByIdName(m.getApplicationContext(), R.string.collector), strings[0] + strings[1] + strings[2], 0);
         smlouvy.add(garbage);
         smlouvyHistorie.put(garbage, false);
-
     }
 
     public void apply() {
@@ -120,11 +120,13 @@ public class work {
         }
     }
 
-    public void test(String[] data, Smlouva smlouva) {
-        if (!smlouva.test(data, smlouva)) {
+    public void test(Smlouva smlouva) {
+        if (!smlouva.test(smlouva)) {
             HashMap<Smlouva, Boolean> ret;
             ret = getSmlouvyHistorie();
             ret.remove(smlouva);
+            ret.put(smlouva, false);
+            setSmlouvyHistorie(ret);
         }
     }
 }

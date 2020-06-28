@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     Prison alcatraz;
     randomEvents r = new randomEvents(this);
     work w;
-
+    SharedPreferences.Editor editor;
     int energy;
 
     @Override
@@ -122,8 +122,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        Calendar calendar = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") DateFormat formatData = new SimpleDateFormat("DD");
+        editor.putInt("time", Integer.parseInt(formatData.format(calendar.getTime())));
         super.onDestroy();
-
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -162,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @SuppressWarnings({"ConstantConditions"})
+    @SuppressWarnings({"ConstantConditions", "rawtypes"})
     @SuppressLint({"ApplySharedPref", "SetTextI18n"})
     public void click(View view) {
         input = findViewById(R.id.in);
@@ -177,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
         button = findViewById(R.id.butt);
         SharedPreferences data = getPreferences(MODE_PRIVATE);
-        final SharedPreferences.Editor editor = data.edit();
+        editor = data.edit();
         String s = input.getText().toString();
 
         if (!data.getString("started", "ne").equals("ano")) {
@@ -192,12 +194,7 @@ public class MainActivity extends AppCompatActivity {
             editor.putString("place", place);
             w.first();
             Intent i = getIntent();
-            if (i.getBooleanExtra("test", false)) {
-                for (Smlouva s1 : w.getSmlouvyHistorie().keySet()) {
-                    if (w.getSmlouvyHistorie().get(s1))
-                        w.test(i.getStringArrayExtra("data"), s1);
-                }
-            }
+
 
             editor.putStringSet("titles", krmn.smlouvasGetTitles(w.getSmlouvyHistorie()));
             editor.putStringSet("podminky", krmn.smlouvasGetPodminky(w.getSmlouvyHistorie()));
@@ -215,6 +212,17 @@ public class MainActivity extends AppCompatActivity {
             Set<String> podminky = data.getStringSet("podminky", null);
             Set<String> zkusenost = data.getStringSet("zkusenost", null);
             Set<String> booleans = data.getStringSet("booleans", null);
+            Calendar calendar = Calendar.getInstance();
+            DateFormat format = new SimpleDateFormat("DD");
+            if (data.getInt("time", -1) != Integer.parseInt(format.format(calendar.getTime()))) {
+                Set<Smlouva> collection = w.getSmlouvyHistorie().keySet();
+                for (Smlouva b : collection) {
+                    if (w.getSmlouvyHistorie().get(b)) {
+                        w.test(b);
+                    }
+                }
+
+            }
             try {
 
 
@@ -223,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
         if (place.equals("default")) {
             switch (s) {
                 case "work":
