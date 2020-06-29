@@ -31,6 +31,7 @@
     <string name="button1">accept</string>
     <string name="button2">decline</string>
     <string name="note12">exit showing contracts</string>
+    <string name="pick">pick it up?</string>
 
 
 </resources>

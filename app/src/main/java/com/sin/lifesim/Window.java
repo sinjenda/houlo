@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 
 import androidx.annotation.Nullable;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Scanner;
 
 public class Window {
@@ -30,7 +32,7 @@ public class Window {
         this.m = m;
     }
 
-    public void windowTwoButtons(final method.onmet.withoutParam yesButton, final method.onmet.withoutParam cancelButton, @Nullable String title) {
+    public void windowTwoButtons(@NotNull final method.onmet.withoutParam yesButton, @Nullable final method.onmet.withoutParam cancelButton, @NotNull String title) {
         AlertDialog.Builder builder = new AlertDialog.Builder(m);
         if (title != null)
             builder.setTitle(title);
@@ -43,7 +45,9 @@ public class Window {
         builder.setNegativeButton("no", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                cancelButton.methodaB();
+                if (cancelButton != null) {
+                    cancelButton.methodaB();
+                }
             }
         });
         AlertDialog alertDialogObject = builder.create();

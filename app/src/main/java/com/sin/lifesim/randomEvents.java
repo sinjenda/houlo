@@ -6,12 +6,11 @@ import java.util.concurrent.ThreadLocalRandom;
 public class randomEvents {
     MainActivity m;
     Window w = new Window(m);
-    // TODO: new event (you find gun) <place :default>
+
     public randomEvents(MainActivity m) {
         this.m = m;
     }
 
-    // TODO: repair house
     @SuppressWarnings({"UnusedReturnValue"})
     public void house() {
 
@@ -38,7 +37,15 @@ public class randomEvents {
     }
 
     public void Default() {
-
+        if (ThreadLocalRandom.current().nextInt(0, 8) > 6) {
+            w.informationDialog("you find a gun");
+            w.windowTwoButtons(new method.onmet.withoutParam() {
+                @Override
+                public void methodaB() {
+                    m.itemshave.add("gun");
+                }
+            }, null, m.getString(R.string.pick));
+        }
     }
 
     public void prison() {
@@ -72,6 +79,6 @@ public class randomEvents {
             default:
         }
     }
-
-
 }
+
+

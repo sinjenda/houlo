@@ -26,4 +26,5 @@
     <string name="button1">přijmout</string>
     <string name="button2">odmítnout</string>
     <string name="note12">ukončit zobrazení</string>
+    <string name="pick">sebrat?</string>
 </resources>
