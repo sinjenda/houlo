@@ -11,9 +11,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings({"unused", "StringConcatenationInLoop"})
 public class podminka {
-    static String[] podminkyLow = {"free work time", "many promotions"};
-    static String[] podminkyMedium = {"4WorkHours", "promotion avaible"};
-    static String[] podminkyHard = {"8WorkHours", "noPromotion"};
+    public static String[] podminkyLow = {"free work time", "many promotions"};
+    public static String[] podminkyMedium = {"4WorkHours", "promotion avaible"};
+    public static String[] podminkyHard = {"8WorkHours", "noPromotion"};
     ArrayList<String> strings;
     ArrayList<String> strings1;
     ArrayList<String> strings2;

@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
+@SuppressWarnings("ConstantConditions")
 public class Prison {
     private String used = "";
     private int chance = 0;
@@ -17,6 +18,7 @@ public class Prison {
     HashMap<String, HashMap<String, Integer>> vezni = new HashMap<>();
     private Krmic krmic = new Krmic();
     private int sentence;
+    Window window = new Window(m);
 
     public void prison(int sentence1) {
         String[] nams = {"marek", "honza", "noob", "luis", "peter", "rychard", "arnocht", "emil", "alex", "george", "john", "milan", "pavel", "roman"};
@@ -78,7 +80,7 @@ public class Prison {
 
         }
         final String[] jmena = krmic.poleConverter(krmic.polepull(prisonNames));
-        m.window(new method.onmet() {
+        window.windowItems(new method.onmet() {
             @Override
             public void methoda(String[] string) {
                 fkill(string[0]);

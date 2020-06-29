@@ -1,10 +1,12 @@
 package com.sin.lifesim;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,9 +14,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.sin.lifesim.work.smlouva.Smlouva;
 import com.sin.lifesim.work.work;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -29,7 +35,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class MainActivity extends AppCompatActivity {
     //view and string variables
     EditText input;
-    EditText bonus;
     Button button;
     String dat2;
     String dat3 = "";
@@ -56,8 +61,11 @@ public class MainActivity extends AppCompatActivity {
     Prison alcatraz;
     randomEvents r = new randomEvents(this);
     work w;
+    Window window;
     SharedPreferences.Editor editor;
     int energy;
+    public static final int STORAGE_REQUEST_CODE = 101;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,47 +85,17 @@ public class MainActivity extends AppCompatActivity {
         w = new work(this, getApplication());
         w.setZamestnani("garbage");
         click(new View(getApplication()));
-    }
-
-    public void window(final method.onmet method, final String[] items) {
-        final String[] selectedText = new String[1];
-        final String[] ret = new String[1];
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                selectedText[0] = items[item];
-                ret[0] = selectedText[0];
-                method.methoda(ret);
-            }
-        });
-
-        AlertDialog alertDialogObject = builder.create();
-        alertDialogObject.show();
+        window = new Window(this);
     }
 
     public void windowkill() {
-
-        final String[] selectedText = new String[1];
         final String[] jmena = krmn.poleConverter(krmn.polepull(itemshave));
-        final String[] ret = new String[1];
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setNegativeButton("nothink", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                ret[0] = "nothink";
-                alcatraz.kill(ret[0]);
+        window.windowItems(new method.onmet() {
+            @Override
+            public void methoda(String[] string) {
+                alcatraz.kill(string[0]);
             }
-        });
-        builder.setItems(jmena, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                selectedText[0] = jmena[item];
-                ret[0] = selectedText[0];
-                alcatraz.kill(ret[0]);
-            }
-        });
-
-        AlertDialog alertDialogObject = builder.create();
-        alertDialogObject.show();
-
+        }, jmena);
     }
 
     @Override
@@ -164,6 +142,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    public void requestPerm(String permType, int requestCode) {
+        int perm = ContextCompat.checkSelfPermission(this, permType);
+
+        if (perm != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{permType}, requestCode);
+
+        }
+    }
+
     @SuppressWarnings({"ConstantConditions", "rawtypes"})
     @SuppressLint({"ApplySharedPref", "SetTextI18n"})
     public void click(View view) {
@@ -172,9 +164,7 @@ public class MainActivity extends AppCompatActivity {
         if (dat2.equals("shskills")) {
             shskills();
         }
-
-
-        bonus = findViewById(R.id.bonus);
+        requestPerm(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_REQUEST_CODE);
         out = findViewById(R.id.output);
 
         button = findViewById(R.id.butt);
@@ -236,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
             switch (s) {
                 case "work":
                     final String[] jmena = {"1", "2", "3", "4", "showContracts"};
-                    window(new method.onmet() {
+                    window.windowItems(new method.onmet() {
                         @Override
                         public void methoda(String[] string) {
                             try {
@@ -294,12 +284,7 @@ public class MainActivity extends AppCompatActivity {
                 case ("help"):
                     out.setText(R.string.help);
                     break;
-                case ("extend"):
-                    bonus.setVisibility(View.VISIBLE);
-                    break;
-                case ("reduce"):
-                    bonus.setVisibility(View.GONE);
-                    break;
+
                 case ("shopping"):
                     buy(editor);
                     break;
@@ -317,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-
+        r.Default();
         if (dat3.equals("death")) {
             editor.clear();
             editor.commit();
@@ -425,6 +410,7 @@ public class MainActivity extends AppCompatActivity {
     public void shskills() {
         Intent intent = new Intent(this, showHashMap_activity.class);
         intent.putExtra(showHashMap_activity.CALL, basicskills);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
     }
 }

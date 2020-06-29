@@ -2,29 +2,43 @@ package com.sin.lifesim;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-@SuppressWarnings("CanBeFinal")
+@SuppressWarnings({"CanBeFinal", "ConstantConditions"})
 public class randomEvents {
     MainActivity m;
-
+    Window w = new Window(m);
     // TODO: new event (you find gun) <place :default>
     public randomEvents(MainActivity m) {
         this.m = m;
     }
 
     // TODO: repair house
-    @SuppressWarnings({"UnnecessaryLocalVariable", "UnusedReturnValue"})
-    public String house() {
+    @SuppressWarnings({"UnusedReturnValue"})
+    public void house() {
 
         if (ThreadLocalRandom.current().nextInt(0, 2) == 1 + 1) {
             String s = "some one is at door";
-            return s;
+            w.windowTwoButtons(new method.onmet.withoutParam() {
+                @Override
+                public void methodaB() {
+                    int i = ThreadLocalRandom.current().nextInt(2, 8);
+                    if (i > 6) {
+                        w.informationDialog("he is running with you");
+                        // TODO: add handling now
+                    } else {
+                        // TODO: add other things
+                    }
+                }
+            }, new method.onmet.withoutParam() {
+                @Override
+                public void methodaB() {
+
+                }
+            }, s + " :open or not");
         }
-
-
-        return "";
     }
 
     public void Default() {
+
     }
 
     public void prison() {
@@ -33,7 +47,7 @@ public class randomEvents {
         int i = ThreadLocalRandom.current().nextInt(0, 2 + 1);
         switch (i) {
             case 1:
-                m.window(new method.onmet() {
+                w.windowItems(new method.onmet() {
                     @Override
                     public void methoda(String[] string) {
                         String ret = string[0];
@@ -43,7 +57,7 @@ public class randomEvents {
                     }
                 }, acte);
             case 2:
-                m.window(new method.onmet() {
+                w.windowItems(new method.onmet() {
                     @Override
                     public void methoda(String[] string) {
                         if (string[0].equals("pickup bomb")) {
