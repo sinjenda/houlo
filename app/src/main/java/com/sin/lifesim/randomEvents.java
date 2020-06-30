@@ -24,7 +24,13 @@ public class randomEvents {
                         w.informationDialog("he is running with you");
                         if (ThreadLocalRandom.current().nextInt(0, 8) > 6) {
                             w.informationDialog("you are tied up in his house");
-                            // TODO: what he can wont
+                            w.informationDialog("he wants ransom from your family");
+                            if (ThreadLocalRandom.current().nextInt(0, 8) > 2) {
+                                w.informationDialog("your family paid ransom");
+                            } else {
+                                w.informationDialog("your family don't paid ransom");
+                                m.place = "enemy'sHouse";
+                            }
                         } else {
                             w.informationDialog("he grabs your pocket and run");
                             m.money = 0;
@@ -36,7 +42,7 @@ public class randomEvents {
                             m.itemshave.add("pizza");
                         } else {
                             w.informationDialog("he wants to trade with you");
-                            // TODO: create class trade 
+                            // TODO: create class trade
                         }
                     }
                 }
