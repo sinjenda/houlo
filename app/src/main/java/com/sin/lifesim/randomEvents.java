@@ -22,17 +22,25 @@ public class randomEvents {
                     int i = ThreadLocalRandom.current().nextInt(2, 8);
                     if (i > 6) {
                         w.informationDialog("he is running with you");
-                        // TODO: add handling now
+                        if (ThreadLocalRandom.current().nextInt(0, 8) > 6) {
+                            w.informationDialog("you are tied up in his house");
+                            // TODO: what he can wont
+                        } else {
+                            w.informationDialog("he grabs your pocket and run");
+                            m.money = 0;
+                        }
+
                     } else {
-                        // TODO: add other things
+                        if (ThreadLocalRandom.current().nextInt(0, 8) > 6) {
+                            w.informationDialog("he gives pizza to you");
+                            m.itemshave.add("pizza");
+                        } else {
+                            w.informationDialog("he wants to trade with you");
+                            // TODO: create class trade 
+                        }
                     }
                 }
-            }, new method.onmet.withoutParam() {
-                @Override
-                public void methodaB() {
-
-                }
-            }, s + " :open or not");
+            }, null, s + " :open or not");
         }
     }
 
