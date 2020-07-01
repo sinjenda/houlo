@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 public class Window {
     MainActivity m;
+    ArrayList<Boolean> isShowed = new ArrayList<>();
 
     public void windowItems(final method.onmet method, final String[] items) {
         final String[] selectedText = new String[1];
@@ -50,8 +51,20 @@ public class Window {
                 }
             }
         });
-        AlertDialog alertDialogObject = builder.create();
-        alertDialogObject.show();
+        final AlertDialog alertDialogObject = builder.create();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (isShowed.contains(true)) {
+                    isShowed.set(1, alertDialogObject.isShowing());
+                }
+            }
+        });
+        thread.start();
+        if (!isShowed.contains(true)) {
+            alertDialogObject.show();
+            isShowed.clear();
+        }
     }
 
     public void windowTwoButtons() {
@@ -73,9 +86,20 @@ public class Window {
             public void onClick(DialogInterface dialog, int which) {
             }
         });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+        final AlertDialog alertDialog = builder.create();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (isShowed.contains(true)) {
+                    isShowed.set(0, alertDialog.isShowing());
+                }
+            }
+        });
+        thread.start();
+        if (!isShowed.contains(true)) {
+            alertDialog.show();
+            isShowed.clear();
+        }
     }
 
     public void multiChoiceWindow(final method.onmet metod, final String[] items) {
@@ -102,7 +126,19 @@ public class Window {
                 metod.methoda(Krmic.poleConverter(Krmic.polepull(ret)));
             }
         });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+        final AlertDialog alertDialog = builder.create();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (isShowed.contains(true)) {
+                    isShowed.set(2, alertDialog.isShowing());
+                }
+            }
+        });
+        thread.start();
+        if (!isShowed.contains(true)) {
+            alertDialog.show();
+            isShowed.clear();
+        }
     }
 }
