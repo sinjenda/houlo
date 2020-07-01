@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Window {
@@ -34,8 +35,7 @@ public class Window {
 
     public void windowTwoButtons(@NotNull final method.onmet.withoutParam yesButton, @Nullable final method.onmet.withoutParam cancelButton, @NotNull String title) {
         AlertDialog.Builder builder = new AlertDialog.Builder(m);
-        if (title != null)
-            builder.setTitle(title);
+        builder.setTitle(title);
         builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -73,5 +73,36 @@ public class Window {
             public void onClick(DialogInterface dialog, int which) {
             }
         });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    public void multiChoiceWindow(final method.onmet metod, final String[] items) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(m);
+
+        final boolean[] booleans1 = new boolean[items.length];
+        builder.setMultiChoiceItems(items, booleans1, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                booleans1[which] = isChecked;
+            }
+        });
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ArrayList<String> ret = new ArrayList<>();
+                for (int i = 0; i < booleans1.length; i++) {
+                    boolean checked = booleans1[i];
+                    if (checked) {
+                        ret.add(items[i]);
+                    }
+                }
+                String[] s = {"hvn"};
+                metod.methoda(Krmic.poleConverter(Krmic.polepull(ret)));
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

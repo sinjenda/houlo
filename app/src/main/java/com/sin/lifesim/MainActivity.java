@@ -31,7 +31,7 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-@SuppressWarnings({"CanBeFinal", "EmptyMethod", "unused", "unchecked"})
+@SuppressWarnings({"CanBeFinal", "EmptyMethod", "unused", "unchecked", "AccessStaticViaInstance"})
 public class MainActivity extends AppCompatActivity {
     //view and string variables
     EditText input;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     String dat3 = "";
     String place = "default";
     TextView out;
-
+    String randomBlocker = "";
     //int variables
 
 
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     //other
     Krmic krmn;
     Prison alcatraz;
-    randomEvents r = new randomEvents(this);
+    randomEvents r;
     work w;
     Window window;
     SharedPreferences.Editor editor;
@@ -84,8 +84,9 @@ public class MainActivity extends AppCompatActivity {
         itemssell = krmn.nakrmDataHash(ita, itB);
         w = new work(this, getApplication());
         w.setZamestnani("garbage");
-        click(new View(getApplication()));
         window = new Window(this);
+        r = new randomEvents(this);
+        click(new View(getApplication()));
     }
 
     public void windowkill() {
@@ -159,6 +160,9 @@ public class MainActivity extends AppCompatActivity {
     @SuppressWarnings({"ConstantConditions", "rawtypes"})
     @SuppressLint({"ApplySharedPref", "SetTextI18n"})
     public void click(View view) {
+        if (!randomBlocker.equals("")) {
+            r.blocker(randomBlocker);
+        }
         input = findViewById(R.id.in);
         dat2 = input.getText().toString();
         if (dat2.equals("shskills")) {

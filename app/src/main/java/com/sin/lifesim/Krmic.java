@@ -50,7 +50,7 @@ public class Krmic implements Serializable {
         return ret;
     }
 
-    public String[] poleConverter(Object[] o) {
+    public static String[] poleConverter(Object[] o) {
         ArrayList<String> s = new ArrayList<String>();
         for (Object o1 : o) {
             s.add(String.valueOf(o1));
@@ -61,7 +61,7 @@ public class Krmic implements Serializable {
     }
 
     @SuppressWarnings({"UseBulkOperation", "ManualArrayToCollectionCopy"})
-    public ArrayList<String> polePut(@NotNull String[] pole) {
+    public static ArrayList<String> polePut(@NotNull String[] pole) {
         ArrayList<String> nams = new ArrayList<String>();
 
         for (String s : pole) {
@@ -152,7 +152,7 @@ public class Krmic implements Serializable {
     }
 
     @SuppressWarnings({"ManualArrayToCollectionCopy", "UseBulkOperation"})
-    public ArrayList<Object> polePut(Object[] pole) {
+    public static ArrayList<Object> polePut(Object[] pole) {
         ArrayList<Object> nams = new ArrayList<Object>();
         for (Object o : pole) {
             nams.add(o);
@@ -160,7 +160,7 @@ public class Krmic implements Serializable {
         return nams;
     }
 
-    public Object[] polepull(@SuppressWarnings("rawtypes") @NotNull ArrayList plou) {
+    public static Object[] polepull(@SuppressWarnings("rawtypes") @NotNull ArrayList plou) {
 
         Object[] stockArr = new Object[plou.size()];
         stockArr = plou.toArray(stockArr);
