@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     HashMap<String, Integer> itemssell = new HashMap<String, Integer>();
     HashMap<String, Integer> basicskills = new HashMap<String, Integer>();
     ArrayList<String> skills = new ArrayList<String>();
-    ArrayList<String> itemshave = new ArrayList<String>();
+    public ArrayList<String> itemshave = new ArrayList<String>();
     ArrayList<String> nms = new ArrayList<String>();
     String[] itsella = {"fries", "screwdriver", "gun", "knife", "baton", "pancakes", "house"};
 
@@ -160,9 +160,6 @@ public class MainActivity extends AppCompatActivity {
     @SuppressWarnings({"ConstantConditions", "rawtypes"})
     @SuppressLint({"ApplySharedPref", "SetTextI18n"})
     public void click(View view) {
-        if (!randomBlocker.equals("")) {
-            r.blocker(randomBlocker);
-        }
         input = findViewById(R.id.in);
         dat2 = input.getText().toString();
         if (dat2.equals("shskills")) {

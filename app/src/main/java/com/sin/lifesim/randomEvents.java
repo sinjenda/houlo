@@ -24,55 +24,51 @@ public class randomEvents {
             w.windowTwoButtons(new method.onmet.withoutParam() {
                 @Override
                 public void methodaB() {
-                    m.randomBlocker = "house";
+
+                    int i = ThreadLocalRandom.current().nextInt(2, 8);
+                    if (i > 6) {
+                        w.informationDialog("he is running with you");
+                        if (ThreadLocalRandom.current().nextInt(0, 8) > 6) {
+                            w.informationDialog("you are tied up in his house");
+                            w.informationDialog("he wants ransom from your family");
+                            if (ThreadLocalRandom.current().nextInt(0, 8) > 2) {
+                                w.informationDialog("your family paid ransom");
+                            } else {
+                                w.informationDialog("your family don't paid ransom");
+                                m.place = "enemy'sHouse";
+                            }
+                        } else {
+                            w.informationDialog("he grabs your pocket and run");
+                            m.money = 0;
+                        }
+
+                    } else {
+                        if (ThreadLocalRandom.current().nextInt(0, 8) > 6) {
+                            Scanner scnr = new Scanner(Trade.items.ITEMS_TRADE);
+                            int test = 0;
+                            while (scnr.hasNext()) {
+                                scnr.next();
+                                test++;
+                            }
+                            scnr = new Scanner(Trade.items.ITEMS_TRADE);
+                            for (int i1 = ThreadLocalRandom.current().nextInt(0, test - 1); i != 0; i--) {
+                                scnr.next();
+                            }
+                            String s1 = scnr.next();
+                            w.informationDialog("he gives " + s1);
+                            m.itemshave.add(s1);
+                        } else {
+                            w.informationDialog("he wants to trade with you");
+                            new Trade(m).trade(new Trader(new Trade.items(Trade.items.NEUTRAL), null, null));
+
+                        }
+                    }
                 }
             }, null, s + " :open or not");
         }
     }
 
-    public void blocker(String s) {
-        switch (s) {
-            case "house":
-                int i = ThreadLocalRandom.current().nextInt(2, 8);
-                if (i > 6) {
-                    w.informationDialog("he is running with you");
-                    if (ThreadLocalRandom.current().nextInt(0, 8) > 6) {
-                        w.informationDialog("you are tied up in his house");
-                        w.informationDialog("he wants ransom from your family");
-                        if (ThreadLocalRandom.current().nextInt(0, 8) > 2) {
-                            w.informationDialog("your family paid ransom");
-                        } else {
-                            w.informationDialog("your family don't paid ransom");
-                            m.place = "enemy'sHouse";
-                        }
-                    } else {
-                        w.informationDialog("he grabs your pocket and run");
-                        m.money = 0;
-                    }
 
-                } else {
-                    if (ThreadLocalRandom.current().nextInt(0, 8) > 6) {
-                        Scanner scnr = new Scanner(Trade.items.ITEMS_TRADE);
-                        int test = 0;
-                        while (scnr.hasNext()) {
-                            scnr.next();
-                            test++;
-                        }
-                        scnr = new Scanner(Trade.items.ITEMS_TRADE);
-                        for (int i1 = ThreadLocalRandom.current().nextInt(0, test - 1); i != 0; i--) {
-                            scnr.next();
-                        }
-                        String s1 = scnr.next();
-                        w.informationDialog("he gives " + s1);
-                        m.itemshave.add(s1);
-                    } else {
-                        w.informationDialog("he wants to trade with you");
-                        new Trader(new Trade.items(Trade.items.NEUTRAL), null);
-                    }
-                }
-        }
-        m.randomBlocker = "";
-    }
 
 
     public void Default() {
