@@ -3,17 +3,15 @@ package com.sin.lifesim;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
-import androidx.annotation.Nullable;
-
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Window {
     MainActivity m;
-    ArrayList<Boolean> isShowed = new ArrayList<>();
-
+    ArrayList<Boolean> isShowed = new ArrayList<>(4);
     public void windowItems(final method.onmet method, final String[] items) {
         final String[] selectedText = new String[1];
         final String[] ret = new String[1];
@@ -27,11 +25,21 @@ public class Window {
         });
 
         AlertDialog alertDialogObject = builder.create();
+        Thread thread = new Thread(new doInBackground(alertDialogObject, 3));
+        thread.start();
+        if (!isShowed.contains(true)) {
+            alertDialogObject.show();
+            isShowed.set(3, true);
+            thread.start();
+        }
         alertDialogObject.show();
     }
 
     public Window(MainActivity m) {
         this.m = m;
+        for (int i = 0; i < 4; i++) {
+            isShowed.add(false);
+        }
     }
 
     public void windowTwoButtons(@NotNull final method.onmet.withoutParam yesButton, @Nullable final method.onmet.withoutParam cancelButton, @NotNull String title) {
@@ -52,18 +60,12 @@ public class Window {
             }
         });
         final AlertDialog alertDialogObject = builder.create();
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (isShowed.contains(true)) {
-                    isShowed.set(1, alertDialogObject.isShowing());
-                }
-            }
-        });
+        Thread thread = new Thread(new doInBackground(alertDialogObject, 1));
         thread.start();
         if (!isShowed.contains(true)) {
             alertDialogObject.show();
-            isShowed.clear();
+            isShowed.set(1, true);
+            thread.start();
         }
     }
 
@@ -87,18 +89,12 @@ public class Window {
             }
         });
         final AlertDialog alertDialog = builder.create();
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (isShowed.contains(true)) {
-                    isShowed.set(0, alertDialog.isShowing());
-                }
-            }
-        });
+        Thread thread = new Thread(new doInBackground(alertDialog, 0));
         thread.start();
         if (!isShowed.contains(true)) {
             alertDialog.show();
-            isShowed.clear();
+            isShowed.set(0, true);
+            thread.start();
         }
     }
 
@@ -127,18 +123,31 @@ public class Window {
             }
         });
         final AlertDialog alertDialog = builder.create();
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (isShowed.contains(true)) {
-                    isShowed.set(2, alertDialog.isShowing());
-                }
-            }
-        });
-        thread.start();
+        doInBackground thread = new doInBackground(alertDialog, 2);
+        new Thread(thread).start();
         if (!isShowed.contains(true)) {
             alertDialog.show();
-            isShowed.clear();
+            isShowed.set(2, true);
+            new Thread(thread).start();
+        }
+    }
+
+    private class doInBackground implements Runnable {
+        int index;
+
+        public doInBackground(AlertDialog alertDialog, int index) {
+            this.alertDialog = alertDialog;
+            this.index = index;
+        }
+
+        AlertDialog alertDialog;
+
+
+        @Override
+        public void run() {
+            while (isShowed.contains(true)) {
+                isShowed.set(index, alertDialog.isShowing());
+            }
         }
     }
 }
