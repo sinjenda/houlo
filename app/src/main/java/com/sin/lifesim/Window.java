@@ -77,9 +77,11 @@ public class Window {
         AlertDialog.Builder builder = new AlertDialog.Builder(m);
         int i = 0;
         Scanner scnr = new Scanner(message);
-        while (scnr.hasNext())
+        while (scnr.hasNext()) {
             i++;
-
+            scnr.next();
+        }
+        scnr.close();
         if (i > 5) {
             builder.setMessage(message);
         } else builder.setTitle(message);
