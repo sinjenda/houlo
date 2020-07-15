@@ -6,7 +6,7 @@ import com.sin.lifesim.trade.Trader;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
-@SuppressWarnings({"CanBeFinal", "ConstantConditions"})
+@SuppressWarnings({"CanBeFinal"})
 public class randomEvents {
     MainActivity m;
     Window w;

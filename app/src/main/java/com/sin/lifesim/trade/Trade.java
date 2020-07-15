@@ -2,6 +2,7 @@ package com.sin.lifesim.trade;
 
 import com.sin.lifesim.Krmic;
 import com.sin.lifesim.MainActivity;
+import com.sin.lifesim.R;
 import com.sin.lifesim.Window;
 import com.sin.lifesim.method;
 
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 public class Trade {
     MainActivity m;
     Window w;
-
     public static class items {
         public static int HOSTILE = -1;
         public static int NEUTRAL = 0;
@@ -32,8 +32,7 @@ public class Trade {
         switch (trader.relation) {
             case 0:
                 ArrayList<String> it = new ArrayList<>();
-                for (int i = trader.items.length; i != 0; i--) {
-                    it = new ArrayList<>();
+                for (int i = trader.items.length - 1; i != 0; i--) {
                     it.add(trader.items[i] + " " + trader.prices[i]);
                 }
                 final String[] items;
@@ -53,22 +52,25 @@ public class Trade {
 
                         ArrayList<String> strings = new ArrayList<>();
                         for (String s : string) {
-                            for (int i2 = 0; i2 != biggestNumber; i2++) {
+                            for (int i2 = 0; i2 < biggestNumber; i2++) {
                                 s = s.replaceAll(" ", "");
-                                strings.add(s.replace(String.valueOf(i2), ""));
+                                s = s.replaceAll(String.valueOf(i2), "");
                             }
+                            strings.add(s);
                         }
-                        int i;
-                        for (String s:strings){
-
+                        int i = 0;
+                        for (String s:strings) {
+                            ArrayList<String> items = Krmic.polePut(trader.items);
+                            int i1 = items.indexOf(s);
+                            i = i + trader.prices[i1];
                         }
                         if (m.money < i) {
+                            w.informationDialog(m.getString(R.string.err2));
                             trade(trader);
                         } else {
                             m.money = m.money - i;
-                            for (String item : trader.items) {
-                                m.itemshave.add();
-                            }
+                            m.editor.putInt("money", m.money - i);
+                            m.itemshave.addAll(strings);
                         }
                     }
                 }, items);

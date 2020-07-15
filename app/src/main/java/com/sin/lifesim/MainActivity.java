@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     randomEvents r;
     work w;
     Window window;
-    SharedPreferences.Editor editor;
+    public SharedPreferences.Editor editor;
     int energy;
     public static final int STORAGE_REQUEST_CODE = 101;
 

@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings({"ConstantConditions", "AccessStaticViaInstance"})
 public class Prison {
     private String used = "";
     private int chance = 0;

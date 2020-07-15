@@ -147,6 +147,11 @@ public class Window {
 
         @Override
         public void run() {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             while (isShowed.contains(true)) {
                 isShowed.set(index, alertDialog.isShowing());
             }
