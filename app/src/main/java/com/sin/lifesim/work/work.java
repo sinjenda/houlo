@@ -105,7 +105,7 @@ public class work {
     }
 
     public void goWork(int time) {
-        if (k.polePut(mista).contains(zamestnani)) {
+        if (Krmic.polePut(mista).contains(zamestnani)) {
             for (Smlouva s : smlouvy) {
                 if (s.getTitle().equals(zamestnani)) {
                     s.send(time);

@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
                                 if (string[0].equals("showContracts")) {
                                     Intent intent = new Intent(getApplicationContext(), showHashMap_activity.class);
                                     int i = 1;
-                                    for (Smlouva s : w.getSmlouvy()) {
+                                    for (Smlouva s : w.getSmlouvyHistorie().keySet()) {
                                         String S = s.getTitle();
                                         String s1 = String.valueOf(i);
                                         intent.putExtra("title" + s1, S);

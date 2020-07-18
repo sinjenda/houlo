@@ -70,7 +70,12 @@ public class Window {
     }
 
     public void windowTwoButtons() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
 
+            }
+        });
     }
 
     public void informationDialog(String message) {

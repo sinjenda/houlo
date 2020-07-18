@@ -67,8 +67,7 @@ public class showHashMap_activity extends AppCompatActivity {
             hashMapb = (HashMap<String, Integer>) i.getSerializableExtra(CALL);
         }
         if (i.getStringExtra(WHICH).equals("smlouva")) {
-            ret = krmic.polePut(i.getStringArrayExtra("podminky"));
-            for (int i = 0; i != titles.size(); ) {
+            for (int i = 1; i != titles.size(); ) {
                 Smlouva smlouva = new Smlouva(titles.get(i), this.i.getStringExtra("podminky"), zkusenost.get(i));
                 ret.add(titles.get(i) + " " + " \nzkusenost: " + zkusenost.get(i) + "\n" + booleans.get(i));
                 i++;
