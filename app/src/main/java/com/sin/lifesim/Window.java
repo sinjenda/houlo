@@ -70,12 +70,7 @@ public class Window {
     }
 
     public void windowTwoButtons() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
 
-            }
-        });
     }
 
     public void informationDialog(String message) {
@@ -152,13 +147,13 @@ public class Window {
 
         @Override
         public void run() {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             while (isShowed.contains(true)) {
                 isShowed.set(index, alertDialog.isShowing());
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

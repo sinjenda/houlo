@@ -7,7 +7,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -87,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         window = new Window(this);
         r = new randomEvents(this);
         click(new View(getApplication()));
+        SQLiteDatabase db;
     }
 
     public void windowkill() {
@@ -187,9 +191,7 @@ public class MainActivity extends AppCompatActivity {
             Intent i = getIntent();
 
 
-            editor.putStringSet("titles", krmn.smlouvasGetTitles(w.getSmlouvyHistorie()));
-            editor.putStringSet("podminky", krmn.smlouvasGetPodminky(w.getSmlouvyHistorie()));
-            editor.putStringSet("zkusenost", krmn.smlouvasGetZkusenost(w.getSmlouvyHistorie()));
+
             editor.putString("place", place);
             editor.commit();
         } else {
@@ -242,7 +244,19 @@ public class MainActivity extends AppCompatActivity {
                                         intent.putExtra("title" + s1, S);
                                         String Sa = s.getPodminky();
                                         intent.putExtra("podminky" + s1, Sa);
-                                        intent.putExtra("zkusenost" + s1, s.getZkusenost());
+                                        intent.putExtra("smlouvy", new Parcelable() {
+                                            Smlouva[] smlouvy;
+
+                                            @Override
+                                            public int describeContents() {
+                                                throw new UnsupportedOperationException("do not use this");
+                                            }
+
+                                            @Override
+                                            public void writeToParcel(Parcel dest, int flags) {
+                                                throw new UnsupportedOperationException("do not use this");
+                                            }
+                                        });
                                         i++;
                                     }
                                     i = 1;
