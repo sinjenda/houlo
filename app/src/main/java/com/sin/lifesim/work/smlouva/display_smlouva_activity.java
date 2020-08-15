@@ -21,7 +21,7 @@ public class display_smlouva_activity extends AppCompatActivity {
     TextView request;
     TextView title;
     Intent i;
-    Krmic k = new Krmic();
+    final Krmic k = new Krmic();
 
     @Override
     @SuppressWarnings({"unchecked", "ConstantConditions"})

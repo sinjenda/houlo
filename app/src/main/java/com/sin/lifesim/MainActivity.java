@@ -9,8 +9,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +23,11 @@ import com.sin.lifesim.work.work;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,7 +37,7 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-@SuppressWarnings({"CanBeFinal", "EmptyMethod", "unused", "unchecked", "AccessStaticViaInstance"})
+@SuppressWarnings({"CanBeFinal", "EmptyMethod", "unused", "AccessStaticViaInstance", "ResultOfMethodCallIgnored"})
 public class MainActivity extends AppCompatActivity {
     //view and string variables
     EditText input;
@@ -45,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
     TextView out;
     String randomBlocker = "";
     //int variables
-
-
     public int money = 100;
 
     //array lists
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         krmn = new Krmic();
@@ -108,11 +110,32 @@ public class MainActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") DateFormat formatData = new SimpleDateFormat("DD");
         editor.putInt("time", Integer.parseInt(formatData.format(calendar.getTime())));
+        try {
+            krmn.objectSaveHandler(new stream() {
+                @Override
+                public FileInputStream input() {
+                    return null;
+                }
+
+                @Override
+                public FileOutputStream output() throws IOException {
+                    try {
+                        File file = new File("storage/emulated/0/smlouvy");
+                        return new FileOutputStream(file);
+                    } catch (FileNotFoundException e) {
+                        throw new IOException();
+                    }
+                }
+            }, w.getSmlouvyHistorie());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         super.onDestroy();
     }
 
     @SuppressWarnings("ConstantConditions")
     public void buy(final SharedPreferences.Editor editor) {
+        onDestroy();
         final String[] selectedText = new String[1];
         final String[] jmena = itsella;
         final String[] ret = new String[1];
@@ -161,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @SuppressWarnings({"ConstantConditions", "rawtypes"})
+    @SuppressWarnings({"ConstantConditions", "unchecked"})
     @SuppressLint({"ApplySharedPref", "SetTextI18n"})
     public void click(View view) {
         input = findViewById(R.id.in);
@@ -185,11 +208,27 @@ public class MainActivity extends AppCompatActivity {
             editor.putInt("strength", basicskills.get("strength"));
             editor.putInt("luck", basicskills.get("luck"));
             editor.putInt("money", money);
-            editor.putString("workplace", "garbage");
             editor.putString("place", place);
             w.first();
             Intent i = getIntent();
 
+            final File file = new File("storage/emulated/0/smlouvy");
+            try {
+                file.createNewFile();
+                krmn.objectSaveHandler(new stream() {
+                    @Override
+                    public FileInputStream input() {
+                        return null;
+                    }
+
+                    @Override
+                    public FileOutputStream output() throws IOException {
+                        return new FileOutputStream(file);
+                    }
+                }, w.getSmlouvyHistorie());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
 
             editor.putString("place", place);
@@ -200,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
             basicskills.put("luck", -1);
             money = data.getInt("money", -1);
             w.setZamestnani(data.getString("workplace", null));
-            place = data.getString("place", null);
+            String place = this.place = data.getString("place", null);
             Set<String> titles = data.getStringSet("titles", null);
             Set<String> podminky = data.getStringSet("podminky", null);
             Set<String> zkusenost = data.getStringSet("zkusenost", null);
@@ -216,13 +255,27 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
-            try {
 
+        }
+        try {
+            w.setSmlouvyHistorie((HashMap<Smlouva, Boolean>) krmn.objectSaveHandler(new stream() {
+                @Override
+                public FileInputStream input() {
+                    try {
+                        return new FileInputStream(new File("storage/emulated/0/smlouvy"));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
 
-                w.setSmlouvyHistorie(krmn.wendSmlouva((ArrayList<String>) titles, (ArrayList<String>) podminky, krmn.polePut(krmn.poleConverter(krmn.poleConverter(krmn.polepull((ArrayList) zkusenost)))), krmn.booleanconverter(booleans)));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                @Override
+                public FileOutputStream output() {
+                    return null;
+                }
+            }, null));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         if (place.equals("default")) {
@@ -237,34 +290,8 @@ public class MainActivity extends AppCompatActivity {
                             } catch (NumberFormatException e) {
                                 if (string[0].equals("showContracts")) {
                                     Intent intent = new Intent(getApplicationContext(), showHashMap_activity.class);
-                                    int i = 1;
-                                    for (Smlouva s : w.getSmlouvyHistorie().keySet()) {
-                                        String S = s.getTitle();
-                                        String s1 = String.valueOf(i);
-                                        intent.putExtra("title" + s1, S);
-                                        String Sa = s.getPodminky();
-                                        intent.putExtra("podminky" + s1, Sa);
-                                        intent.putExtra("smlouvy", new Parcelable() {
-                                            Smlouva[] smlouvy;
-
-                                            @Override
-                                            public int describeContents() {
-                                                throw new UnsupportedOperationException("do not use this");
-                                            }
-
-                                            @Override
-                                            public void writeToParcel(Parcel dest, int flags) {
-                                                throw new UnsupportedOperationException("do not use this");
-                                            }
-                                        });
-                                        i++;
-                                    }
-                                    i = 1;
-                                    for (Smlouva s : w.getSmlouvy()) {
-                                        intent.putExtra("booleans" + i, w.getSmlouvyHistorie().get(s));
-                                        i++;
-                                    }
-                                    intent.putExtra(showHashMap_activity.WHICH, "smlouva");
+                                    intent.putExtra("thing", "smlouvy");
+                                    intent.putExtra(showHashMap_activity.WHICH, w.getSmlouvyHistorie());
                                     startActivity(intent);
                                 }
                             }
@@ -424,7 +451,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void shskills() {
         Intent intent = new Intent(this, showHashMap_activity.class);
-        intent.putExtra(showHashMap_activity.CALL, basicskills);
+        intent.putExtra("thing", basicskills);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
     }

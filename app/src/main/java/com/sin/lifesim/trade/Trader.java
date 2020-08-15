@@ -12,9 +12,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings("ConstantConditions")
 public class Trader {
-    int relation;
-    String[] items;
-    int[] prices;
+    final int relation;
+    final String[] items;
+    final int[] prices;
 
     public Trader(Trade.items relation, @Nullable String[] items, @Nullable int[] prices) {
         this.relation = relation.relation;

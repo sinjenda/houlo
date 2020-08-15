@@ -13,12 +13,12 @@ public class Prison {
     private String used = "";
     private int chance = 0;
     private ArrayList<String> itemshave;
-    private MainActivity m;
+    private final MainActivity m;
     ArrayList<String> prisonNames = new ArrayList<String>();
     HashMap<String, HashMap<String, Integer>> vezni = new HashMap<>();
-    private Krmic krmic = new Krmic();
+    private final Krmic krmic = new Krmic();
     private int sentence;
-    Window window = new Window(m);
+    Window window;
 
     public void prison(int sentence1) {
         String[] nams = {"marek", "honza", "noob", "luis", "peter", "rychard", "arnocht", "emil", "alex", "george", "john", "milan", "pavel", "roman"};
@@ -125,6 +125,7 @@ public class Prison {
 
     public Prison(MainActivity m) {
         this.m = m;
+        window = new Window(m);
     }
 
 }

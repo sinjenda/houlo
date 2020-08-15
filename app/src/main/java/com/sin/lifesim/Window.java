@@ -10,8 +10,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Window {
-    MainActivity m;
-    ArrayList<Boolean> isShowed = new ArrayList<>(4);
+    final MainActivity m;
+    final ArrayList<Boolean> isShowed = new ArrayList<>(4);
+
     public void windowItems(final method.onmet method, final String[] items) {
         final String[] selectedText = new String[1];
         final String[] ret = new String[1];
@@ -69,6 +70,7 @@ public class Window {
         }
     }
 
+    @SuppressWarnings("EmptyMethod")
     public void windowTwoButtons() {
 
     }
@@ -135,14 +137,14 @@ public class Window {
     }
 
     private class doInBackground implements Runnable {
-        int index;
+        final int index;
 
         public doInBackground(AlertDialog alertDialog, int index) {
             this.alertDialog = alertDialog;
             this.index = index;
         }
 
-        AlertDialog alertDialog;
+        final AlertDialog alertDialog;
 
 
         @Override

@@ -4,6 +4,9 @@ import com.sin.lifesim.work.smlouva.Smlouva;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -70,20 +73,22 @@ public class Krmic implements Serializable {
         return nams;
     }
 
-    HashMap<Smlouva, Boolean> wendSmlouva(ArrayList<String> titles, ArrayList<String> podminky, ArrayList<Integer> zkusenost, ArrayList<Boolean> booleans) {
-        int test = 1;
-        String s;
+    public static Object objectSaveHandler(stream klop, Object write) throws IOException {
 
+        if (klop.input() != null) {
+            try {
+                ObjectInputStream ois = new ObjectInputStream(klop.input());
+                return ois.readObject();
+            } catch (ClassNotFoundException e) {
+                System.exit(1);
+            }
+        } else if (klop.output() != null && write != null) {
+            ObjectOutputStream oos = new ObjectOutputStream(klop.output());
 
-        HashMap<Smlouva, Boolean> ret = new HashMap<>();
-        boolean b;
-
-        for (int i2 = 0; i2 != titles.size(); ) {
-            Smlouva smlouva = new Smlouva(titles.get(i2), podminky.get(i2), zkusenost.get(i2));
-            ret.put(smlouva, booleans.get(i2));
-            i2++;
-        }
-        return ret;
+            oos.writeObject(write);
+            return true;
+        } else throw new IOException();
+        return false;
     }
 
     Set<String> smlouvasGetTitles(@NotNull HashMap<Smlouva, Boolean> smlouvas) {

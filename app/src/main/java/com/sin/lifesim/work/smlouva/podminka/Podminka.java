@@ -5,18 +5,19 @@ import com.sin.lifesim.work.smlouva.Smlouva;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings({"unused", "StringConcatenationInLoop"})
-public class Podminka {
-    public static String[] podminkyLow = {"free work time", "many promotions"};
-    public static String[] podminkyMedium = {"4WorkHours", "promotion avaible"};
-    public static String[] podminkyHard = {"8WorkHours", "noPromotion"};
-    ArrayList<String> strings;
-    ArrayList<String> strings1;
-    ArrayList<String> strings2;
+public class Podminka implements Serializable {
+    public static final String[] podminkyLow = {"free work time", "many promotions"};
+    public static final String[] podminkyMedium = {"4WorkHours", "promotion avaible"};
+    public static final String[] podminkyHard = {"8WorkHours", "noPromotion"};
+    final ArrayList<String> strings;
+    final ArrayList<String> strings1;
+    final ArrayList<String> strings2;
     Krmic k = new Krmic();
 
     public void setWorktime(int worktime) {

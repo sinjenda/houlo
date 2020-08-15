@@ -73,7 +73,6 @@ public class randomEvents {
 
     public void Default() {
         if (ThreadLocalRandom.current().nextInt(0, 8) > 6) {
-            w.informationDialog("you find a gun");
             w.windowTwoButtons(new method.onmet.withoutParam() {
                 @Override
                 public void methodaB() {

@@ -16,24 +16,32 @@ import com.sin.lifesim.work.smlouva.display_smlouva_activity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings({"unused"})
 public class work {
     Krmic k = new Krmic();
-
+    HashMap<String, Integer> zkusenost = new HashMap<>();
     public ArrayList<Smlouva> getSmlouvy() {
-        return smlouvy;
+        return smlouvyForApply;
     }
 
-    ArrayList<Smlouva> smlouvy = new ArrayList<Smlouva>();
+    final ArrayList<Smlouva> smlouvyForApply = new ArrayList<Smlouva>();
     Smlouva smlouva;
 
     public HashMap<Smlouva, Boolean> getSmlouvyHistorie() {
         return smlouvyHistorie;
     }
 
-    String[] mista = {"garbage", "janitor"};
-    int[] ints = {15, 20};
+    final static String[] mista = {"garbage", "janitor"};
+    static int[] money = {15, 20};
+    int[] zkusenosti = {0, 2};
+    int[] zkusenostiGet = {1, 1};
+    String[] zkusenostiTyp = {"uklid", "uklid"};
+
+    private static class typy {
+        public String[] typy = {"uklid"};
+    }
 
     public void setSmlouvyHistorie(HashMap<Smlouva, Boolean> smlouvyHistorie) {
         this.smlouvyHistorie = smlouvyHistorie;
@@ -50,7 +58,7 @@ public class work {
     }
 
     String zamestnani;
-    MainActivity m;
+    final MainActivity m;
 
     public work(MainActivity m, Context context) {
         this.m = m;
@@ -58,21 +66,28 @@ public class work {
 
     }
 
+    @SuppressWarnings("ConstantConditions")
+    public Smlouva generateSmlouvaForApply() {
+        int i1 = ThreadLocalRandom.current().nextInt(0, mista.length - 1);
+        if (zkusenosti[i1] >= zkusenost.get("uklid"))
+            return new Smlouva(mista[i1], zkusenosti[i1]);
+        return null;
+    }
 
     public void first() {
 
         String[] strings = {"free work time", "15 crowns per hour", "no promotion avaible"};
         Smlouva garbage = new Smlouva(getStringByIdName(m.getApplicationContext(), R.string.collector), strings[0] + strings[1] + strings[2], 0, m);
-        smlouvy.add(garbage);
-        smlouvyHistorie.put(garbage, false);
+        smlouvyHistorie.put(garbage, true);
+        zkusenost.put("uklid", 0);
     }
 
     public void apply() {
 
         //noinspection SuspiciousMethodCalls
-        smlouvy.remove(zamestnani);
+        smlouvyForApply.remove(zamestnani);
 
-        if (smlouvy.size() < 1) {
+        if (smlouvyForApply.size() < 1) {
             AlertDialog.Builder builder = new AlertDialog.Builder(m);
             builder.setTitle("now there is not any contract");
             builder.setNeutralButton("ok", new DialogInterface.OnClickListener() {
@@ -85,16 +100,8 @@ public class work {
             alertDialogObject.show();
         } else {
             Intent i = new Intent(m, display_smlouva_activity.class);
-            i.putExtra(display_smlouva_activity.SMLOUVA, smlouvy);
+            i.putExtra(display_smlouva_activity.SMLOUVA, smlouvyForApply);
             m.startActivity(i);
-        }
-    }
-
-
-    private void garbageCollector(int hours) {
-
-        for (int i = hours; i == 0; i--) {
-            m.money = m.money + 15;
         }
     }
 
@@ -106,18 +113,15 @@ public class work {
 
     public void goWork(int time) {
         if (Krmic.polePut(mista).contains(zamestnani)) {
-            for (Smlouva s : smlouvy) {
+            for (Smlouva s : smlouvyHistorie.keySet()) {
                 if (s.getTitle().equals(zamestnani)) {
                     s.send(time);
                 }
             }
+            for (int i = time; i == 0; i--)
+                m.money = m.money + money[Krmic.polePut(mista).indexOf(zamestnani)];
         }
-        switch (zamestnani) {
-            case "garbage":
-                garbageCollector(time);
-            case "janitor":
 
-        }
     }
 
     public void test(Smlouva smlouva) {
