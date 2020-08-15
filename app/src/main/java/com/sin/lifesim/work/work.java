@@ -28,7 +28,7 @@ public class work {
 
     final ArrayList<Smlouva> smlouvyForApply = new ArrayList<Smlouva>();
     Smlouva smlouva;
-
+    public int worked = 0;
     public HashMap<Smlouva, Boolean> getSmlouvyHistorie() {
         return smlouvyHistorie;
     }
@@ -111,6 +111,7 @@ public class work {
         return context.getResources().getString(idName);
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void goWork(int time) {
         if (Krmic.polePut(mista).contains(zamestnani)) {
             for (Smlouva s : smlouvyHistorie.keySet()) {
@@ -120,9 +121,15 @@ public class work {
             }
             for (int i = time; i == 0; i--)
                 m.money = m.money + money[Krmic.polePut(mista).indexOf(zamestnani)];
-        }
+            worked = worked + time;
+            if (worked > 24) {
+                worked = worked - 24;
+                zkusenost.replace(zkusenostiTyp[Krmic.polePut(mista).indexOf(zamestnani)], zkusenost.get(zkusenostiTyp[Krmic.polePut(mista).indexOf(zamestnani)]) + 1);
+            }
 
+        }
     }
+
 
     public void test(Smlouva smlouva) {
         if (!smlouva.test(smlouva)) {

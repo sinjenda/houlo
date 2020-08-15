@@ -209,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
             editor.putInt("luck", basicskills.get("luck"));
             editor.putInt("money", money);
             editor.putString("place", place);
+            editor.putInt("worked", w.worked);
             w.first();
             Intent i = getIntent();
 
@@ -240,12 +241,9 @@ public class MainActivity extends AppCompatActivity {
             money = data.getInt("money", -1);
             w.setZamestnani(data.getString("workplace", null));
             String place = this.place = data.getString("place", null);
-            Set<String> titles = data.getStringSet("titles", null);
-            Set<String> podminky = data.getStringSet("podminky", null);
-            Set<String> zkusenost = data.getStringSet("zkusenost", null);
-            Set<String> booleans = data.getStringSet("booleans", null);
             Calendar calendar = Calendar.getInstance();
             DateFormat format = new SimpleDateFormat("DD");
+            w.worked = data.getInt("worked", -1);
             if (data.getInt("time", -1) != Integer.parseInt(format.format(calendar.getTime()))) {
                 Set<Smlouva> collection = w.getSmlouvyHistorie().keySet();
                 for (Smlouva b : collection) {
