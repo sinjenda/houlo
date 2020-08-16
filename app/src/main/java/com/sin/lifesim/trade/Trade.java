@@ -8,6 +8,7 @@ import com.sin.lifesim.method;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("ConstantConditions")
 public class Trade {
     final MainActivity m;
     final Window w;

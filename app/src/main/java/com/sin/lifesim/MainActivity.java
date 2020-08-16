@@ -18,6 +18,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.sin.lifesim.school.School;
+import com.sin.lifesim.school.schools.KomensSchool;
+import com.sin.lifesim.school.schools.PragueGymnasiumSchool;
 import com.sin.lifesim.work.smlouva.Smlouva;
 import com.sin.lifesim.work.work;
 
@@ -45,20 +48,20 @@ public class MainActivity extends AppCompatActivity {
     String dat2;
     String dat3 = "";
     String place = "default";
+    String[] itsella = {"fries", "screwdriver", "gun", "knife", "baton", "pancakes", "house"};
+    String SchoolName;
     TextView out;
     String randomBlocker = "";
     //int variables
     public int money = 100;
-
-    //array lists
-
-
+    int energy;
+    //array lists and HashMaps
     HashMap<String, Integer> itemssell = new HashMap<String, Integer>();
     HashMap<String, Integer> basicskills = new HashMap<String, Integer>();
     ArrayList<String> skills = new ArrayList<String>();
     public ArrayList<String> itemshave = new ArrayList<String>();
+    public ArrayList<String> schools = new ArrayList<>();
     ArrayList<String> nms = new ArrayList<String>();
-    String[] itsella = {"fries", "screwdriver", "gun", "knife", "baton", "pancakes", "house"};
 
     //other
     Krmic krmn;
@@ -67,9 +70,9 @@ public class MainActivity extends AppCompatActivity {
     work w;
     Window window;
     public SharedPreferences.Editor editor;
-    int energy;
     public static final int STORAGE_REQUEST_CODE = 101;
-
+    public static final String PATH = "storage/emulated/0/school";
+    public School school;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,6 +218,14 @@ public class MainActivity extends AppCompatActivity {
 
             final File file = new File("storage/emulated/0/smlouvy");
             try {
+                File file1 = new File(PATH);
+                file1.createNewFile();
+                File file2 = new File(work.PATH);
+                file2.createNewFile();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
                 file.createNewFile();
                 krmn.objectSaveHandler(new stream() {
                     @Override
@@ -245,6 +256,7 @@ public class MainActivity extends AppCompatActivity {
             DateFormat format = new SimpleDateFormat("DD");
             w.worked = data.getInt("worked", -1);
             w.normal();
+            loadSchool();
             if (data.getInt("time", -1) != Integer.parseInt(format.format(calendar.getTime()))) {
                 Set<Smlouva> collection = w.getSmlouvyHistorie().keySet();
                 for (Smlouva b : collection) {
@@ -300,6 +312,21 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case ("apply"):
                     w.apply();
+                case ("school"):
+                    if (school == null) {
+                        SchoolName = School.generate(this);
+                    } else {
+                        switch (SchoolName) {
+                            case ("komens"):
+                                KomensSchool school1 = (KomensSchool) school;
+                                school1.study();
+                                break;
+                            case ("prague"):
+                                PragueGymnasiumSchool school = (PragueGymnasiumSchool) this.school;
+                            default:
+                                throw new UnsupportedOperationException("this school does not exist");
+                        }
+                    }
                 case ("home"):
                     if (itemshave.contains("house")) {
                         place = "house";
@@ -453,5 +480,48 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("thing", basicskills);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
+    }
+
+    public void saveSchool() {
+        try {
+            Krmic.objectSaveHandler(new stream() {
+                @Override
+                public FileInputStream input() {
+                    return null;
+                }
+
+                @Override
+                public FileOutputStream output() {
+                    try {
+                        return new FileOutputStream(new File(PATH));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
+            }, school);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadSchool() {
+        if (school != null) {
+            try {
+                Krmic.objectSaveHandler(new stream() {
+                    @Override
+                    public FileInputStream input() throws FileNotFoundException {
+                        return new FileInputStream(new File(PATH));
+                    }
+
+                    @Override
+                    public FileOutputStream output() {
+                        return null;
+                    }
+                }, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

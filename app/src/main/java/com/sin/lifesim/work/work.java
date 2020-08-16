@@ -42,15 +42,16 @@ public class work {
         return smlouvyHistorie;
     }
 
+    //zamestnani zacatek
     final static String[] mista = {"garbage", "janitor"};
     static int[] money = {15, 20};
     int[] zkusenosti = {0, 2};
     int[] zkusenostiGet = {1, 1};
     String[] zkusenostiTyp = {"uklid", "uklid"};
+    //zamestnani konec
 
-    private static class typy {
-        public String[] typy = {"uklid"};
-    }
+    TypZamestnani[] typy = {new uklid()};
+
 
     public void setSmlouvyHistorie(HashMap<Smlouva, Boolean> smlouvyHistorie) {
         this.smlouvyHistorie = smlouvyHistorie;

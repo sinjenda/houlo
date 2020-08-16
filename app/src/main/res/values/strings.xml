@@ -3,7 +3,7 @@
     <string name="tutorial">type comand and then tap on button for help type \"help\"</string>
     <string name="note1">you have been sent to prison</string>
     <string name="note2">you perform a successful robbery</string>
-    <string name="help" translatable="false">off, rob, help,shopping,sh items,reset,home</string>
+    <string name="help" translatable="false">off, rob, help,shopping,sh items,reset,home,school</string>
     <string name="screwdriver">screwdriver 20</string>
     <string name="fries">fries 10</string>
     <string name="gun">gun 100</string>
