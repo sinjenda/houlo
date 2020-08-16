@@ -244,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
             Calendar calendar = Calendar.getInstance();
             DateFormat format = new SimpleDateFormat("DD");
             w.worked = data.getInt("worked", -1);
+            w.normal();
             if (data.getInt("time", -1) != Integer.parseInt(format.format(calendar.getTime()))) {
                 Set<Smlouva> collection = w.getSmlouvyHistorie().keySet();
                 for (Smlouva b : collection) {

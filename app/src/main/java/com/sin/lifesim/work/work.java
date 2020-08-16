@@ -11,17 +11,25 @@ import androidx.annotation.StringRes;
 import com.sin.lifesim.Krmic;
 import com.sin.lifesim.MainActivity;
 import com.sin.lifesim.R;
+import com.sin.lifesim.stream;
 import com.sin.lifesim.work.smlouva.Smlouva;
 import com.sin.lifesim.work.smlouva.display_smlouva_activity;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
-@SuppressWarnings({"unused"})
+@SuppressWarnings({"unused", "unchecked"})
 public class work {
     Krmic k = new Krmic();
+    public static final String PATH = "storage/emulated/0/zkusenost";
     HashMap<String, Integer> zkusenost = new HashMap<>();
+
     public ArrayList<Smlouva> getSmlouvy() {
         return smlouvyForApply;
     }
@@ -29,6 +37,7 @@ public class work {
     final ArrayList<Smlouva> smlouvyForApply = new ArrayList<Smlouva>();
     Smlouva smlouva;
     public int worked = 0;
+
     public HashMap<Smlouva, Boolean> getSmlouvyHistorie() {
         return smlouvyHistorie;
     }
@@ -125,11 +134,49 @@ public class work {
             if (worked > 24) {
                 worked = worked - 24;
                 zkusenost.replace(zkusenostiTyp[Krmic.polePut(mista).indexOf(zamestnani)], zkusenost.get(zkusenostiTyp[Krmic.polePut(mista).indexOf(zamestnani)]) + 1);
+                m.editor.putInt("worked", worked);
+                try {
+                    Krmic.objectSaveHandler(new stream() {
+                        @Override
+                        public FileInputStream input() {
+                            return null;
+                        }
+
+                        @Override
+                        public FileOutputStream output() throws IOException {
+                            return new FileOutputStream(new File(PATH));
+                        }
+                    }, zkusenost);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
         }
     }
 
+    public void normal() {
+        try {
+            zkusenost = (HashMap<String, Integer>) Krmic.objectSaveHandler(new stream() {
+                @Override
+                public FileInputStream input() {
+                    try {
+                        return new FileInputStream(new File(PATH));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
+
+                @Override
+                public FileOutputStream output() {
+                    return null;
+                }
+            }, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void test(Smlouva smlouva) {
         if (!smlouva.test(smlouva)) {
