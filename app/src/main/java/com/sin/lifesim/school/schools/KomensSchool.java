@@ -26,6 +26,8 @@ public class KomensSchool extends School {
                     studied = studied + 5;
                 }
                 m.saveSchool();
+                Window w = new Window(m);
+                w.informationDialog("you need to study" + " " + ((KomensSchool.super.StudyTime - studied) / 5) + " " + "hours");
             }
         }, new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"});
     }

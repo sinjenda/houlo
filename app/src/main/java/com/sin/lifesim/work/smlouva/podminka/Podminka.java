@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
-@SuppressWarnings({"unused", "StringConcatenationInLoop"})
+@SuppressWarnings({"unused", "StringConcatenationInLoop", "ConstantConditions"})
 public class Podminka implements Serializable {
     public static final String[] podminkyLow = {"free work time", "many promotions"};
     public static final String[] podminkyMedium = {"4WorkHours", "promotion avaible"};
@@ -84,7 +84,7 @@ public class Podminka implements Serializable {
                     if (worktime < 8)
                         return false;
                 default:
-                    if (!Krmic.polePut(podminkyMedium).contains(s) | !Krmic.polePut(podminkyHard).contains(s) | !Krmic.polePut(podminkyLow).contains(s)) {
+                    if (!Krmic.polePut(podminkyMedium).contains(s) & !Krmic.polePut(podminkyHard).contains(s) & !Krmic.polePut(podminkyLow).contains(s) & !s.equals("free") & !s.equals("work") & !s.equals("time")) {
                         throw new podminkaError("this podminka does not exist", new Exception());
                     }
 

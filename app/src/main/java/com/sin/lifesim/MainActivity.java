@@ -315,6 +315,7 @@ public class MainActivity extends AppCompatActivity {
                 case ("school"):
                     if (school == null) {
                         SchoolName = School.generate(this);
+                        window.informationDialog("you are now in low school");
                     } else {
                         switch (SchoolName) {
                             case ("komens"):

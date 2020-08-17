@@ -14,6 +14,7 @@ import com.sin.lifesim.R;
 import com.sin.lifesim.stream;
 import com.sin.lifesim.work.smlouva.Smlouva;
 import com.sin.lifesim.work.smlouva.display_smlouva_activity;
+import com.sin.lifesim.work.smlouva.podminka.Podminka;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -86,8 +87,8 @@ public class work {
 
     public void first() {
 
-        String[] strings = {"free work time", "15 crowns per hour", "no promotion avaible"};
-        Smlouva garbage = new Smlouva(getStringByIdName(m.getApplicationContext(), R.string.collector), strings[0] + strings[1] + strings[2], 0, m);
+        String[] strings = {Podminka.podminkyLow[0], Podminka.podminkyHard[1]};
+        Smlouva garbage = new Smlouva(getStringByIdName(m.getApplicationContext(), R.string.collector), strings[0] + " " + strings[1], 0, m);
         smlouvyHistorie.put(garbage, true);
         zkusenost.put("uklid", 0);
     }
