@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
-@SuppressWarnings({"unused", "StringConcatenationInLoop", "ConstantConditions"})
+@SuppressWarnings({"StringConcatenationInLoop"})
 public class Podminka implements Serializable {
     public static final String[] podminkyLow = {"free work time", "many promotions"};
     public static final String[] podminkyMedium = {"4WorkHours", "promotion avaible"};

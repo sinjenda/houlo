@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
-@SuppressWarnings({"unused", "unchecked"})
+@SuppressWarnings({"unchecked"})
 public class work {
     Krmic k = new Krmic();
     public static final String PATH = "storage/emulated/0/zkusenost";
@@ -44,14 +44,15 @@ public class work {
     }
 
     //zamestnani zacatek
-    final static String[] mista = {"garbage", "janitor"};
-    static int[] money = {15, 20};
-    int[] zkusenosti = {0, 2};
-    int[] zkusenostiGet = {1, 1};
-    String[] zkusenostiTyp = {"uklid", "uklid"};
+    final static String[] mista = {"garbage", "janitor", "manager"};
+    static int[] money = {15, 20, 50};
+    int[] zkusenosti = {0, 2, 0};
+    int[] zkusenostiGet = {1, 1, 3};
+    String[] zkusenostiTyp = {"uklid", "uklid", "manager"};
+    String[] schoolNeed = {"low", "low", "medium"};
     //zamestnani konec
 
-    TypZamestnani[] typy = {new uklid()};
+    TypZamestnani[] typy = {new uklid(), new uklid(), new Manager()};
 
 
     public void setSmlouvyHistorie(HashMap<Smlouva, Boolean> smlouvyHistorie) {
