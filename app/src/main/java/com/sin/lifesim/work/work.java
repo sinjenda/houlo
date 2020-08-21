@@ -44,7 +44,7 @@ public class work {
     }
 
     //zamestnani zacatek
-    final static String[] mista = {"garbage", "janitor", "manager"};
+    final static String[] mista = {"garbage", "janitor", "manager shop"};
     static int[] money = {15, 20, 50};
     int[] zkusenosti = {0, 2, 0};
     int[] zkusenostiGet = {1, 1, 3};
@@ -53,12 +53,15 @@ public class work {
     //zamestnani konec
 
     TypZamestnani[] typy = {new uklid(), new uklid(), new Manager()};
-
+    public static final Object[] potomci = {new uklid(), new Manager()};
 
     public void setSmlouvyHistorie(HashMap<Smlouva, Boolean> smlouvyHistorie) {
         this.smlouvyHistorie = smlouvyHistorie;
     }
 
+    public void trade() {
+
+    }
     HashMap<Smlouva, Boolean> smlouvyHistorie = new HashMap<Smlouva, Boolean>();
 
     public String getZamestnani() {

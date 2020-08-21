@@ -40,7 +40,7 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-@SuppressWarnings({"CanBeFinal", "EmptyMethod", "unused", "AccessStaticViaInstance", "ResultOfMethodCallIgnored"})
+@SuppressWarnings({"CanBeFinal", "EmptyMethod", "AccessStaticViaInstance", "ResultOfMethodCallIgnored"})
 public class MainActivity extends AppCompatActivity {
     //view and string variables
     EditText input;
@@ -353,11 +353,11 @@ public class MainActivity extends AppCompatActivity {
                 case ("help"):
                     out.setText(R.string.help);
                     break;
-
                 case ("shopping"):
                     buy(editor);
                     break;
-
+                case ("zkusenost trade"):
+                    w.trade();
 
                 case ("shitems"):
                     Intent i = new Intent(this, showArray_activity.class);
