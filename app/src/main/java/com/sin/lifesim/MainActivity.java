@@ -290,6 +290,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (place.equals("default")) {
+            w.generateSmlouvaForApply();
             switch (s) {
                 case "work":
                     final String[] jmena = {"1", "2", "3", "4", "showContracts"};
