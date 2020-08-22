@@ -93,7 +93,7 @@ public class work {
 
                             }
                         }, Krmic.poleConverter(Krmic.polepull(vysledek)));
-                        // TODO: 22.08.2020 add other tradable
+
 
 
                     }
@@ -101,6 +101,7 @@ public class work {
             }
         }, Krmic.poleConverter((Object[]) Krmic.poleConverter(Krmic.polepull(names))));
     }
+
     HashMap<Smlouva, Boolean> smlouvyHistorie = new HashMap<Smlouva, Boolean>();
 
     public String getZamestnani() {
@@ -123,8 +124,11 @@ public class work {
     @SuppressWarnings("ConstantConditions")
     public Smlouva generateSmlouvaForApply() {
         int i1 = ThreadLocalRandom.current().nextInt(0, mista.length - 1);
-        if (zkusenosti[i1] >= zkusenost.get("uklid"))
-            return new Smlouva(mista[i1], zkusenosti[i1]);
+        if (m.schools.contains(schoolNeed[i1])) {
+            if (zkusenosti[i1] >= zkusenost.get(zkusenostiTyp[i1])) {
+                return new Smlouva(mista[i1], zkusenosti[i1]);
+            }
+        }
         return null;
     }
 
@@ -178,7 +182,7 @@ public class work {
             worked = worked + time;
             if (worked > 24) {
                 worked = worked - 24;
-                zkusenost.replace(zkusenostiTyp[Krmic.polePut(mista).indexOf(zamestnani)], zkusenost.get(zkusenostiTyp[Krmic.polePut(mista).indexOf(zamestnani)]) + 1);
+                zkusenost.replace(zkusenostiTyp[Krmic.polePut(mista).indexOf(zamestnani)], zkusenost.get(zkusenostiTyp[Krmic.polePut(mista).indexOf(zamestnani)]) + zkusenostiGet[Krmic.polePut(mista).indexOf(zamestnani)]);
                 m.editor.putInt("worked", worked);
                 try {
                     Krmic.objectSaveHandler(new stream() {
