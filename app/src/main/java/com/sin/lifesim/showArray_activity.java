@@ -27,7 +27,6 @@ public class showArray_activity extends AppCompatActivity {
     }
 
 
-    @SuppressWarnings("unused")
     public void shskillsArrayOnclick(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

@@ -54,7 +54,7 @@ public class showHashMap_activity extends AppCompatActivity {
     }
 
 
-    public void shskillsOnclick(@SuppressWarnings("unused") View view) {
+    public void shskillsOnclick(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

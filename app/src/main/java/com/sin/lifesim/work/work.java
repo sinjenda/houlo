@@ -11,6 +11,8 @@ import androidx.annotation.StringRes;
 import com.sin.lifesim.Krmic;
 import com.sin.lifesim.MainActivity;
 import com.sin.lifesim.R;
+import com.sin.lifesim.Window;
+import com.sin.lifesim.method;
 import com.sin.lifesim.stream;
 import com.sin.lifesim.work.smlouva.Smlouva;
 import com.sin.lifesim.work.smlouva.display_smlouva_activity;
@@ -25,7 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
-@SuppressWarnings({"unchecked"})
+@SuppressWarnings({"unchecked", "ConstantConditions"})
 public class work {
     Krmic k = new Krmic();
     public static final String PATH = "storage/emulated/0/zkusenost";
@@ -53,14 +55,51 @@ public class work {
     //zamestnani konec
 
     TypZamestnani[] typy = {new uklid(), new uklid(), new Manager()};
+    //potomci zacatek
     public static final Object[] potomci = {new uklid(), new Manager()};
+    public static final String[] names = {"uklid", "manager"};
 
+    //potomci konec
     public void setSmlouvyHistorie(HashMap<Smlouva, Boolean> smlouvyHistorie) {
         this.smlouvyHistorie = smlouvyHistorie;
     }
 
     public void trade() {
+        final Window w = new Window(m);
+        final ArrayList<String> names = Krmic.polePut(work.names);
+        for (int i = work.names.length; i != 0; i--) {
+            int i1 = i - 1;
+            TypZamestnani typ = (TypZamestnani) potomci[i1];
+            if (typ.structure.type.equals("no transform")) {
+                names.remove(work.names[i1]);
+            }
+        }
+        w.windowItems(new method.onmet() {
+            @Override
+            public void methoda(String[] string) {
+                for (String s : work.names) {
+                    if (string[0].equals(s)) {
+                        int i = Krmic.polePut(mista).indexOf(zamestnani);
+                        TypZamestnani typ = typy[i];
+                        int course = typ.structure.firstCourse;
+                        int zkusenosti = zkusenost.get(work.names[i]);
+                        ArrayList<String> vysledek = new ArrayList<>();
+                        for (int i1 = 0; i1 != zkusenosti / course; i1++) {
+                            vysledek.add(String.valueOf(i1));
+                        }
+                        w.windowItems(new method.onmet() {
+                            @Override
+                            public void methoda(String[] string) {
 
+                            }
+                        }, Krmic.poleConverter(Krmic.polepull(vysledek)));
+                        // TODO: 22.08.2020 add other tradable
+
+
+                    }
+                }
+            }
+        }, Krmic.poleConverter((Object[]) Krmic.poleConverter(Krmic.polepull(names))));
     }
     HashMap<Smlouva, Boolean> smlouvyHistorie = new HashMap<Smlouva, Boolean>();
 

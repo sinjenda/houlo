@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
-@SuppressWarnings("unused")
 public class Krmic implements Serializable {
     private int hp;
     private int energy;

@@ -14,7 +14,7 @@ import com.sin.lifesim.R;
 
 import java.util.ArrayList;
 
-@SuppressWarnings({"unused", "AccessStaticViaInstance"})
+@SuppressWarnings({"AccessStaticViaInstance"})
 public class display_smlouva_activity extends AppCompatActivity {
     public static final String SMLOUVA = "";
     TextView podminky;
