@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -40,7 +41,7 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-@SuppressWarnings({"CanBeFinal", "EmptyMethod", "AccessStaticViaInstance", "ResultOfMethodCallIgnored"})
+@SuppressWarnings({"CanBeFinal", "EmptyMethod", "AccessStaticViaInstance", "ResultOfMethodCallIgnored", "ConstantConditions"})
 public class MainActivity extends AppCompatActivity {
     //view and string variables
     EditText input;
@@ -525,5 +526,15 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                w.getSmlouvyHistorie().put((Smlouva) data.getSerializableExtra("smlouva"), true);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

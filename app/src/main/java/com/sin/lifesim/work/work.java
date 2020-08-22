@@ -159,7 +159,7 @@ public class work {
         } else {
             Intent i = new Intent(m, display_smlouva_activity.class);
             i.putExtra(display_smlouva_activity.SMLOUVA, smlouvyForApply);
-            m.startActivity(i);
+            m.startActivityForResult(i, 0);
         }
     }
 
