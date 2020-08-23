@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +23,7 @@ public class display_smlouva_activity extends AppCompatActivity {
     TextView title;
     Intent i;
     final Krmic k = new Krmic();
-
+    Smlouva smlouvaToReturn;
     @Override
     @SuppressWarnings({"unchecked", "ConstantConditions"})
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,28 +43,40 @@ public class display_smlouva_activity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-            }
-        });
+
         builder.setItems(jmena, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
+                //potential problem
                 selectedText[0] = smlouvy.get(item);
                 Smlouva ret = selectedText[0];
                 podminky.setText(String.valueOf(ret.getPodminky()));
                 request.setText(ret.getZkusenost());
                 title.setText(ret.getTitle());
+                smlouvaToReturn = ret;
             }
         });
-
+        builder.setCancelable(false);
         AlertDialog alertDialogObject = builder.create();
         alertDialogObject.show();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_smlouva);
 
 
+    }
+
+    public void clickDecline(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+    }
+
+    public void clickAccept(View view) {
+        finish();
+    }
+
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        intent.putExtra("smlouva", smlouvaToReturn);
+        setResult(0, intent);
+        super.finish();
     }
 }
