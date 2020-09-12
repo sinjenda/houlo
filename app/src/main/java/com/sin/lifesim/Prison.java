@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 @SuppressWarnings({"ConstantConditions", "AccessStaticViaInstance"})
 public class Prison {
+    public static String[] nams = {"marek", "honza", "noob", "luis", "peter", "rychard", "arnocht", "emil", "alex", "george", "john", "milan", "pavel", "roman"};
     private String used = "";
     private int chance = 0;
     private ArrayList<String> itemshave;
@@ -21,7 +22,6 @@ public class Prison {
     Window window;
 
     public void prison(int sentence1) {
-        String[] nams = {"marek", "honza", "noob", "luis", "peter", "rychard", "arnocht", "emil", "alex", "george", "john", "milan", "pavel", "roman"};
         prisonNames = krmic.polePut(nams);
         prisonNames = krmic.prisonersChoose(prisonNames);
         sentence = sentence1;

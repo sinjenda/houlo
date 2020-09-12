@@ -1,8 +1,9 @@
 package com.sin.lifesim;
 
 public interface entity {
-    String name = null;
 
+
+    String returnName();
 
     randomEvents createRandomEvents();
 
