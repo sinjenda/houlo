@@ -16,7 +16,7 @@ public class Smlouva implements Serializable {
     String title;
     final String podminky;
     int zkusenost;
-    final Podminka podminka;
+    Podminka podminka;
     private static Context ctx;
 
     public int getZkusenost() {
@@ -44,8 +44,10 @@ public class Smlouva implements Serializable {
     }
 
     public Smlouva(@NotNull String title, int zkusenost) {
+        this.title = title;
+        this.zkusenost = zkusenost;
         podminka = new Podminka();
-        podminky = podminka.generate(ThreadLocalRandom.current().nextInt(1, 2), ThreadLocalRandom.current().nextInt(1, 2), ThreadLocalRandom.current().nextInt(1, 2));
+        podminky = podminka.generate(ThreadLocalRandom.current().nextInt(1, Podminka.podminkyLow.length), ThreadLocalRandom.current().nextInt(1, Podminka.podminkyMedium.length), ThreadLocalRandom.current().nextInt(1, Podminka.podminkyHard.length));
     }
 
     public boolean test(Smlouva smlouva) {

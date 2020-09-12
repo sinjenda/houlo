@@ -20,7 +20,6 @@ public class Structure {
     }
 
     private void test() {
-        // TODO: set type to other
         if (first == null) {
             type = "no transform";
         } else {

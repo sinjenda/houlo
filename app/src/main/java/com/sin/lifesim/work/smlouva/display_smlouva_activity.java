@@ -15,7 +15,6 @@ import com.sin.lifesim.R;
 
 import java.util.ArrayList;
 
-@SuppressWarnings({"AccessStaticViaInstance"})
 public class display_smlouva_activity extends AppCompatActivity {
     public static final String SMLOUVA = "";
     TextView podminky;
@@ -24,6 +23,7 @@ public class display_smlouva_activity extends AppCompatActivity {
     Intent i;
     final Krmic k = new Krmic();
     Smlouva smlouvaToReturn;
+
     @Override
     @SuppressWarnings({"unchecked", "ConstantConditions"})
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,10 @@ public class display_smlouva_activity extends AppCompatActivity {
         final ArrayList<Smlouva> smlouvy;
         smlouvy = (ArrayList<Smlouva>) i.getSerializableExtra(SMLOUVA);
         final Smlouva[] selectedText = new Smlouva[1];
-        final String[] jmena = k.poleConverter(k.polepull(smlouvy));
+        final ArrayList<String> jmena = new ArrayList<>();
+        for (Smlouva smlouva : smlouvy) {
+            jmena.add(smlouva.getTitle());
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("choose contract");
         builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -44,7 +47,7 @@ public class display_smlouva_activity extends AppCompatActivity {
             }
         });
 
-        builder.setItems(jmena, new DialogInterface.OnClickListener() {
+        builder.setItems(Krmic.poleConverter(Krmic.polepull(jmena)), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
                 //potential problem
                 selectedText[0] = smlouvy.get(item);

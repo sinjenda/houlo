@@ -32,6 +32,7 @@
     <string name="button2">decline</string>
     <string name="note12">exit showing contracts</string>
     <string name="pick">you find a gun. pick it up?</string>
+    <string name="initializationerror">initialization was not completed because you don\'t give a permission to us to complete initialization click button without input thanks</string>
 
 
 </resources>

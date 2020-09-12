@@ -27,4 +27,5 @@
     <string name="button2">odmítnout</string>
     <string name="note12">ukončit zobrazení</string>
     <string name="pick">našli jste pistol. chcete ji sebrat?</string>
+    <string name="initializationerror">initailizace nebyla dokončena protože nemáme oprávnění k souborům pro dokončení initializace klikněte na tlačítko bez vstupu</string>
 </resources>

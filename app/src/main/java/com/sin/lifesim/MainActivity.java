@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -41,7 +40,7 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-@SuppressWarnings({"CanBeFinal", "EmptyMethod", "AccessStaticViaInstance", "ResultOfMethodCallIgnored", "ConstantConditions"})
+@SuppressWarnings({"CanBeFinal", "EmptyMethod", "AccessStaticViaInstance", "ResultOfMethodCallIgnored", "ConstantConditions", "unchecked"})
 public class MainActivity extends AppCompatActivity {
     //view and string variables
     EditText input;
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     String dat3 = "";
     String place = "default";
     String[] itsella = {"fries", "screwdriver", "gun", "knife", "baton", "pancakes", "house"};
-    String SchoolName;
+    public String SchoolName;
     TextView out;
     String randomBlocker = "";
     //int variables
@@ -73,11 +72,12 @@ public class MainActivity extends AppCompatActivity {
     public SharedPreferences.Editor editor;
     public static final int STORAGE_REQUEST_CODE = 101;
     public static final String PATH = "storage/emulated/0/school";
+    public static final String PATH_SCHOOLS = "storage/emulated/0/schools";
     public School school;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        requestPerm(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_REQUEST_CODE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         krmn = new Krmic();
@@ -95,8 +95,16 @@ public class MainActivity extends AppCompatActivity {
         w.setZamestnani("garbage");
         window = new Window(this);
         r = new randomEvents(this);
-        click(new View(getApplication()));
-        SQLiteDatabase db;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            try {
+                click(new View(getApplication()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            window.informationDialog(getString(R.string.initializationerror));
+        }
+
     }
 
     public void windowkill() {
@@ -188,21 +196,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void SaveSchools() {
+        try {
+            schools = (ArrayList<String>) Krmic.objectSaveHandler(new stream() {
+                @Override
+                public FileInputStream input() {
+                    return null;
+                }
+
+                @Override
+                public FileOutputStream output() throws IOException {
+                    return new FileOutputStream(new File(PATH_SCHOOLS));
+                }
+            }, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @SuppressWarnings({"ConstantConditions", "unchecked"})
     @SuppressLint({"ApplySharedPref", "SetTextI18n"})
-    public void click(View view) {
+    public void click(View view) throws IOException {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            throw new IllegalAccessError("don't click button without permission");
+        }
         input = findViewById(R.id.in);
         dat2 = input.getText().toString();
         if (dat2.equals("shskills")) {
             shskills();
         }
-        requestPerm(Manifest.permission.WRITE_EXTERNAL_STORAGE, STORAGE_REQUEST_CODE);
+
+
         out = findViewById(R.id.output);
 
         button = findViewById(R.id.butt);
         SharedPreferences data = getPreferences(MODE_PRIVATE);
         editor = data.edit();
-        String s = input.getText().toString();
+
 
         if (!data.getString("started", "ne").equals("ano")) {
             money = 100;
@@ -213,8 +243,10 @@ public class MainActivity extends AppCompatActivity {
             editor.putInt("luck", basicskills.get("luck"));
             editor.putInt("money", money);
             editor.putString("place", place);
-            editor.putInt("worked", w.worked);
             w.first();
+            editor.putInt("worked", w.worked);
+            editor.putString("workplace", w.getZamestnani());
+
             Intent i = getIntent();
 
             final File file = new File("storage/emulated/0/smlouvy");
@@ -223,6 +255,10 @@ public class MainActivity extends AppCompatActivity {
                 file1.createNewFile();
                 File file2 = new File(work.PATH);
                 file2.createNewFile();
+                File file3 = new File(w.applyPath);
+                file3.createNewFile();
+                File file4 = new File(PATH_SCHOOLS);
+                file4.createNewFile();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -256,6 +292,7 @@ public class MainActivity extends AppCompatActivity {
             Calendar calendar = Calendar.getInstance();
             DateFormat format = new SimpleDateFormat("DD");
             w.worked = data.getInt("worked", -1);
+            SaveSchools();
             w.normal();
             loadSchool();
             if (data.getInt("time", -1) != Integer.parseInt(format.format(calendar.getTime()))) {
@@ -291,8 +328,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (place.equals("default")) {
-            w.generateSmlouvaForApply();
-            switch (s) {
+            ArrayList<Smlouva> smlouva = w.getSmlouvyForApply();
+            Smlouva smlouva1 = w.generateSmlouvaForApply();
+            if (smlouva1 != null) {
+                smlouva.add(smlouva1);
+            }
+            w.setSmlouvyForApply(smlouva);
+            switch (input.getText().toString()) {
                 case "work":
                     final String[] jmena = {"1", "2", "3", "4", "showContracts"};
                     window.windowItems(new method.onmet() {
@@ -314,10 +356,18 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case ("apply"):
                     w.apply();
+                    break;
                 case ("school"):
                     if (school == null) {
+
                         SchoolName = School.generate(this);
-                        window.informationDialog("you are now in low school");
+                        switch (SchoolName) {
+                            case "komens":
+                                window.informationDialog("you are now in low school");
+                            case "prague":
+                                window.informationDialog("you are now in medium school");
+                        }
+
                     } else {
                         switch (SchoolName) {
                             case ("komens"):
@@ -326,10 +376,12 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case ("prague"):
                                 PragueGymnasiumSchool school = (PragueGymnasiumSchool) this.school;
+                                break;
                             default:
                                 throw new UnsupportedOperationException("this school does not exist");
                         }
                     }
+                    break;
                 case ("home"):
                     if (itemshave.contains("house")) {
                         place = "house";
@@ -360,15 +412,16 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case ("zkusenost trade"):
                     w.trade();
-
+                    break;
                 case ("shitems"):
                     Intent i = new Intent(this, showArray_activity.class);
                     i.putExtra(showArray_activity.DATA, krmn.poleConverter(krmn.polepull(itemshave)));
                     startActivity(i);
+                    break;
                 case ("reset"):
                     editor.clear();
                     editor.commit();
-
+                    break;
 
             }
 
