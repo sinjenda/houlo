@@ -84,7 +84,7 @@ public abstract class School implements Serializable {
             }
         }, new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"});
     }
-    protected static class subjects {
+    public static class subjects {
         public static final int math = 1;
 
         public static class languages extends subjects {
@@ -98,7 +98,8 @@ public abstract class School implements Serializable {
         public static final int physics = 7;
         public static final int nature = 8;
         public static final int history = 9;
-
+        public static final int max = 9;
     }
+
 
 }
