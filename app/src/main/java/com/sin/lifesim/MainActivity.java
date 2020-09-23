@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.sin.lifesim.entity.DataClass;
+import com.sin.lifesim.entity.EntityRender;
 import com.sin.lifesim.school.School;
 import com.sin.lifesim.school.schools.KomensSchool;
 import com.sin.lifesim.school.schools.PragueGymnasiumSchool;
@@ -65,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
 
     //other
     Krmic krmn;
+    EntityRender render;
+    DataClass effectRenderData;
     Prison alcatraz;
     randomEvents r;
     work w;
@@ -81,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         krmn = new Krmic();
+        render = new EntityRender();
+        effectRenderData = new DataClass();
         basicskills.put("strength", 1);
         basicskills.put("agility", 1);
         basicskills.put("luck", 1);
@@ -217,6 +223,9 @@ public class MainActivity extends AppCompatActivity {
     @SuppressWarnings({"ConstantConditions", "unchecked"})
     @SuppressLint({"ApplySharedPref", "SetTextI18n"})
     public void click(View view) throws IOException {
+        if (render.render.getActive()) {
+            render.
+        }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             throw new IllegalAccessError("don't click button without permission");
         }
