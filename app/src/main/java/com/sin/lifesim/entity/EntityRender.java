@@ -1,14 +1,23 @@
 package com.sin.lifesim.entity;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 
-@SuppressWarnings("rawtypes")
 public class EntityRender {
-    public EntityRender(@Nullable ArrayList data, entity entity) {
-        if (data != null) {
+    ArrayList<Entity> renderedEntities;
 
-        }
+    public EntityRender() {
+        renderedEntities = new ArrayList<>();
+    }
+
+    public boolean renderedTest(Entity entity) {
+        return renderedEntities.contains(entity);
+    }
+
+    public void renderEntity(Entity entity) {
+        renderedEntities.add(entity);
+    }
+
+    public Effect renderEffect(Effect effect) {
+
     }
 }

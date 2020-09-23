@@ -147,7 +147,7 @@ public class Krmic implements Serializable {
         return ret;
     }
 
-    public ArrayList<Integer> polePut(int[] pole) {
+    public static ArrayList<Integer> polePut(int[] pole) {
         ArrayList<Integer> nams = new ArrayList<Integer>();
         for (int s : pole) {
             nams.add(s);

@@ -2,13 +2,14 @@ package com.sin.lifesim.entity;
 
 import android.util.Log;
 
+import androidx.annotation.IntRange;
+
 import com.sin.lifesim.Krmic;
 import com.sin.lifesim.MainActivity;
 import com.sin.lifesim.randomEvents;
 import com.sin.lifesim.school.School;
 import com.sin.lifesim.school.schools.classError;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -16,9 +17,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import static android.content.ContentValues.TAG;
 
-public class ClassMate extends entity {
+public class ClassMate extends Entity {
     randomEvents events;
     public int[] goodSubjects;
+    public int[] badSubjects;
+    @IntRange(from = 0, to = 100)
+    public int agresivity;
+
 
     @Override
     public randomEvents createRandomEvents(MainActivity ctx) {
@@ -26,11 +31,27 @@ public class ClassMate extends entity {
         return events;
     }
 
-    private void createSubjects(@Nullable int[] subjects) throws classError {
-        if (subjects != null) {
-            goodSubjects = subjects;
+    private void createSubjects(@Nullable int[] goodSubjects, @Nullable int[] badSubjects) throws classError {
+        if (goodSubjects != null) {
+            this.goodSubjects = goodSubjects;
         } else
-            goodSubjects = createSubjects(ThreadLocalRandom.current().nextInt(0, School.subjects.max));
+            this.goodSubjects = createSubjects(ThreadLocalRandom.current().nextInt(0, School.subjects.max));
+        if (badSubjects != null) {
+            this.badSubjects = badSubjects;
+        } else {
+
+            boolean test;
+            do {
+                test = false;
+                this.goodSubjects = createSubjects(ThreadLocalRandom.current().nextInt(0, School.subjects.max));
+                for (int i1 : this.goodSubjects) {
+                    if (Krmic.polePut(this.badSubjects).contains(i1))
+                        test = true;
+                }
+            } while (test);
+
+
+        }
     }
 
     private int[] createSubjects(int count) throws classError {
@@ -50,13 +71,32 @@ public class ClassMate extends entity {
         return Krmic.poleConverter(Krmic.poleConverter(Krmic.polepull(ints)));
     }
 
-    ClassMate() {
-        setName();
+    ClassMate() throws classError {
+        setName(null);
+        createSubjects(null, null);
     }
 
-    ClassMate(@NotNull int[] subjects) throws classError {
-        setName();
-        createSubjects(subjects);
+    private ClassMate(String name, int agresivity) {
+        this(agresivity);
+        setName(name);
     }
+
+    ClassMate(@Nullable int[] goodSubjects, @Nullable String name, @Nullable int[] badSubjects, int agresivity, int inteligence) throws classError {
+        this(name, agresivity);
+        effects = new ArrayList<>();
+        setInteligence(inteligence);
+        createSubjects(goodSubjects, badSubjects);
+    }
+
+    private ClassMate(String name) {
+        setName(name);
+    }
+
+    ClassMate(int agresivity) {
+        if (agresivity >= 0) {
+            this.agresivity = agresivity;
+        }
+    }
+
 
 }
