@@ -17,6 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import static android.content.ContentValues.TAG;
 
+// TODO: 24.09.2020 add random events
 public class ClassMate extends Entity {
     randomEvents events;
     public int[] goodSubjects;
@@ -72,30 +73,26 @@ public class ClassMate extends Entity {
     }
 
     ClassMate() throws classError {
+        super(null, 0);
         setName(null);
         createSubjects(null, null);
+        setInteligence(-1);
     }
 
-    private ClassMate(String name, int agresivity) {
-        this(agresivity);
-        setName(name);
-    }
 
     ClassMate(@Nullable int[] goodSubjects, @Nullable String name, @Nullable int[] badSubjects, int agresivity, int inteligence) throws classError {
-        this(name, agresivity);
-        effects = new ArrayList<>();
-        setInteligence(inteligence);
+        this(agresivity, name, inteligence);
         createSubjects(goodSubjects, badSubjects);
+
     }
 
-    private ClassMate(String name) {
-        setName(name);
-    }
 
-    ClassMate(int agresivity) {
+    private ClassMate(int agresivity, String name, int inteligence) {
+        super(name, inteligence);
         if (agresivity >= 0) {
             this.agresivity = agresivity;
         }
+
     }
 
 

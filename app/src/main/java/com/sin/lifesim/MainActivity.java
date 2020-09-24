@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat;
 
 import com.sin.lifesim.entity.DataClass;
 import com.sin.lifesim.entity.EntityRender;
+import com.sin.lifesim.entity.Me;
 import com.sin.lifesim.school.School;
 import com.sin.lifesim.school.schools.KomensSchool;
 import com.sin.lifesim.school.schools.PragueGymnasiumSchool;
@@ -50,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
     String dat2;
     String dat3 = "";
     String place = "default";
-    String[] itsella = {"fries", "screwdriver", "gun", "knife", "baton", "pancakes", "house"};
+    // TODO: 24.09.2020 replace this with class item
+    String[] itsella = {"fries", "screwdriver", "gun", "knife", "baton", "pancakes", "house", "milk"};
     public String SchoolName;
     TextView out;
     String randomBlocker = "";
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String PATH = "storage/emulated/0/school";
     public static final String PATH_SCHOOLS = "storage/emulated/0/schools";
     public School school;
+    public Me me;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,13 +88,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         krmn = new Krmic();
+        me = new Me();
         render = new EntityRender();
+        render.renderEntity(me);
         effectRenderData = new DataClass();
         basicskills.put("strength", 1);
         basicskills.put("agility", 1);
         basicskills.put("luck", 1);
         getResources().getString(R.string.baton);
-        int[] itsellb = {10, 20, 100, 60, 30, 20, 200};
+        // TODO: 24.09.2020 delete this
+        int[] itsellb = {10, 20, 100, 60, 30, 20, 200, 50};
         ArrayList<String> ita;
         ArrayList<Integer> itB;
         ita = krmn.polePut(itsella);

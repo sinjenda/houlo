@@ -2,6 +2,7 @@ package com.sin.lifesim.entity;
 
 import androidx.annotation.IntRange;
 
+import com.sin.lifesim.Item;
 import com.sin.lifesim.MainActivity;
 import com.sin.lifesim.Prison;
 import com.sin.lifesim.randomEvents;
@@ -14,6 +15,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public abstract class Entity {
     protected String name;
     ArrayList<Effect> effects;
+    ArrayList<Item> items;
     @IntRange(from = 0, to = 100)
     public int inteligence;
 
@@ -33,5 +35,10 @@ public abstract class Entity {
 
     protected abstract randomEvents createRandomEvents(MainActivity ctx);
 
-
+    public Entity(String name, int inteligence) {
+        this.name = name;
+        this.inteligence = inteligence;
+        effects = new ArrayList<>();
+        items = new ArrayList<>();
+    }
 }

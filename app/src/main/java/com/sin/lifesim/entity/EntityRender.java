@@ -1,5 +1,7 @@
 package com.sin.lifesim.entity;
 
+import android.util.Log;
+
 import androidx.annotation.IntRange;
 
 import java.util.ArrayList;
@@ -67,6 +69,7 @@ public class EntityRender {
                     for (int i = 0; i != entity.effects.size() - 1; i++) {
                         Effect effect = entity.effects.get(i);
                         effect.effect.methodaB();
+                        Log.i("effect render/run", "applied effect" + effect.name);
                     }
 
                 }

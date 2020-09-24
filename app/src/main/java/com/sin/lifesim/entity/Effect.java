@@ -12,7 +12,7 @@ public class Effect {
     int countRendered;
     method.onmet.withoutParam effect;
 
-    Effect(method.onmet.withoutParam effect, String name) {
+    public Effect(method.onmet.withoutParam effect, String name) {
         this.effect = effect;
         this.name = name;
     }
