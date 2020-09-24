@@ -22,10 +22,32 @@ public class EntityRender {
 
     public Effect renderEffect(Effect effect, Entity toEntity, @IntRange(from = 1, to = 5) int length, DataClass clicked) {
         effect.countRendered = length;
+        if (!renderedEntities.contains(toEntity))
+            throw new EntityError("");
         effect.rendered = true;
         render = new effectRender(effect, toEntity, clicked);
         return effect;
     }
+
+    @SuppressWarnings("InnerClassMayBeStatic")
+    public class EntityError extends RuntimeException {
+        public EntityError() {
+            super();
+        }
+
+        public EntityError(String msg) {
+            super(msg);
+        }
+
+        public EntityError(Throwable cause) {
+            super(cause);
+        }
+
+        public EntityError(String msg, Throwable cause) {
+            super(msg, cause);
+        }
+    }
+
 
     @SuppressWarnings("InnerClassMayBeStatic")
     public class effectRender extends Thread {
@@ -36,7 +58,24 @@ public class EntityRender {
 
         @Override
         public void run() {
+            int last = 0;
+            int krat = 1;
+            while (count != 0) {
+                if (data.clicked) {
+                    data.clicked = false;
+                    count--;
+                    for (int i = 0; i != entity.effects.size() - 1; i++) {
+                        Effect effect = entity.effects.get(i);
+                        effect.effect.methodaB();
+                    }
 
+                }
+                last++;
+                if (last > 1000) {
+                    System.out.println(last * krat);
+                    krat++;
+                }
+            }
         }
 
         effectRender(Effect effect, Entity entity, DataClass data) {

@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint({"ApplySharedPref", "SetTextI18n"})
     public void click(View view) throws IOException {
         if (render.render.getActive()) {
-            render.
+            effectRenderData.clicked = true;
         }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             throw new IllegalAccessError("don't click button without permission");
