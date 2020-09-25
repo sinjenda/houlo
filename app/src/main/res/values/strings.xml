@@ -19,7 +19,7 @@
     <string name="note6">you survived solitary</string>
     <string name="note7">you death in solitary</string>
     <string name="note8">it\'s morning</string>
-    <string name="note9">choose weapon</string>
+    <string name="note9">choose itemWeapon</string>
     <string name="note10">it\'s evening</string>
     <string name="title_activity_skil_show_activity" translatable="false">skil_show_activity</string>
     <string name="tab_text_1" translatable="false">Tab 1</string>

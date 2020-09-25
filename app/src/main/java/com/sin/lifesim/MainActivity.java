@@ -19,6 +19,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.sin.lifesim.entity.DataClass;
+import com.sin.lifesim.entity.Effect;
+import com.sin.lifesim.entity.Entity;
 import com.sin.lifesim.entity.EntityRender;
 import com.sin.lifesim.entity.Me;
 import com.sin.lifesim.school.School;
@@ -37,6 +39,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Set;
@@ -52,7 +55,18 @@ public class MainActivity extends AppCompatActivity {
     String dat3 = "";
     String place = "default";
     // TODO: 24.09.2020 replace this with class item
-    String[] itsella = {"fries", "screwdriver", "gun", "knife", "baton", "pancakes", "house", "milk"};
+    Effect bleeding = new Effect(new method() {
+        @Override
+        public void effect(Entity entity) {
+            entity.hp = entity.hp - 10;
+        }
+    }, "bleeding");
+    Item[] itsellPrepare = {new ItemExtended("fries", 10, null, 15), new ItemTool("screwdriver", 20), new ItemWeapon(100, bleeding, 20, "gun", 100), new ItemWeapon(150, bleeding, 30, "knife", 60), new ItemWeapon(50, null, 50, "baton", 30), new ItemExtended("pancakes", 20, null, 50), new Item("house", false, 200), new ItemExtended("milk", 50, new Effect(new method() {
+        @Override
+        public void effect(Entity entity) {
+            entity.effects.clear();
+        }
+    }, "clear"), 0)};
     public String SchoolName;
     TextView out;
     String randomBlocker = "";
@@ -60,13 +74,12 @@ public class MainActivity extends AppCompatActivity {
     public int money = 100;
     int energy;
     //array lists and HashMaps
-    HashMap<String, Integer> itemssell = new HashMap<String, Integer>();
     HashMap<String, Integer> basicskills = new HashMap<String, Integer>();
     ArrayList<String> skills = new ArrayList<String>();
-    public ArrayList<String> itemshave = new ArrayList<String>();
+    public ArrayList<Item> itemshave = new ArrayList<>();
     public ArrayList<String> schools = new ArrayList<>();
     ArrayList<String> nms = new ArrayList<String>();
-
+    ArrayList<Item> itemssell = new ArrayList<>();
     //other
     Krmic krmn;
     EntityRender render;
@@ -92,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         render = new EntityRender();
         render.renderEntity(me);
         effectRenderData = new DataClass();
+        itemssell.addAll(Arrays.asList(itsellPrepare));
         basicskills.put("strength", 1);
         basicskills.put("agility", 1);
         basicskills.put("luck", 1);
@@ -100,9 +114,6 @@ public class MainActivity extends AppCompatActivity {
         int[] itsellb = {10, 20, 100, 60, 30, 20, 200, 50};
         ArrayList<String> ita;
         ArrayList<Integer> itB;
-        ita = krmn.polePut(itsella);
-        itB = krmn.polePut(itsellb);
-        itemssell = krmn.nakrmDataHash(ita, itB);
         w = new work(this, getApplication());
         w.setZamestnani("garbage");
         window = new Window(this);
@@ -157,11 +168,14 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    @SuppressWarnings("ConstantConditions")
     public void buy(final SharedPreferences.Editor editor) {
         onDestroy();
         final String[] selectedText = new String[1];
-        final String[] jmena = itsella;
+        final String[] jmena;
+        ArrayList<String> items = new ArrayList<>();
+        for (Item item : itemssell)
+            items.add(item.name);
+        jmena = Krmic.poleConverter(Krmic.polepull(items));
         final String[] ret = new String[1];
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("what you want to buy?");
@@ -171,14 +185,10 @@ public class MainActivity extends AppCompatActivity {
                 selectedText[0] = jmena[itemr];
                 ret[0] = selectedText[0];
                 String item = ret[0];
-                int cena = itemssell.get(item);
+                int cena = itemssell.get(itemr).price;
                 if (money > cena) {
                     money = money - cena;
-                    try {
-                        itemshave.add(item);
-                    } catch (RuntimeException err) {
-                        out.setText(R.string.err3);
-                    }
+
                     editor.putInt("money", money);
                     out.setText("úspěšně jste si koupil/a" + item + "za" + cena);
                 } else {
@@ -398,8 +408,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 case ("home"):
-                    if (itemshave.contains("house")) {
-                        place = "house";
+                    boolean test;
+                    for (Item item : itemshave) {
+                        if (item.name.equals("house")) {
+                            place = "house";
+                            break;
+                        }
                     }
                     break;
                 case ("off"):
@@ -428,6 +442,22 @@ public class MainActivity extends AppCompatActivity {
                 case ("zkusenost trade"):
                     w.trade();
                     break;
+                case ("consume"):
+                    ArrayList<String> itemsPrepare = new ArrayList<>();
+                    for (Item item : itemshave)
+                        itemsPrepare.add(item.name);
+                    window.windowItems(new method.onmet() {
+                        @Override
+                        public void methoda(String[] string) {
+                            for (Item item : itemshave) {
+                                if (item.name.equals(string[0])) {
+                                    ItemExtended item1 = (ItemExtended) item;
+                                    // TODO: 25.09.2020 add length to effect 
+                                    item1.OnConsumeEffect(render, me, );
+                                }
+                            }
+                        }
+                    }, Krmic.poleConverter(Krmic.polepull(itemsPrepare)));
                 case ("shitems"):
                     Intent i = new Intent(this, showArray_activity.class);
                     i.putExtra(showArray_activity.DATA, krmn.poleConverter(krmn.polepull(itemshave)));

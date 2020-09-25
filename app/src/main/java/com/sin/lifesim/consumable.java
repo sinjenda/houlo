@@ -7,5 +7,5 @@ import com.sin.lifesim.entity.EntityRender;
 public interface consumable {
     void OnConsumeEffect(EntityRender render, Entity toEntity, int length, DataClass data);
 
-    void weaponEffect(Weapon weapon);
+
 }

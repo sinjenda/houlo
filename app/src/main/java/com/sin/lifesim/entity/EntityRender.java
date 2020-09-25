@@ -68,7 +68,8 @@ public class EntityRender {
                     count--;
                     for (int i = 0; i != entity.effects.size() - 1; i++) {
                         Effect effect = entity.effects.get(i);
-                        effect.effect.methodaB();
+                        // TODO: 25.09.2020 repair effect with ItemWeapon class 
+                        effect.effect.effect();
                         Log.i("effect render/run", "applied effect" + effect.name);
                     }
 

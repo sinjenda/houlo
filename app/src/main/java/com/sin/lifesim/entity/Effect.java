@@ -8,11 +8,12 @@ public class Effect {
     boolean rendered = false;
     boolean closed = false;
     String name;
+    int length;
     @IntRange(from = 1, to = 5)
     int countRendered;
-    method.onmet.withoutParam effect;
+    method effect;
 
-    public Effect(method.onmet.withoutParam effect, String name) {
+    public Effect(method effect, String name) {
         this.effect = effect;
         this.name = name;
     }

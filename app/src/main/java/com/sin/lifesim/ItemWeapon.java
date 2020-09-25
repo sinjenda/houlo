@@ -6,7 +6,7 @@ import com.sin.lifesim.entity.Effect;
 
 import org.jetbrains.annotations.Nullable;
 
-public class Weapon {
+public class ItemWeapon extends Item {
     public int damage;
     @Nullable
     public Effect effect;
@@ -15,9 +15,11 @@ public class Weapon {
     @IntRange(from = 0, to = 2000)
     public int durability;
 
-    public Weapon(int damage, @Nullable Effect effect, int durability) {
+    public ItemWeapon(int damage, @Nullable Effect effect, @IntRange(from = 0, to = 2000) int durability, String name, int price) {
+        super(name, false, price);
         this.damage = damage;
         this.effect = effect;
         this.durability = durability;
+
     }
 }

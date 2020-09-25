@@ -1,5 +1,7 @@
 package com.sin.lifesim;
 
+import com.sin.lifesim.entity.Entity;
+
 public interface method {
     interface onmet {
         void methoda(String[] string);
@@ -9,6 +11,8 @@ public interface method {
         }
 
     }
+
+    void effect(Entity entity);
 
 
 }

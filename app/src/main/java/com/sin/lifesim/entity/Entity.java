@@ -14,8 +14,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Entity {
     protected String name;
-    ArrayList<Effect> effects;
-    ArrayList<Item> items;
+    public ArrayList<Effect> effects;
+    public ArrayList<Item> items;
+    @IntRange(from = 0, to = 100)
+    public int hp = 100;
     @IntRange(from = 0, to = 100)
     public int inteligence;
 
