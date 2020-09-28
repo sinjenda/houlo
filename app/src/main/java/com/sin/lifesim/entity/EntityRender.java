@@ -4,6 +4,8 @@ import android.util.Log;
 
 import androidx.annotation.IntRange;
 
+import com.sin.lifesim.Item;
+
 import java.util.ArrayList;
 
 public class EntityRender {
@@ -14,21 +16,34 @@ public class EntityRender {
         renderedEntities = new ArrayList<>();
     }
 
-    public boolean renderedTest(Entity entity) {
+    public void renderedTest(Entity entity) {
+        if (!renderedEntities.contains(entity)) {
+            throw new EntityError("not rendered");
+        }
+    }
+
+    public boolean renderedTestRenderedNotRequired(Entity entity) {
         return renderedEntities.contains(entity);
     }
 
     public void renderEntity(Entity entity) {
+        if (renderedEntities.contains(entity))
+            throw new EntityError("already rendered");
         renderedEntities.add(entity);
     }
 
-    public Effect renderEffect(Effect effect, Entity toEntity, @IntRange(from = 1, to = 5) int length, DataClass clicked) {
+    public void renderEffect(Effect effect, Entity toEntity, @IntRange(from = 1, to = 5) int length, DataClass clicked) {
+        renderedTest(toEntity);
         effect.countRendered = length;
         if (!renderedEntities.contains(toEntity))
             throw new EntityError("");
         effect.rendered = true;
         render = new effectRender(effect, toEntity, clicked);
-        return effect;
+    }
+
+    public void renderItem(Item item, Entity entity) {
+        renderedTest(entity);
+        entity.items.add(item);
     }
 
     @SuppressWarnings("InnerClassMayBeStatic")
@@ -69,7 +84,7 @@ public class EntityRender {
                     for (int i = 0; i != entity.effects.size() - 1; i++) {
                         Effect effect = entity.effects.get(i);
                         // TODO: 25.09.2020 repair effect with ItemWeapon class 
-                        effect.effect.effect();
+                        effect.effect.effect(entity);
                         Log.i("effect render/run", "applied effect" + effect.name);
                     }
 
@@ -83,6 +98,7 @@ public class EntityRender {
         }
 
         effectRender(Effect effect, Entity entity, DataClass data) {
+            renderedTest(entity);
             count = effect.countRendered;
             this.data = data;
             this.entity = entity;

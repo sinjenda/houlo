@@ -1,6 +1,8 @@
 package com.sin.lifesim;
 
 
+import android.util.Log;
+
 import androidx.annotation.IntRange;
 
 import com.sin.lifesim.entity.DataClass;
@@ -9,6 +11,8 @@ import com.sin.lifesim.entity.Entity;
 import com.sin.lifesim.entity.EntityRender;
 
 import org.jetbrains.annotations.Nullable;
+
+import static android.content.ContentValues.TAG;
 
 public class ItemExtended extends Item implements consumable {
     Effect effect;
@@ -22,11 +26,13 @@ public class ItemExtended extends Item implements consumable {
             this.energy = energy;
     }
 
-    // TODO: 24.09.2020 repair this to return new entity 
+
     @Override
-    public void OnConsumeEffect(EntityRender render, Entity toEntity, int length, DataClass data) {
+    public void OnConsumeEffect(EntityRender render, Entity toEntity, DataClass data) {
         if (effect != null)
-            render.renderEffect(effect, toEntity, length, data);
+            render.renderEffect(effect, toEntity, effect.countRendered, data);
+        else Log.i(TAG, "OnConsumeEffect: effect=null; doing nothing");
+
     }
 
 

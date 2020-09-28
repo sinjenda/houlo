@@ -76,10 +76,11 @@ public class MainActivity extends AppCompatActivity {
     //array lists and HashMaps
     HashMap<String, Integer> basicskills = new HashMap<String, Integer>();
     ArrayList<String> skills = new ArrayList<String>();
+    // TODO: 28.09.2020 render this items to entity me
     public ArrayList<Item> itemshave = new ArrayList<>();
     public ArrayList<String> schools = new ArrayList<>();
     ArrayList<String> nms = new ArrayList<String>();
-    ArrayList<Item> itemssell = new ArrayList<>();
+    public ArrayList<Item> itemssell = new ArrayList<>();
     //other
     Krmic krmn;
     EntityRender render;
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         krmn = new Krmic();
-        me = new Me();
+        me = new Me("me", ThreadLocalRandom.current().nextInt(0, 100));
         render = new EntityRender();
         render.renderEntity(me);
         effectRenderData = new DataClass();
@@ -131,7 +132,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void windowkill() {
-        final String[] jmena = krmn.poleConverter(krmn.polepull(itemshave));
+        ArrayList<String> prepare = new ArrayList<>();
+        for (Item item : me.items) {
+            prepare.add(item.name);
+        }
+        // TODO: 28.09.2020 make Prison use item
+        final String[] jmena = krmn.poleConverter(krmn.polepull(prepare));
         window.windowItems(new method.onmet() {
             @Override
             public void methoda(String[] string) {
@@ -188,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
                 int cena = itemssell.get(itemr).price;
                 if (money > cena) {
                     money = money - cena;
-
+                    render.renderItem(itemssell.get(itemr), me);
                     editor.putInt("money", money);
                     out.setText("úspěšně jste si koupil/a" + item + "za" + cena);
                 } else {
@@ -409,7 +415,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case ("home"):
                     boolean test;
-                    for (Item item : itemshave) {
+                    for (Item item : me.items) {
                         if (item.name.equals("house")) {
                             place = "house";
                             break;
@@ -444,22 +450,27 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case ("consume"):
                     ArrayList<String> itemsPrepare = new ArrayList<>();
-                    for (Item item : itemshave)
+                    for (Item item : me.items)
                         itemsPrepare.add(item.name);
                     window.windowItems(new method.onmet() {
                         @Override
                         public void methoda(String[] string) {
-                            for (Item item : itemshave) {
+                            for (Item item : me.items) {
                                 if (item.name.equals(string[0])) {
                                     ItemExtended item1 = (ItemExtended) item;
-                                    // TODO: 25.09.2020 add length to effect 
-                                    item1.OnConsumeEffect(render, me, );
+                                    item1.OnConsumeEffect(render, me, effectRenderData);
+
+                                    break;
                                 }
                             }
                         }
                     }, Krmic.poleConverter(Krmic.polepull(itemsPrepare)));
                 case ("shitems"):
                     Intent i = new Intent(this, showArray_activity.class);
+                    ArrayList<String> itemshave = new ArrayList<>();
+                    for (Item item : me.items) {
+                        itemshave.add(item.name);
+                    }
                     i.putExtra(showArray_activity.DATA, krmn.poleConverter(krmn.polepull(itemshave)));
                     startActivity(i);
                     break;

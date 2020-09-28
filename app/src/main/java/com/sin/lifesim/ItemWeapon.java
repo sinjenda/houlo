@@ -15,7 +15,7 @@ public class ItemWeapon extends Item {
     @IntRange(from = 0, to = 2000)
     public int durability;
 
-    public ItemWeapon(int damage, @Nullable Effect effect, @IntRange(from = 0, to = 2000) int durability, String name, int price) {
+    public ItemWeapon(int damage, @Nullable Effect effect, @IntRange(from = 1, to = 2000) int durability, String name, int price) {
         super(name, false, price);
         this.damage = damage;
         this.effect = effect;

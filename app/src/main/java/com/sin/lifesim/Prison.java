@@ -13,7 +13,7 @@ public class Prison {
     public static String[] nams = {"marek", "honza", "noob", "luis", "peter", "rychard", "arnocht", "emil", "alex", "george", "john", "milan", "pavel", "roman"};
     private String used = "";
     private int chance = 0;
-    private ArrayList<String> itemshave;
+    private ArrayList<Item> itemshave;
     private final MainActivity m;
     ArrayList<String> prisonNames = new ArrayList<String>();
     HashMap<String, HashMap<String, Integer>> vezni = new HashMap<>();
@@ -31,7 +31,8 @@ public class Prison {
 
     public void solitary(int time) {
         m.out.setText(R.string.note6);
-        m.itemshave.clear();
+        // TODO: 28.09.2020 add remove item to entity render
+        m.me.items.clear();
         if (ThreadLocalRandom.current().nextInt(1, 24 + 1) > time) {
             m.out.setText(R.string.note7);
             m.dat3 = "death";
@@ -47,7 +48,7 @@ public class Prison {
 
     @SuppressWarnings("ConstantConditions")
     public void kill(String weapon) {
-        itemshave = m.itemshave;
+        itemshave = m.me.items;
 
 
         if (m.skills.contains("killer")) {

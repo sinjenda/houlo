@@ -1,5 +1,7 @@
 package com.sin.lifesim;
 
+import com.sin.lifesim.entity.Effect;
+import com.sin.lifesim.entity.Entity;
 import com.sin.lifesim.trade.Trade;
 import com.sin.lifesim.trade.Trader;
 
@@ -56,7 +58,7 @@ public class randomEvents {
                             }
                             String s1 = scnr.next();
                             w.informationDialog("he gives " + s1);
-                            m.itemshave.add(s1);
+                            m.me.items.add(s1);
                         } else {
                             w.informationDialog("he wants to trade with you");
                             new Trade(m).trade(new Trader(new Trade.items(Trade.items.NEUTRAL), null, null));
@@ -76,7 +78,7 @@ public class randomEvents {
             w.windowTwoButtons(new method.onmet.withoutParam() {
                 @Override
                 public void methodaB() {
-                    m.itemshave.add("gun");
+                    m.me.items.add(m.itsellPrepare[2]);
                 }
             }, null, m.getString(R.string.pick));
         }
@@ -103,7 +105,11 @@ public class randomEvents {
                     public void methoda(String[] string) {
                         if (string[0].equals("pickup bomb")) {
                             if (ThreadLocalRandom.current().nextInt(1, 8) > 4) {
-                                m.itemshave.add("bomb");
+                                m.me.items.add(new ItemWeapon(80, new Effect(new method() {
+                                    @Override
+                                    public void effect(Entity entity) {
+                                    }
+                                }, "blow"), 1, "bomb", 150));
                             } else {
                                 m.alcatraz.solitary(10);
                             }

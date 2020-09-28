@@ -1,5 +1,6 @@
 package com.sin.lifesim.trade;
 
+import com.sin.lifesim.Item;
 import com.sin.lifesim.Krmic;
 
 import org.jetbrains.annotations.NotNull;
@@ -13,14 +14,15 @@ import java.util.concurrent.ThreadLocalRandom;
 @SuppressWarnings("ConstantConditions")
 public class Trader {
     final int relation;
-    final String[] items;
+    final Item[] items;
     final int[] prices;
 
-    public Trader(Trade.items relation, @Nullable String[] items, @Nullable int[] prices) {
+    public Trader(Trade.items relation, @Nullable Item[] items, @Nullable int[] prices) {
         this.relation = relation.relation;
         if (items != null) {
             this.items = items;
         } else {
+            // TODO: 28.09.2020 repair generate
             this.items = itemsGenerate();
         }
         if (prices != null) {
@@ -28,7 +30,7 @@ public class Trader {
         } else this.prices = priceGenerate();
     }
 
-    private String[] itemsGenerate() {
+    private Item[] itemsGenerate() {
         Scanner b = new Scanner(Trade.items.ITEMS_TRADE);
         ArrayList<String> ret = new ArrayList<>();
         for (int i = ThreadLocalRandom.current().nextInt(0, 20); b.hasNext(); i = ThreadLocalRandom.current().nextInt(0, 20)) {

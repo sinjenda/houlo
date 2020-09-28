@@ -8,9 +8,8 @@ public class Effect {
     boolean rendered = false;
     boolean closed = false;
     String name;
-    int length;
     @IntRange(from = 1, to = 5)
-    int countRendered;
+    public int countRendered;
     method effect;
 
     public Effect(method effect, String name) {
