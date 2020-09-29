@@ -28,7 +28,6 @@ public class Krmic implements Serializable {
 
 
 
-
     public static int[] poleConverter(String[] o) {
         ArrayList<Integer> i = new ArrayList<Integer>();
         ArrayList<String> s = new ArrayList<String>();
