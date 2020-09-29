@@ -22,6 +22,18 @@ public class EntityRender {
         }
     }
 
+    public void renderHp(int hp, String action, Entity entity) {
+        if (action.equals("set")) {
+            entity.hp = hp;
+        }
+        if (action.equals("increase")) {
+            entity.hp = entity.hp + hp;
+        }
+        if (action.equals("decrease")) {
+            entity.hp = entity.hp - hp;
+        }
+    }
+
     public boolean renderedTestRenderedNotRequired(Entity entity) {
         return renderedEntities.contains(entity);
     }
@@ -46,6 +58,10 @@ public class EntityRender {
         entity.items.add(item);
     }
 
+    public void renderSkill(String skill, Entity toEntity) {
+        toEntity.skills.add(skill);
+    }
+
     @SuppressWarnings("InnerClassMayBeStatic")
     public class EntityError extends RuntimeException {
         public EntityError() {
@@ -66,7 +82,6 @@ public class EntityRender {
     }
 
 
-    @SuppressWarnings("InnerClassMayBeStatic")
     public class effectRender extends Thread {
         int count;
         boolean active;
@@ -83,7 +98,6 @@ public class EntityRender {
                     count--;
                     for (int i = 0; i != entity.effects.size() - 1; i++) {
                         Effect effect = entity.effects.get(i);
-                        // TODO: 25.09.2020 repair effect with ItemWeapon class 
                         effect.effect.effect(entity);
                         Log.i("effect render/run", "applied effect" + effect.name);
                     }

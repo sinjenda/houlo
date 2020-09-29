@@ -17,7 +17,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import static android.content.ContentValues.TAG;
 
-// TODO: 24.09.2020 add random events
+
 public class ClassMate extends Entity {
     randomEvents events;
     public int[] goodSubjects;

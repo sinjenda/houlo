@@ -5,7 +5,6 @@ import com.sin.lifesim.entity.Entity;
 import com.sin.lifesim.trade.Trade;
 import com.sin.lifesim.trade.Trader;
 
-import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings({"CanBeFinal"})
@@ -46,18 +45,8 @@ public class randomEvents {
 
                     } else {
                         if (ThreadLocalRandom.current().nextInt(0, 8) > 6) {
-                            Scanner scnr = new Scanner(Trade.items.ITEMS_TRADE);
-                            int test = 0;
-                            while (scnr.hasNext()) {
-                                scnr.next();
-                                test++;
-                            }
-                            scnr = new Scanner(Trade.items.ITEMS_TRADE);
-                            for (int i1 = ThreadLocalRandom.current().nextInt(0, test - 1); i != 0; i--) {
-                                scnr.next();
-                            }
-                            String s1 = scnr.next();
-                            w.informationDialog("he gives " + s1);
+                            Item s1 = Trade.items.ITEMS_TRADE[ThreadLocalRandom.current().nextInt(0, Trade.items.ITEMS_TRADE.length)];
+                            w.informationDialog("he gives " + s1.name);
                             m.me.items.add(s1);
                         } else {
                             w.informationDialog("he wants to trade with you");
@@ -69,8 +58,6 @@ public class randomEvents {
             }, null, s + " :open or not");
         }
     }
-
-
 
 
     public void Default() {

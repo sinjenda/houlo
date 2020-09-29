@@ -12,7 +12,6 @@ import com.sin.lifesim.entity.Entity;
 import com.sin.lifesim.method;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 @SuppressWarnings("ConstantConditions")
 public class Trade {
@@ -46,13 +45,12 @@ public class Trade {
         switch (trader.relation) {
             case 0:
                 ArrayList<String> it = new ArrayList<>();
-                for (int i = trader.items.length - 1; i != 0; i--) {
-                    it.add(trader.items[i] + " " + trader.prices[i]);
+                for (int i = trader.items.size() - 1; i != 0; i--) {
+                    it.add(trader.items.get(i) + " " + trader.prices[i]);
                 }
                 final String[] items;
                 items = Krmic.poleConverter(Krmic.polepull(it));
                 w.multiChoiceWindow(new method.onmet() {
-                    @SuppressWarnings("CollectionAddAllCanBeReplacedWithConstructor")
                     @Override
                     public void methoda(String[] itemNames) {
                         Krmic k = new Krmic();
@@ -75,8 +73,7 @@ public class Trade {
                         }
                         int i = 0;
                         for (Item s : items1) {
-                            ArrayList<Item> items = new ArrayList<>();
-                            items.addAll(Arrays.asList(trader.items));
+                            ArrayList<Item> items = trader.items;
                             int i1 = items.indexOf(s);
                             i = i + trader.prices[i1];
                         }

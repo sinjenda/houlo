@@ -1,5 +1,6 @@
 package com.sin.lifesim;
 
+import com.sin.lifesim.entity.EntityRender;
 import com.sin.lifesim.work.smlouva.Smlouva;
 
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +17,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Krmic implements Serializable {
     private int hp;
-    private int energy;
 
     public int getHp() {
         return hp;
@@ -26,13 +26,7 @@ public class Krmic implements Serializable {
         this.hp = hp;
     }
 
-    public int getEnergy() {
-        return energy;
-    }
 
-    public void setEnergy(int energy) {
-        this.energy = energy;
-    }
 
 
     public static int[] poleConverter(String[] o) {
@@ -173,20 +167,19 @@ public class Krmic implements Serializable {
 
     }
 
-    public HashMap<String, HashMap<String, Integer>> createPrisoners(ArrayList<String> names) {
+    public ArrayList<Prisoner> createPrisoners(ArrayList<String> names) {
 
 
-        HashMap<String, Integer> skili = new HashMap<String, Integer>();
-        HashMap<String, HashMap<String, Integer>> uloziste = new HashMap<String, HashMap<String, Integer>>();
-        for (String s : names) {
+        ArrayList<Prisoner> uloziste = new ArrayList<>();
+        for (int i = ThreadLocalRandom.current().nextInt(2, Prison.nams.length); i != 0; i--) {
 
 
             hp = (ThreadLocalRandom.current().nextInt(1, 100 + 1));
-            energy = (ThreadLocalRandom.current().nextInt(1, 100 + 1));
-            skili.put("hp", hp);
-            skili.put("energy", energy);
-
-            uloziste.put(s, skili);
+            String name = Prison.nams[ThreadLocalRandom.current().nextInt(0, Prison.nams.length)];
+            Prisoner prisoner = new Prisoner(name, ThreadLocalRandom.current().nextInt(0, 100));
+            EntityRender render = new EntityRender();
+            render.renderHp(hp, "set", prisoner);
+            uloziste.add(prisoner);
 
 
         }

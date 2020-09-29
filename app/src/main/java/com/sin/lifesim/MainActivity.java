@@ -132,18 +132,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void windowkill() {
-        ArrayList<String> prepare = new ArrayList<>();
-        for (Item item : me.items) {
-            prepare.add(item.name);
-        }
-        // TODO: 28.09.2020 make Prison use item
-        final String[] jmena = krmn.poleConverter(krmn.polepull(prepare));
-        window.windowItems(new method.onmet() {
-            @Override
-            public void methoda(String[] string) {
-                alcatraz.kill(string[0]);
-            }
-        }, jmena);
+        alcatraz.kill();
     }
 
     @Override
@@ -433,7 +422,6 @@ public class MainActivity extends AppCompatActivity {
 
                         alcatraz = new Prison(this);
                         alcatraz.prison(20);
-                        nms = alcatraz.prisonNames;
                     } else {
                         money = money + ThreadLocalRandom.current().nextInt(1, 50 + 1);
                         out.setText(R.string.note2);
@@ -501,7 +489,11 @@ public class MainActivity extends AppCompatActivity {
             dat2 = input.getText().toString();
             if (dat2.equals("shprnames")) {
                 Intent intent = new Intent(this, showArray_activity.class);
-                intent.putExtra(showArray_activity.DATA, krmn.poleConverter(krmn.polepull(alcatraz.prisonNames)));
+                ArrayList<String> nms = new ArrayList<>();
+                for (Prisoner prisoner : alcatraz.vezni) {
+                    nms.add(prisoner.name);
+                }
+                intent.putExtra(showArray_activity.DATA, krmn.poleConverter(krmn.polepull(nms)));
                 startActivity(intent);
             }
             kalendar = Calendar.getInstance();

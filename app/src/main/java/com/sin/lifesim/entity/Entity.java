@@ -13,8 +13,9 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Entity {
-    protected String name;
+    public String name;
     public ArrayList<Effect> effects;
+    ArrayList<String> skills;
     public ArrayList<Item> items;
     @IntRange(from = 0, to = 100)
     public int hp = 100;
@@ -40,6 +41,7 @@ public abstract class Entity {
     public Entity(String name, int inteligence) {
         this.name = name;
         this.inteligence = inteligence;
+        skills = new ArrayList<>();
         effects = new ArrayList<>();
         items = new ArrayList<>();
     }

@@ -1,32 +1,26 @@
 package com.sin.lifesim;
 
 
+import android.util.Log;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import static android.content.ContentValues.TAG;
 
 
-@SuppressWarnings({"ConstantConditions", "AccessStaticViaInstance"})
+@SuppressWarnings({"AccessStaticViaInstance"})
 public class Prison {
     public static String[] nams = {"marek", "honza", "noob", "luis", "peter", "rychard", "arnocht", "emil", "alex", "george", "john", "milan", "pavel", "roman"};
-    private String used = "";
-    private int chance = 0;
-    private ArrayList<Item> itemshave;
+    private Item used;
     private final MainActivity m;
-    ArrayList<String> prisonNames = new ArrayList<String>();
-    HashMap<String, HashMap<String, Integer>> vezni = new HashMap<>();
+    ArrayList<Prisoner> vezni = new ArrayList<>();
     private final Krmic krmic = new Krmic();
     private int sentence;
     Window window;
 
     public void prison(int sentence1) {
-        prisonNames = krmic.polePut(nams);
-        prisonNames = krmic.prisonersChoose(prisonNames);
         sentence = sentence1;
-        vezni = krmic.createPrisoners(prisonNames);
-        m.nms = prisonNames;
     }
 
     public void solitary(int time) {
@@ -46,83 +40,64 @@ public class Prison {
         }
     }
 
-    @SuppressWarnings("ConstantConditions")
-    public void kill(String weapon) {
-        itemshave = m.me.items;
-
-
+    public void kill() {
+        ArrayList<Item> itemshave = m.me.items;
+        final Window w = new Window(m);
         if (m.skills.contains("killer")) {
-            chance = 5;
+            int chance = 5;
         }
-        //noinspection StatementWithEmptyBody
-        if (itemshave.isEmpty()) {
-
-        } else {
-
-            String[] weapons = {"knife", "gun", "baton", "screwdriver"};
-            int[] ints = {3, 10, 5, 1};
-            if (weapons.length != ints.length) {
-                throw new UnsupportedOperationException("length of weapons does not equals length of ints");
-            }
-            HashMap<String, Integer> wEapons;
-            wEapons = krmic.nakrmDataHash(krmic.polePut(weapons), krmic.polePut(ints));
-            int i = 0;
-            while (i != weapon.length()) {
-                if (itemshave.contains(weapon)) {
-                    if (wEapons.containsKey(weapon)) {
-                        chance = chance + wEapons.get(weapon);
-                        used = weapon;
-                    }
-                } else {
-                    i++;
-                }
-            }
-
-
+        ArrayList<String> weapons = new ArrayList<>();
+        for (Item item : m.itemshave) {
+            weapons.add(item.name);
         }
-        final String[] jmena = krmic.poleConverter(krmic.polepull(prisonNames));
-        window.windowItems(new method.onmet() {
+        w.windowItems(new method.onmet() {
             @Override
             public void methoda(String[] string) {
-                fkill(string[0]);
-            }
-        }, jmena);
+                for (final Item item : m.itemshave) {
+                    if (item.name.equals(string[0])) {
+                        used = item;
+                        ArrayList<String> names = new ArrayList<>();
+                        for (Prisoner prisoner : vezni) {
+                            names.add(prisoner.name);
+                        }
+                        final String[] jmena = krmic.poleConverter(krmic.polepull(names));
+                        window.windowItems(new method.onmet() {
+                            @Override
+                            public void methoda(String[] string) {
+                                ItemWeapon weapon = (ItemWeapon) item;
+                                for (Prisoner prisoner : vezni) {
+                                    if (prisoner.name.equals(string[0])) {
+                                        for (int i = 0; true; i++) {
+                                            m.render.renderHp(weapon.damage, "decrease", prisoner);
+                                            m.render.renderHp(ThreadLocalRandom.current().nextInt(1, 25), "decrease", m.me);
+                                            if (prisoner.hp < 1) {
+                                                w.informationDialog("you killed him");
+                                                m.money = m.money + ThreadLocalRandom.current().nextInt(15, 100);
+                                                Log.i(TAG, "killProcces ended after " + i + "rounds");
+                                                break;
+                                            }
+                                            if (m.me.hp < 1) {
+                                                int i1 = ThreadLocalRandom.current().nextInt(15, 100);
+                                                m.money = m.money - i1;
+                                                w.informationDialog("he killed you you lose " + i1 + "coins");
+                                                Log.i(TAG, "killProcces ended after " + i + "rounds");
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
 
-    }
-
-
-    public void fkill(String prisoner) {
-        Object o = vezni.get(prisoner);
-        String s = String.valueOf(o);
-
-        Pattern pattern = Pattern.compile("[0-9]+");
-        Matcher matcher = pattern.matcher(s);
-        for (int i = 0; ; i++) {
-            if (matcher.find()) {
-                s = i + ": " + matcher.group();
-                System.out.println(i + ": " + matcher.group());
-            } else
-                break;
-
-        }
-
-
-        if (chance + ThreadLocalRandom.current().nextInt(1, 120 + 1) > Integer.parseInt(s)) {
-            if (!used.equals("")) {
-                if (ThreadLocalRandom.current().nextInt(1, 8 + 1) < 4) {
-                    itemshave.remove(used);
-
+                            }
+                        }, jmena);
+                        break;
+                    }
                 }
-
             }
-            solitary(15);
+        }, Krmic.poleConverter(Krmic.polepull(weapons)));
 
 
-        } else {
-            m.out.setText(R.string.note11);
-            m.dat3 = "death";
-        }
     }
+
 
     public Prison(MainActivity m) {
         this.m = m;
