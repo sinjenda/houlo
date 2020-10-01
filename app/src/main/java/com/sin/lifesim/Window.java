@@ -1,6 +1,7 @@
 package com.sin.lifesim;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Window {
-    final MainActivity m;
+    final Context m;
     final ArrayList<Boolean> isShowed = new ArrayList<>(4);
 
     public void windowItems(final method.onmet method, final String[] items) {
@@ -36,7 +37,7 @@ public class Window {
 
     }
 
-    public Window(MainActivity m) {
+    public Window(Context m) {
         this.m = m;
         for (int i = 0; i < 4; i++) {
             isShowed.add(false);

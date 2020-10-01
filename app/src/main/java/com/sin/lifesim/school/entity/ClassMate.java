@@ -21,11 +21,11 @@ import static android.content.ContentValues.TAG;
 public class ClassMate extends Entity {
     randomEvents events;
     public int[] goodSubjects;
+    @IntRange(from = 0, to = 100)
+    public int relationShip;
     public int[] badSubjects;
     @IntRange(from = 0, to = 100)
     public int agresivity;
-
-
 
 
     private void createSubjects(@Nullable int[] goodSubjects, @Nullable int[] badSubjects) throws classError {
@@ -76,10 +76,10 @@ public class ClassMate extends Entity {
     }
 
 
-    public ClassMate(@Nullable int[] goodSubjects, @Nullable String name, @Nullable int[] badSubjects, int agresivity, int inteligence) throws classError {
+    public ClassMate(@Nullable int[] goodSubjects, @Nullable String name, @Nullable int[] badSubjects, int agresivity, int inteligence, @IntRange(from = 0, to = 100) int relationShip) throws classError {
         this(agresivity, name, inteligence);
         createSubjects(goodSubjects, badSubjects);
-
+        this.relationShip = relationShip;
     }
 
 

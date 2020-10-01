@@ -5,10 +5,12 @@ import com.sin.lifesim.Window;
 import com.sin.lifesim.method;
 import com.sin.lifesim.school.School;
 
+import org.jetbrains.annotations.NotNull;
+
 public class PragueGymnasiumSchool extends School {
     MainActivity m;
 
-    public PragueGymnasiumSchool(MainActivity m) {
+    public PragueGymnasiumSchool(@NotNull MainActivity m) {
         super(m.render);
         super.name = "prague";
         super.StudyTime = 150;

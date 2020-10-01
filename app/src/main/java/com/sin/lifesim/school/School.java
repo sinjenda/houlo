@@ -1,5 +1,7 @@
 package com.sin.lifesim.school;
 
+import android.content.Context;
+
 import com.sin.lifesim.Krmic;
 import com.sin.lifesim.MainActivity;
 import com.sin.lifesim.Prison;
@@ -52,7 +54,7 @@ public abstract class School implements Serializable {
         for (int i = maxStudents; i != 0; i--) {
             ClassMate mate;
             try {
-                mate = new ClassMate(null, Prison.nams[ThreadLocalRandom.current().nextInt(0, Prison.nams.length)], null, ThreadLocalRandom.current().nextInt(0, 100), ThreadLocalRandom.current().nextInt(0, 100));
+                mate = new ClassMate(null, Prison.nams[ThreadLocalRandom.current().nextInt(0, Prison.nams.length)], null, ThreadLocalRandom.current().nextInt(0, 100), ThreadLocalRandom.current().nextInt(0, 100), ThreadLocalRandom.current().nextInt(20, 80));
             } catch (classError e) {
                 return;
             }
@@ -120,6 +122,33 @@ public abstract class School implements Serializable {
         public static final int nature = 8;
         public static final int history = 9;
         public static final int max = 9;
+    }
+
+    public void askForHelp(String input, Context context, final int subject, final method.onmet.withoutParam onSuccess) {
+
+
+        Window w = new Window(context);
+        ArrayList<String> items = new ArrayList<>();
+        for (ClassMate mate : classMates) {
+            items.add(mate.name);
+        }
+        w.windowItems(new method.onmet() {
+            @Override
+            public void methoda(String[] string) {
+                for (ClassMate mate : classMates) {
+                    if (mate.name.equals(string[0])) {
+                        if (mate.relationShip > 50) {
+                            if (Krmic.polePut(mate.goodSubjects).contains(subject)) {
+                                if (ThreadLocalRandom.current().nextInt(1, 2) == 1) {
+                                    onSuccess.methodaB();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }, Krmic.poleConverter(Krmic.polepull(items)));
+
     }
 
 
