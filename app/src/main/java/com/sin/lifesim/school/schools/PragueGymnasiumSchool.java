@@ -9,8 +9,10 @@ public class PragueGymnasiumSchool extends School {
     MainActivity m;
 
     public PragueGymnasiumSchool(MainActivity m) {
+        super(m.render);
         super.name = "prague";
         super.StudyTime = 150;
+        maxStudents = 20;
         types.choose = types.mediumSchool;
         this.m = m;
         Window w = new Window(m);

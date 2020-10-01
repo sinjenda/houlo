@@ -2,10 +2,14 @@ package com.sin.lifesim.school;
 
 import com.sin.lifesim.Krmic;
 import com.sin.lifesim.MainActivity;
+import com.sin.lifesim.Prison;
 import com.sin.lifesim.Window;
+import com.sin.lifesim.entity.EntityRender;
 import com.sin.lifesim.method;
+import com.sin.lifesim.school.entity.ClassMate;
 import com.sin.lifesim.school.schools.KomensSchool;
 import com.sin.lifesim.school.schools.PragueGymnasiumSchool;
+import com.sin.lifesim.school.schools.classError;
 import com.sin.lifesim.stream;
 
 import java.io.File;
@@ -14,13 +18,16 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class School implements Serializable {
     protected String name;
     protected int StudyTime;
+    protected int maxStudents;
     protected int[] subjects;
     protected int studied;
-
+    ArrayList<ClassMate> classMates;
     protected static class types {
         public static final int lowSchool = 1;
         public static final int mediumSchool = 2;
@@ -38,6 +45,20 @@ public abstract class School implements Serializable {
             return "pragueGymnasium";
         }
         throw new UnsupportedOperationException("error occurred");
+    }
+
+    public School(EntityRender render) {
+        classMates = new ArrayList<>();
+        for (int i = maxStudents; i != 0; i--) {
+            ClassMate mate;
+            try {
+                mate = new ClassMate(null, Prison.nams[ThreadLocalRandom.current().nextInt(0, Prison.nams.length)], null, ThreadLocalRandom.current().nextInt(0, 100), ThreadLocalRandom.current().nextInt(0, 100));
+            } catch (classError e) {
+                return;
+            }
+            render.renderEntity(mate);
+            classMates.add(mate);
+        }
     }
 
     public void study(final MainActivity m) {

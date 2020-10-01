@@ -3,9 +3,7 @@ package com.sin.lifesim.entity;
 import androidx.annotation.IntRange;
 
 import com.sin.lifesim.Item;
-import com.sin.lifesim.MainActivity;
 import com.sin.lifesim.Prison;
-import com.sin.lifesim.randomEvents;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -36,7 +34,6 @@ public abstract class Entity {
             this.name = Prison.nams[ThreadLocalRandom.current().nextInt(0, Prison.nams.length - 1)];
     }
 
-    protected abstract randomEvents createRandomEvents(MainActivity ctx);
 
     public Entity(String name, int inteligence) {
         this.name = name;
@@ -45,4 +42,5 @@ public abstract class Entity {
         effects = new ArrayList<>();
         items = new ArrayList<>();
     }
+
 }

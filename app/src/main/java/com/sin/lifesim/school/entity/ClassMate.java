@@ -1,11 +1,11 @@
-package com.sin.lifesim.entity;
+package com.sin.lifesim.school.entity;
 
 import android.util.Log;
 
 import androidx.annotation.IntRange;
 
 import com.sin.lifesim.Krmic;
-import com.sin.lifesim.MainActivity;
+import com.sin.lifesim.entity.Entity;
 import com.sin.lifesim.randomEvents;
 import com.sin.lifesim.school.School;
 import com.sin.lifesim.school.schools.classError;
@@ -26,11 +26,7 @@ public class ClassMate extends Entity {
     public int agresivity;
 
 
-    @Override
-    public randomEvents createRandomEvents(MainActivity ctx) {
-        events = new randomEvents(ctx);
-        return events;
-    }
+
 
     private void createSubjects(@Nullable int[] goodSubjects, @Nullable int[] badSubjects) throws classError {
         if (goodSubjects != null) {
@@ -80,7 +76,7 @@ public class ClassMate extends Entity {
     }
 
 
-    ClassMate(@Nullable int[] goodSubjects, @Nullable String name, @Nullable int[] badSubjects, int agresivity, int inteligence) throws classError {
+    public ClassMate(@Nullable int[] goodSubjects, @Nullable String name, @Nullable int[] badSubjects, int agresivity, int inteligence) throws classError {
         this(agresivity, name, inteligence);
         createSubjects(goodSubjects, badSubjects);
 

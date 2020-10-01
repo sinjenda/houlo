@@ -140,7 +140,6 @@ public class work {
     }
 
     public void first() throws IOException {
-        // TODO: 23.08.2020 set zamestnani
         String[] strings = {Podminka.podminkyLow[0], Podminka.podminkyHard[1]};
         Smlouva garbage = new Smlouva(getStringByIdName(m.getApplicationContext(), R.string.collector), strings[0] + " " + strings[1], 0, m);
         smlouvyHistorie.put(garbage, true);

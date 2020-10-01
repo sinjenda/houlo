@@ -18,7 +18,6 @@ public class Trader {
         if (items != null) {
             this.items = items;
         } else {
-            // TODO: 28.09.2020 repair generate
             this.items = itemsGenerate();
         }
         if (prices != null) {

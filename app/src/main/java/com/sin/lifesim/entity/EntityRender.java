@@ -62,6 +62,10 @@ public class EntityRender {
         toEntity.skills.add(skill);
     }
 
+    public void renderRemoveItem(Item item, Entity entity) {
+        entity.items.remove(item);
+    }
+
     @SuppressWarnings("InnerClassMayBeStatic")
     public class EntityError extends RuntimeException {
         public EntityError() {
@@ -101,7 +105,7 @@ public class EntityRender {
                         effect.effect.effect(entity);
                         Log.i("effect render/run", "applied effect" + effect.name);
                     }
-
+                    render = null;
                 }
                 last++;
                 if (last > 1000) {

@@ -40,7 +40,6 @@ public class Trade {
         w = new Window(m);
     }
 
-    // TODO: 28.09.2020 make class trader use Item
     public void trade(final Trader trader) {
         switch (trader.relation) {
             case 0:

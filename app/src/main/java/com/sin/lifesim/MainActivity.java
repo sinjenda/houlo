@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
     String dat2;
     String dat3 = "";
     String place = "default";
-    // TODO: 24.09.2020 replace this with class item
     Effect bleeding = new Effect(new method() {
         @Override
         public void effect(Entity entity) {
@@ -76,14 +75,13 @@ public class MainActivity extends AppCompatActivity {
     //array lists and HashMaps
     HashMap<String, Integer> basicskills = new HashMap<String, Integer>();
     ArrayList<String> skills = new ArrayList<String>();
-    // TODO: 28.09.2020 render this items to entity me
     public ArrayList<Item> itemshave = new ArrayList<>();
     public ArrayList<String> schools = new ArrayList<>();
     ArrayList<String> nms = new ArrayList<String>();
     public ArrayList<Item> itemssell = new ArrayList<>();
     //other
     Krmic krmn;
-    EntityRender render;
+    public EntityRender render;
     DataClass effectRenderData;
     Prison alcatraz;
     randomEvents r;
@@ -111,8 +109,6 @@ public class MainActivity extends AppCompatActivity {
         basicskills.put("agility", 1);
         basicskills.put("luck", 1);
         getResources().getString(R.string.baton);
-        // TODO: 24.09.2020 delete this
-        int[] itsellb = {10, 20, 100, 60, 30, 20, 200, 50};
         ArrayList<String> ita;
         ArrayList<Integer> itB;
         w = new work(this, getApplication());
@@ -164,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void buy(final SharedPreferences.Editor editor) {
-        onDestroy();
         final String[] selectedText = new String[1];
         final String[] jmena;
         ArrayList<String> items = new ArrayList<>();
@@ -185,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                     money = money - cena;
                     render.renderItem(itemssell.get(itemr), me);
                     editor.putInt("money", money);
-                    out.setText("úspěšně jste si koupil/a" + item + "za" + cena);
+                    out.setText("úspěšně jste si koupil/a" + " " + item + " za" + " " + cena);
                 } else {
                     out.setText(R.string.err2);
                 }
@@ -234,8 +229,12 @@ public class MainActivity extends AppCompatActivity {
     @SuppressWarnings({"ConstantConditions", "unchecked"})
     @SuppressLint({"ApplySharedPref", "SetTextI18n"})
     public void click(View view) throws IOException {
-        if (render.render.getActive()) {
-            effectRenderData.clicked = true;
+        try {
+            if (render.render.getActive()) {
+                effectRenderData.clicked = true;
+            }
+        } catch (NullPointerException ignored) {
+
         }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             throw new IllegalAccessError("don't click button without permission");
@@ -445,14 +444,22 @@ public class MainActivity extends AppCompatActivity {
                         public void methoda(String[] string) {
                             for (Item item : me.items) {
                                 if (item.name.equals(string[0])) {
-                                    ItemExtended item1 = (ItemExtended) item;
+                                    ItemExtended item1;
+                                    try {
+                                        item1 = (ItemExtended) item;
+                                    } catch (ClassCastException e) {
+                                        out.setText("this item cannot be eaten");
+                                        return;
+                                    }
                                     item1.OnConsumeEffect(render, me, effectRenderData);
-
+                                    render.renderRemoveItem(item, me);
+                                    out.setText("you ate " + item1.name);
                                     break;
                                 }
                             }
                         }
                     }, Krmic.poleConverter(Krmic.polepull(itemsPrepare)));
+                    break;
                 case ("shitems"):
                     Intent i = new Intent(this, showArray_activity.class);
                     ArrayList<String> itemshave = new ArrayList<>();
@@ -570,9 +577,9 @@ public class MainActivity extends AppCompatActivity {
                 case "sleep":
                     energy = 100;
             }
-
+            r.house();
         }
-        r.house();
+
         if (energy > 100) {
             energy = 100;
             out.setText("max is 100");
@@ -638,4 +645,6 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
 }

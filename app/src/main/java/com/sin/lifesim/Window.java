@@ -33,7 +33,7 @@ public class Window {
             isShowed.set(3, true);
             thread.start();
         }
-        alertDialogObject.show();
+
     }
 
     public Window(MainActivity m) {

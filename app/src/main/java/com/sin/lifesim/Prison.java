@@ -25,7 +25,6 @@ public class Prison {
 
     public void solitary(int time) {
         m.out.setText(R.string.note6);
-        // TODO: 28.09.2020 add remove item to entity render
         m.me.items.clear();
         if (ThreadLocalRandom.current().nextInt(1, 24 + 1) > time) {
             m.out.setText(R.string.note7);
@@ -67,7 +66,8 @@ public class Prison {
                                 ItemWeapon weapon = (ItemWeapon) item;
                                 for (Prisoner prisoner : vezni) {
                                     if (prisoner.name.equals(string[0])) {
-                                        for (int i = 0; true; i++) {
+                                        int i = 0;
+                                        for (; true; i++) {
                                             m.render.renderHp(weapon.damage, "decrease", prisoner);
                                             m.render.renderHp(ThreadLocalRandom.current().nextInt(1, 25), "decrease", m.me);
                                             if (prisoner.hp < 1) {
@@ -83,6 +83,11 @@ public class Prison {
                                                 Log.i(TAG, "killProcces ended after " + i + "rounds");
                                                 break;
                                             }
+                                        }
+                                        ItemWeapon weapon1 = (ItemWeapon) used;
+                                        weapon1.durability = weapon1.durability - i;
+                                        if (weapon1.durability < 1) {
+                                            m.render.renderRemoveItem(used, m.me);
                                         }
                                     }
                                 }
