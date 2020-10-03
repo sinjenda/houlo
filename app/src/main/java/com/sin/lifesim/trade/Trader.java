@@ -1,6 +1,6 @@
 package com.sin.lifesim.trade;
 
-import com.sin.lifesim.Item;
+import com.sin.lifesim.Item.Item;
 import com.sin.lifesim.Krmic;
 
 import org.jetbrains.annotations.Nullable;

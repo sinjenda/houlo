@@ -3,6 +3,9 @@ package com.sin.lifesim;
 
 import android.util.Log;
 
+import com.sin.lifesim.Item.Item;
+import com.sin.lifesim.Item.ItemWeapon;
+
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 

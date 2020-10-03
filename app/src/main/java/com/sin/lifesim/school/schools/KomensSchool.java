@@ -2,8 +2,8 @@ package com.sin.lifesim.school.schools;
 
 import android.util.Log;
 
-import com.sin.lifesim.Item;
-import com.sin.lifesim.ItemWeapon;
+import com.sin.lifesim.Item.Item;
+import com.sin.lifesim.Item.ItemWeapon;
 import com.sin.lifesim.Krmic;
 import com.sin.lifesim.MainActivity;
 import com.sin.lifesim.Window;

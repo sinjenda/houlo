@@ -1,8 +1,9 @@
-package com.sin.lifesim;
+package com.sin.lifesim.Item;
 
 import androidx.annotation.IntRange;
 
 import com.sin.lifesim.entity.Effect;
+import com.sin.lifesim.method;
 
 import org.jetbrains.annotations.Nullable;
 

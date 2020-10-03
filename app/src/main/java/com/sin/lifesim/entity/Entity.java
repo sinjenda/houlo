@@ -2,7 +2,7 @@ package com.sin.lifesim.entity;
 
 import androidx.annotation.IntRange;
 
-import com.sin.lifesim.Item;
+import com.sin.lifesim.Item.Item;
 import com.sin.lifesim.Prison;
 
 import org.jetbrains.annotations.Nullable;

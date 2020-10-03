@@ -1,4 +1,4 @@
-package com.sin.lifesim;
+package com.sin.lifesim.Item;
 
 import com.sin.lifesim.entity.DataClass;
 import com.sin.lifesim.entity.Entity;

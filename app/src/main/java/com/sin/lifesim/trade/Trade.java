@@ -1,8 +1,8 @@
 package com.sin.lifesim.trade;
 
-import com.sin.lifesim.Item;
-import com.sin.lifesim.ItemExtended;
-import com.sin.lifesim.ItemWeapon;
+import com.sin.lifesim.Item.Item;
+import com.sin.lifesim.Item.ItemExtended;
+import com.sin.lifesim.Item.ItemWeapon;
 import com.sin.lifesim.Krmic;
 import com.sin.lifesim.MainActivity;
 import com.sin.lifesim.R;

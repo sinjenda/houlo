@@ -1,4 +1,4 @@
-package com.sin.lifesim;
+package com.sin.lifesim.Item;
 
 
 import android.util.Log;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 import static android.content.ContentValues.TAG;
 
-public class ItemExtended extends Item implements consumable {
+public class ItemExtended extends Item implements com.sin.lifesim.Item.consumable {
     Effect effect;
     @IntRange(from = 0, to = 100)
     int energy;

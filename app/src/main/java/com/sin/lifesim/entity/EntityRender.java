@@ -4,7 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.IntRange;
 
-import com.sin.lifesim.Item;
+import com.sin.lifesim.Item.Item;
 
 import java.util.ArrayList;
 

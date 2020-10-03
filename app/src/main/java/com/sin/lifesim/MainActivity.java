@@ -18,6 +18,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.sin.lifesim.Item.Item;
+import com.sin.lifesim.Item.ItemExtended;
+import com.sin.lifesim.Item.ItemTool;
+import com.sin.lifesim.Item.ItemWeapon;
 import com.sin.lifesim.entity.DataClass;
 import com.sin.lifesim.entity.Effect;
 import com.sin.lifesim.entity.Entity;
