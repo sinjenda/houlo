@@ -8,7 +8,7 @@ import com.sin.lifesim.school.School;
 import org.jetbrains.annotations.NotNull;
 
 public class PragueGymnasiumSchool extends School {
-    MainActivity m;
+
 
     public PragueGymnasiumSchool(@NotNull MainActivity m) {
         super(m.render);
@@ -16,7 +16,6 @@ public class PragueGymnasiumSchool extends School {
         super.StudyTime = 150;
         maxStudents = 20;
         types.choose = types.mediumSchool;
-        this.m = m;
         Window w = new Window(m);
         w.windowItems(new method.onmet() {
             @Override
@@ -32,8 +31,9 @@ public class PragueGymnasiumSchool extends School {
 
     }
 
-    public void study() {
+    @Override
+    public int study(MainActivity m) {
         super.study(m);
-
+        return 0;
     }
 }

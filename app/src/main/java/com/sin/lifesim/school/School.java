@@ -29,7 +29,8 @@ public abstract class School implements Serializable {
     protected int maxStudents;
     protected int[] subjects;
     protected int studied;
-    ArrayList<ClassMate> classMates;
+    protected ArrayList<ClassMate> classMates;
+
     protected static class types {
         public static final int lowSchool = 1;
         public static final int mediumSchool = 2;
@@ -63,13 +64,14 @@ public abstract class School implements Serializable {
         }
     }
 
-    public void study(final MainActivity m) {
+    public int study(final MainActivity m) {
         Window w = new Window(m);
+        final int[] i = new int[1];
         w.windowItems(new method.onmet() {
             @Override
             public void methoda(String[] string) {
-                int i = Integer.parseInt(string[0]);
-                for (; i != 0; i--) {
+                i[0] = Integer.parseInt(string[0]);
+                for (; i[0] != 0; i[0]--) {
                     studied = studied + 5;
                 }
                 m.saveSchool();
@@ -104,9 +106,13 @@ public abstract class School implements Serializable {
                     }
 
                 }
+
             }
+
         }, new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"});
+        return i[0];
     }
+
     public static class subjects {
         public static final int math = 1;
 

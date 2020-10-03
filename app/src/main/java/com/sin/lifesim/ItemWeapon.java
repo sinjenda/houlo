@@ -6,7 +6,7 @@ import com.sin.lifesim.entity.Effect;
 
 import org.jetbrains.annotations.Nullable;
 
-public class ItemWeapon extends Item {
+public class ItemWeapon extends Item implements killable {
     public int damage;
     @Nullable
     public Effect effect;
@@ -20,6 +20,11 @@ public class ItemWeapon extends Item {
         this.damage = damage;
         this.effect = effect;
         this.durability = durability;
+
+    }
+
+    @Override
+    public void weaponEffect(ItemWeapon itemWeapon) {
 
     }
 }
