@@ -7,12 +7,12 @@ import com.sin.lifesim.MainActivity;
 import com.sin.lifesim.Prison;
 import com.sin.lifesim.Window;
 import com.sin.lifesim.entity.EntityRender;
-import com.sin.lifesim.method;
+import com.sin.lifesim.interfaces.method;
+import com.sin.lifesim.interfaces.stream;
 import com.sin.lifesim.school.entity.ClassMate;
 import com.sin.lifesim.school.schools.KomensSchool;
 import com.sin.lifesim.school.schools.PragueGymnasiumSchool;
 import com.sin.lifesim.school.schools.classError;
-import com.sin.lifesim.stream;
 
 import java.io.File;
 import java.io.FileInputStream;

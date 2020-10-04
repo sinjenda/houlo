@@ -5,15 +5,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.util.Log;
 
 import androidx.annotation.StringRes;
 
 import com.sin.lifesim.Krmic;
 import com.sin.lifesim.MainActivity;
 import com.sin.lifesim.R;
-import com.sin.lifesim.Window;
-import com.sin.lifesim.method;
-import com.sin.lifesim.stream;
+import com.sin.lifesim.interfaces.stream;
 import com.sin.lifesim.work.smlouva.Smlouva;
 import com.sin.lifesim.work.smlouva.display_smlouva_activity;
 import com.sin.lifesim.work.smlouva.podminka.Podminka;
@@ -24,14 +23,19 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static android.content.ContentValues.TAG;
 
 @SuppressWarnings({"unchecked", "ConstantConditions"})
 public class work {
     Krmic k = new Krmic();
     public static final String PATH = "storage/emulated/0/zkusenost";
     public static final String applyPath = "storage/emulated/0/smlouvyApply";
+    public static final Zamestnani[] mistaPrepare = {new Zamestnani("SupermarketJanitor", 10, 0, "uklid", null)};
+    ArrayList<Zamestnani> mista = new ArrayList<>();
     HashMap<String, Integer> zkusenost = new HashMap<>();
 
     public ArrayList<Smlouva> getSmlouvyForApply() {
@@ -50,19 +54,8 @@ public class work {
         this.smlouvyForApply = array;
     }
 
-    //zamestnani zacatek
-    final static String[] mista = {"garbage", "janitor", "manager shop"};
-    static int[] money = {15, 20, 50};
-    int[] zkusenosti = {0, 2, 0};
-    int[] zkusenostiGet = {1, 1, 3};
-    String[] zkusenostiTyp = {"uklid", "uklid", "manager"};
-    String[] schoolNeed = {"low", "low", "medium"};
-    //zamestnani konec
 
-    TypZamestnani[] typy = {new uklid(), new uklid(), new Manager()};
-    //potomci zacatek
-    public static final Object[] potomci = {new uklid(), new Manager()};
-    public static final String[] names = {"uklid", "manager"};
+
 
     //potomci konec
     public void setSmlouvyHistorie(HashMap<Smlouva, Boolean> smlouvyHistorie) {
@@ -70,72 +63,36 @@ public class work {
     }
 
 
-    public void trade() {
-        final Window w = new Window(m);
-        final ArrayList<String> names = Krmic.polePut(work.names);
-        for (int i = work.names.length; i != 0; i--) {
-            int i1 = i - 1;
-            TypZamestnani typ = (TypZamestnani) potomci[i1];
-            if (typ.structure.type.equals("no transform")) {
-                names.remove(work.names[i1]);
-            }
-        }
-        w.windowItems(new method.onmet() {
-            @Override
-            public void methoda(String[] string) {
-                for (String s : work.names) {
-                    if (string[0].equals(s)) {
-                        int i = Krmic.polePut(mista).indexOf(zamestnani);
-                        TypZamestnani typ = typy[i];
-                        int course = typ.structure.firstCourse;
-                        int zkusenosti = zkusenost.get(work.names[i]);
-                        ArrayList<String> vysledek = new ArrayList<>();
-                        for (int i1 = 0; i1 != zkusenosti / course; i1++) {
-                            vysledek.add(String.valueOf(i1));
-                        }
-                        w.windowItems(new method.onmet() {
-                            @Override
-                            public void methoda(String[] string) {
-
-                            }
-                        }, Krmic.poleConverter(Krmic.polepull(vysledek)));
-
-
-
-                    }
-                }
-            }
-        }, Krmic.poleConverter((Object[]) Krmic.poleConverter(Krmic.polepull(names))));
-    }
-
     HashMap<Smlouva, Boolean> smlouvyHistorie = new HashMap<Smlouva, Boolean>();
 
-    public String getZamestnani() {
+    public Zamestnani getZamestnani() {
         return zamestnani;
     }
 
-    public void setZamestnani(String zamestnani) {
+    public void setZamestnani(Zamestnani zamestnani) {
         this.zamestnani = zamestnani;
     }
 
-    String zamestnani;
+    // TODO: 04.10.2020 put zamestnani to database
+    Zamestnani zamestnani;
     final MainActivity m;
 
     public work(MainActivity m, Context context) {
         this.m = m;
-
+        mista.addAll(Arrays.asList(mistaPrepare));
 
     }
 
     @SuppressWarnings("ConstantConditions")
     public Smlouva generateSmlouvaForApply() {
-        int i1 = ThreadLocalRandom.current().nextInt(0, mista.length - 1);
-        if (m.schools.contains(schoolNeed[i1])) {
-            //todo app falls there
-            if (zkusenosti[i1] >= zkusenost.get(zkusenostiTyp[i1])) {
-                return new Smlouva(mista[i1], zkusenosti[i1]);
+        int i1 = ThreadLocalRandom.current().nextInt(0, mista.size() - 1);
+        Zamestnani zamestnani = mista.get(i1);
+        if (m.schools.contains(zamestnani.school)) {
+            if (zamestnani.requiredKnowledge >= zkusenost.get(zamestnani.type)) {
+                return new Smlouva(zamestnani.name, zamestnani.requiredKnowledge);
             }
         }
+        Log.i(TAG, "generateSmlouvaForApply: conditions doesn't met");
         return null;
     }
 
@@ -144,7 +101,7 @@ public class work {
         Smlouva garbage = new Smlouva(getStringByIdName(m.getApplicationContext(), R.string.collector), strings[0] + " " + strings[1], 0, m);
         smlouvyHistorie.put(garbage, true);
         zkusenost.put("uklid", 0);
-        zamestnani = mista[0];
+        zamestnani = mista.get(0);
         saveZkusenost();
         Krmic.objectSaveHandler(new stream() {
             @Override
@@ -190,22 +147,25 @@ public class work {
 
     @SuppressWarnings("ConstantConditions")
     public void goWork(int time) {
-        if (Krmic.polePut(mista).contains(zamestnani)) {
-            for (Smlouva s : smlouvyHistorie.keySet()) {
-                if (s.getTitle().equals(zamestnani)) {
-                    s.send(time);
+        for (Zamestnani zamestnani : mista) {
+            if (zamestnani.name.equals(this.zamestnani.name)) {
+                for (Smlouva s : smlouvyHistorie.keySet()) {
+                    if (s.getTitle().equals(zamestnani.name)) {
+                        s.send(time);
+                    }
                 }
-            }
-            for (int i = time; i == 0; i--)
-                m.money = m.money + money[Krmic.polePut(mista).indexOf(zamestnani)];
-            worked = worked + time;
-            if (worked > 24) {
-                worked = worked - 24;
-                zkusenost.replace(zkusenostiTyp[Krmic.polePut(mista).indexOf(zamestnani)], zkusenost.get(zkusenostiTyp[Krmic.polePut(mista).indexOf(zamestnani)]) + zkusenostiGet[Krmic.polePut(mista).indexOf(zamestnani)]);
-                m.editor.putInt("worked", worked);
-                saveZkusenost();
-            }
+                for (int i = time; i == 0; i--)
+                    m.money = m.money + zamestnani.money;
+                worked = worked + time;
+                if (worked > 24) {
+                    worked = worked - 24;
+                    zkusenost.replace(zamestnani.type, zkusenost.get(zamestnani.type) + 1);
+                    m.editor.putInt("worked", worked);
+                    saveZkusenost();
+                }
+                return;
 
+            }
         }
     }
 

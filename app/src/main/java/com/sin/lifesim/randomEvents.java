@@ -4,6 +4,7 @@ import com.sin.lifesim.Item.Item;
 import com.sin.lifesim.Item.ItemWeapon;
 import com.sin.lifesim.entity.Effect;
 import com.sin.lifesim.entity.Entity;
+import com.sin.lifesim.interfaces.method;
 import com.sin.lifesim.trade.Trade;
 import com.sin.lifesim.trade.Trader;
 

@@ -1,4 +1,4 @@
-package com.sin.lifesim;
+package com.sin.lifesim.interfaces;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

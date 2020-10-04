@@ -9,11 +9,11 @@ import com.sin.lifesim.Krmic;
 
 import java.util.ArrayList;
 
-public class database extends SQLiteOpenHelper {
-    public static String name = "me";
-    public static String create = "CREATE TABLE " + name + "  ( _id INTEGER PRIMARY KEY AUTOINCREMENT, money INTEGER )";
+public class databaseZamestnani extends SQLiteOpenHelper {
+    public static String name = "zamestnani";
+    public static String create = "CREATE TABLE " + name + "  ( _id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT ,money INTEGER, requiredKnowlage INTEGER , type TEXT, school TEXT,none TEXT)";
 
-    public database(Context ctx) {
+    public databaseZamestnani(Context ctx) {
         super(ctx, "poznamky", null, 1);
     }
 
@@ -28,7 +28,7 @@ public class database extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public int[] select(String[] columns) {
+    public Object select(String[] columns) {
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.query(name, columns, null, null, null, null, null);
         ArrayList<Integer> ret = new ArrayList<>();
@@ -36,5 +36,19 @@ public class database extends SQLiteOpenHelper {
             ret.add(cursor.getInt(0));
         }
         return Krmic.poleConverter(Krmic.poleConverter(Krmic.polepull(ret)));
+    }
+
+    @SuppressWarnings("StringConcatenationInLoop")
+    public void insert(String[] strings) {
+        String save = "";
+        int i = 0;
+        String last = "";
+        for (String s : strings) {
+            save = save + s + " ";
+            i++;
+        }
+        save = save + " )";
+        getWritableDatabase().execSQL("INSERT INTO " + name + " VALUES( " + save + " " + last + "none )");
+        getWritableDatabase().execSQL("INSERT INTO " + name + " VALUES(save)");
     }
 }

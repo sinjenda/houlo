@@ -9,7 +9,7 @@ import com.sin.lifesim.R;
 import com.sin.lifesim.Window;
 import com.sin.lifesim.entity.Effect;
 import com.sin.lifesim.entity.Entity;
-import com.sin.lifesim.method;
+import com.sin.lifesim.interfaces.method;
 
 import java.util.ArrayList;
 

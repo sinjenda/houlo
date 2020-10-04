@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.sin.lifesim.Item.Item;
 import com.sin.lifesim.Item.ItemWeapon;
+import com.sin.lifesim.interfaces.method;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;

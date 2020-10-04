@@ -8,7 +8,7 @@ import com.sin.lifesim.Krmic;
 import com.sin.lifesim.MainActivity;
 import com.sin.lifesim.Window;
 import com.sin.lifesim.entity.Me;
-import com.sin.lifesim.method;
+import com.sin.lifesim.interfaces.method;
 import com.sin.lifesim.school.School;
 import com.sin.lifesim.school.entity.ClassMate;
 

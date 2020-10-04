@@ -1,4 +1,4 @@
-package com.sin.lifesim;
+package com.sin.lifesim.interfaces;
 
 import com.sin.lifesim.entity.Entity;
 

@@ -2,7 +2,7 @@ package com.sin.lifesim.school.schools;
 
 import com.sin.lifesim.MainActivity;
 import com.sin.lifesim.Window;
-import com.sin.lifesim.method;
+import com.sin.lifesim.interfaces.method;
 import com.sin.lifesim.school.School;
 
 import org.jetbrains.annotations.NotNull;

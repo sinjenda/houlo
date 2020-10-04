@@ -22,14 +22,18 @@ import com.sin.lifesim.Item.Item;
 import com.sin.lifesim.Item.ItemExtended;
 import com.sin.lifesim.Item.ItemTool;
 import com.sin.lifesim.Item.ItemWeapon;
+import com.sin.lifesim.database.databaseZamestnani;
 import com.sin.lifesim.entity.DataClass;
 import com.sin.lifesim.entity.Effect;
 import com.sin.lifesim.entity.Entity;
 import com.sin.lifesim.entity.EntityRender;
 import com.sin.lifesim.entity.Me;
+import com.sin.lifesim.interfaces.method;
+import com.sin.lifesim.interfaces.stream;
 import com.sin.lifesim.school.School;
 import com.sin.lifesim.school.schools.KomensSchool;
 import com.sin.lifesim.school.schools.PragueGymnasiumSchool;
+import com.sin.lifesim.work.Zamestnani;
 import com.sin.lifesim.work.smlouva.Smlouva;
 import com.sin.lifesim.work.work;
 
@@ -116,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> ita;
         ArrayList<Integer> itB;
         w = new work(this, getApplication());
-        w.setZamestnani("garbage");
+        w.setZamestnani(work.mistaPrepare[0]);
         window = new Window(this);
         r = new randomEvents(this);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -138,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         Calendar calendar = Calendar.getInstance();
+        w.getZamestnani().saver.save(this);
         @SuppressLint("SimpleDateFormat") DateFormat formatData = new SimpleDateFormat("DD");
         editor.putInt("time", Integer.parseInt(formatData.format(calendar.getTime())));
         try {
@@ -268,7 +273,6 @@ public class MainActivity extends AppCompatActivity {
             editor.putString("place", place);
             w.first();
             editor.putInt("worked", w.worked);
-            editor.putString("workplace", w.getZamestnani());
 
             Intent i = getIntent();
 
@@ -310,7 +314,9 @@ public class MainActivity extends AppCompatActivity {
             basicskills.put("strength", data.getInt("strength", -1));
             basicskills.put("luck", -1);
             money = data.getInt("money", -1);
-            w.setZamestnani(data.getString("workplace", null));
+            databaseZamestnani database = new databaseZamestnani(this);
+            Zamestnani zamestnani = new Zamestnani((String) database.select(new String[]{"name"}), (int) database.select(new String[]{"money"}), (int) database.select(new String[]{"requiredKnowledge"}), (String) database.select(new String[]{"type"}), (String) database.select(new String[]{"school"}));
+            w.setZamestnani(zamestnani);
             String place = this.place = data.getString("place", null);
             Calendar calendar = Calendar.getInstance();
             DateFormat format = new SimpleDateFormat("DD");
@@ -395,7 +401,7 @@ public class MainActivity extends AppCompatActivity {
                         switch (SchoolName) {
                             case ("komens"):
                                 KomensSchool school1 = (KomensSchool) school;
-                                school1.study();
+                                school1.study(this);
                                 break;
                             case ("prague"):
                                 PragueGymnasiumSchool school = (PragueGymnasiumSchool) this.school;
@@ -436,9 +442,7 @@ public class MainActivity extends AppCompatActivity {
                 case ("shopping"):
                     buy(editor);
                     break;
-                case ("zkusenost trade"):
-                    w.trade();
-                    break;
+
                 case ("consume"):
                     ArrayList<String> itemsPrepare = new ArrayList<>();
                     for (Item item : me.items)
