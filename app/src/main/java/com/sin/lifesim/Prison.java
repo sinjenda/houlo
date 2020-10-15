@@ -73,6 +73,8 @@ public class Prison {
                                         int i = 0;
                                         for (; true; i++) {
                                             m.render.renderHp(weapon.damage, "decrease", prisoner);
+                                            weapon.weaponEffect();
+                                            m.render.renderEffect(weapon.effect, prisoner, weapon.effect.countRendered, m.effectRenderData);
                                             m.render.renderHp(ThreadLocalRandom.current().nextInt(1, 25), "decrease", m.me);
                                             if (prisoner.hp < 1) {
                                                 w.informationDialog("you killed him");

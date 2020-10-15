@@ -29,7 +29,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import static android.content.ContentValues.TAG;
 
-@SuppressWarnings({"unchecked", "ConstantConditions"})
+@SuppressWarnings({"unchecked"})
 public class work {
     Krmic k = new Krmic();
     public static final String PATH = "storage/emulated/0/zkusenost";
@@ -83,7 +83,6 @@ public class work {
 
     }
 
-    @SuppressWarnings("ConstantConditions")
     public Smlouva generateSmlouvaForApply() {
         int i1 = ThreadLocalRandom.current().nextInt(0, mista.size() - 1);
         Zamestnani zamestnani = mista.get(i1);
@@ -145,7 +144,6 @@ public class work {
         return context.getResources().getString(idName);
     }
 
-    @SuppressWarnings("ConstantConditions")
     public void goWork(int time) {
         for (Zamestnani zamestnani : mista) {
             if (zamestnani.name.equals(this.zamestnani.name)) {

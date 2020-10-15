@@ -22,7 +22,7 @@ public class showArray_activity extends AppCompatActivity {
         Intent i = getIntent();
 
         strings = i.getStringArrayExtra(DATA);
-        @SuppressWarnings("ConstantConditions") ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, strings);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, strings);
         list.setAdapter(adapter);
     }
 

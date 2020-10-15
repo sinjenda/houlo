@@ -6,6 +6,8 @@ import androidx.annotation.IntRange;
 
 import com.sin.lifesim.Item.Item;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 
 public class EntityRender {
@@ -44,13 +46,15 @@ public class EntityRender {
         renderedEntities.add(entity);
     }
 
-    public void renderEffect(Effect effect, Entity toEntity, @IntRange(from = 1, to = 5) int length, DataClass clicked) {
-        renderedTest(toEntity);
-        effect.countRendered = length;
-        if (!renderedEntities.contains(toEntity))
-            throw new EntityError("");
-        effect.rendered = true;
-        render = new effectRender(effect, toEntity, clicked);
+    public void renderEffect(@Nullable Effect effect, Entity toEntity, @IntRange(from = 1, to = 5) int length, DataClass clicked) {
+        if (effect != null) {
+            renderedTest(toEntity);
+            effect.countRendered = length;
+            if (!renderedEntities.contains(toEntity))
+                throw new EntityError("not active entity");
+            effect.rendered = true;
+            render = new effectRender(effect, toEntity, clicked);
+        }
     }
 
     public void renderItem(Item item, Entity entity) {

@@ -25,7 +25,7 @@ public class display_smlouva_activity extends AppCompatActivity {
     Smlouva smlouvaToReturn;
 
     @Override
-    @SuppressWarnings({"unchecked", "ConstantConditions"})
+    @SuppressWarnings({"unchecked"})
     protected void onCreate(Bundle savedInstanceState) {
         podminky = findViewById(R.id.podminky);
         request = findViewById(R.id.requirments);

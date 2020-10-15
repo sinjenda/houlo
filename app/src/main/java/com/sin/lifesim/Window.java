@@ -139,6 +139,7 @@ public class Window {
         }
     }
 
+    @SuppressWarnings("BusyWait")
     private class doInBackground implements Runnable {
         final int index;
 

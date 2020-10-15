@@ -1,5 +1,5 @@
 package com.sin.lifesim.Item;
 
 public interface killable {
-    void weaponEffect(ItemWeapon itemWeapon);
+    void weaponEffect();
 }

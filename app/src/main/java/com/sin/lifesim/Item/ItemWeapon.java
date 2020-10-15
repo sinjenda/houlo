@@ -25,7 +25,7 @@ public class ItemWeapon extends Item implements killable {
     }
 
     @Override
-    public void weaponEffect(ItemWeapon itemWeapon) {
-
+    public void weaponEffect() {
+        weaponEffect.methodaB();
     }
 }

@@ -7,11 +7,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.sin.lifesim.Krmic;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 public class databaseZamestnani extends SQLiteOpenHelper {
-    public static String name = "zamestnani";
-    public static String create = "CREATE TABLE " + name + "  ( _id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT ,money INTEGER, requiredKnowlage INTEGER , type TEXT, school TEXT,none TEXT)";
+    public String name;
+    public String params;
+    public String create = "CREATE TABLE " + name + "  ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " + params + ")";
 
     public databaseZamestnani(Context ctx) {
         super(ctx, "poznamky", null, 1);
@@ -24,7 +27,7 @@ public class databaseZamestnani extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS entity");
+        db.execSQL("DROP TABLE " + name);
         onCreate(db);
     }
 
@@ -39,16 +42,19 @@ public class databaseZamestnani extends SQLiteOpenHelper {
     }
 
     @SuppressWarnings("StringConcatenationInLoop")
-    public void insert(String[] strings) {
+    public void insert(@NotNull String[] strings) {
         String save = "";
         int i = 0;
         String last = "";
         for (String s : strings) {
-            save = save + s + " ";
+            if (i == 0) {
+                save = save + s;
+            } else {
+                save = save + ", " + s;
+            }
             i++;
         }
         save = save + " )";
-        getWritableDatabase().execSQL("INSERT INTO " + name + " VALUES( " + save + " " + last + "none )");
-        getWritableDatabase().execSQL("INSERT INTO " + name + " VALUES(save)");
+        getWritableDatabase().execSQL("INSERT INTO " + name + " VALUES( " + save + " " + last + " )");
     }
 }

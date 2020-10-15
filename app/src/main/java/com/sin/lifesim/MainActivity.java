@@ -22,7 +22,6 @@ import com.sin.lifesim.Item.Item;
 import com.sin.lifesim.Item.ItemExtended;
 import com.sin.lifesim.Item.ItemTool;
 import com.sin.lifesim.Item.ItemWeapon;
-import com.sin.lifesim.database.databaseZamestnani;
 import com.sin.lifesim.entity.DataClass;
 import com.sin.lifesim.entity.Effect;
 import com.sin.lifesim.entity.Entity;
@@ -33,7 +32,6 @@ import com.sin.lifesim.interfaces.stream;
 import com.sin.lifesim.school.School;
 import com.sin.lifesim.school.schools.KomensSchool;
 import com.sin.lifesim.school.schools.PragueGymnasiumSchool;
-import com.sin.lifesim.work.Zamestnani;
 import com.sin.lifesim.work.smlouva.Smlouva;
 import com.sin.lifesim.work.work;
 
@@ -54,7 +52,7 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-@SuppressWarnings({"CanBeFinal", "EmptyMethod", "AccessStaticViaInstance", "ResultOfMethodCallIgnored", "ConstantConditions", "unchecked"})
+@SuppressWarnings({"CanBeFinal", "EmptyMethod", "AccessStaticViaInstance", "ResultOfMethodCallIgnored", "unchecked"})
 public class MainActivity extends AppCompatActivity {
     //view and string variables
     EditText input;
@@ -142,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         Calendar calendar = Calendar.getInstance();
-        w.getZamestnani().saver.save(this);
+        w.getZamestnani().saver.save();
         @SuppressLint("SimpleDateFormat") DateFormat formatData = new SimpleDateFormat("DD");
         editor.putInt("time", Integer.parseInt(formatData.format(calendar.getTime())));
         try {
@@ -235,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @SuppressWarnings({"ConstantConditions", "unchecked"})
+    @SuppressWarnings({"unchecked"})
     @SuppressLint({"ApplySharedPref", "SetTextI18n"})
     public void click(View view) throws IOException {
         try {
@@ -276,8 +274,10 @@ public class MainActivity extends AppCompatActivity {
 
             Intent i = getIntent();
 
-            final File file = new File("storage/emulated/0/smlouvy");
+            final File file = new File("storage/emulated/0/lifesim/smlouvy");
             try {
+                File dir = new File("storage/emulated/0/lifesim");
+                dir.mkdir();
                 File file1 = new File(PATH);
                 file1.createNewFile();
                 File file2 = new File(work.PATH);
@@ -286,6 +286,8 @@ public class MainActivity extends AppCompatActivity {
                 file3.createNewFile();
                 File file4 = new File(PATH_SCHOOLS);
                 file4.createNewFile();
+                File zamestnani = new File("storage/emulated/0/lifesim/zamestnani");
+                zamestnani.createNewFile();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -314,9 +316,7 @@ public class MainActivity extends AppCompatActivity {
             basicskills.put("strength", data.getInt("strength", -1));
             basicskills.put("luck", -1);
             money = data.getInt("money", -1);
-            databaseZamestnani database = new databaseZamestnani(this);
-            Zamestnani zamestnani = new Zamestnani((String) database.select(new String[]{"name"}), (int) database.select(new String[]{"money"}), (int) database.select(new String[]{"requiredKnowledge"}), (String) database.select(new String[]{"type"}), (String) database.select(new String[]{"school"}));
-            w.setZamestnani(zamestnani);
+            // TODO: 15.10.2020 repair zamestnani
             String place = this.place = data.getString("place", null);
             Calendar calendar = Calendar.getInstance();
             DateFormat format = new SimpleDateFormat("DD");

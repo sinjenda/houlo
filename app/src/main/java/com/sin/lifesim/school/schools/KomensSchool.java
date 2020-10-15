@@ -103,7 +103,6 @@ public class KomensSchool extends School {
                         }
                         if (m.me.items.size() != 0) {
                             w.windowItems(new method.onmet() {
-                                @SuppressWarnings("ConstantConditions")
                                 @Override
                                 public void methoda(String[] string) {
                                     ItemWeapon item = null;

@@ -34,7 +34,7 @@ public class showHashMap_activity extends AppCompatActivity {
         showList();
     }
 
-    @SuppressWarnings({"ConstantConditions", "unchecked"})
+    @SuppressWarnings({"unchecked"})
     public void showList() {
 
         Map<Smlouva, Boolean> hashMapa;

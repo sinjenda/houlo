@@ -1,22 +1,29 @@
 package com.sin.lifesim.work;
 
-import android.content.Context;
-
-import com.sin.lifesim.database.databaseZamestnani;
+import com.sin.lifesim.Krmic;
+import com.sin.lifesim.interfaces.stream;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class Zamestnani {
     public static final String[] posts = {"jr", "sr", "manager", "boss"};
     public String name;
     int money;
-    public saver saver;
+    public saver saver = new saver();
     int requiredKnowledge;
     String type;
     @Nullable
     String school;
+
+    private Zamestnani getZamestnani() {
+        return this;
+    }
 
     public Zamestnani(String name, int money, int requiredKnowledge, String type, @Nullable String school) {
         this.name = name;
@@ -24,21 +31,43 @@ public class Zamestnani {
         this.requiredKnowledge = requiredKnowledge;
         this.type = type;
         this.school = school;
-        saver saver = new saver();
     }
 
     public class saver {
-        databaseZamestnani databaseZamestnani;
-        ArrayList<Object> save = new ArrayList<>();
+        public void save() {
+            try {
+                Krmic.objectSaveHandler(new stream() {
+                    @Override
+                    public FileInputStream input() {
+                        return null;
+                    }
 
-        saver() {
-
+                    @Override
+                    public FileOutputStream output() throws IOException {
+                        return new FileOutputStream(new File("storage/emulated/0/lifesim/zamestnani"));
+                    }
+                }, getZamestnani());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        public void save(Context ctx) {
-            databaseZamestnani = new databaseZamestnani(ctx);
-            databaseZamestnani.insert(new String[]{name, String.valueOf(money), String.valueOf(requiredKnowledge), school});
-        }
+        public void load(work w) {
+            try {
+                w.setZamestnani((Zamestnani) Krmic.objectSaveHandler(new stream() {
+                    @Override
+                    public FileInputStream input() throws FileNotFoundException {
+                        return new FileInputStream(new File("storage/emulated/0/lifesim/zamestnani"));
+                    }
 
+                    @Override
+                    public FileOutputStream output() {
+                        return null;
+                    }
+                }, null));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
