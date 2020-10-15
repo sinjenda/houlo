@@ -29,7 +29,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import static android.content.ContentValues.TAG;
 
-@SuppressWarnings({"unchecked"})
+@SuppressWarnings({"unchecked", "ConstantConditions"})
 public class work {
     Krmic k = new Krmic();
     public static final String PATH = "storage/emulated/0/zkusenost";

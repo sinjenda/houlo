@@ -21,11 +21,16 @@ public class ItemWeapon extends Item implements killable {
         this.damage = damage;
         this.effect = effect;
         this.durability = durability;
+    }
 
+    public void setWeaponEffect(@Nullable method.onmet.withoutParam weaponEffect) {
+        this.weaponEffect = weaponEffect;
     }
 
     @Override
     public void weaponEffect() {
-        weaponEffect.methodaB();
+        if (weaponEffect != null) {
+            weaponEffect.methodaB();
+        }
     }
 }

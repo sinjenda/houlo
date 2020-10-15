@@ -25,6 +25,7 @@ public class EntityRender {
     }
 
     public void renderHp(int hp, String action, Entity entity) {
+        renderedTest(entity);
         if (action.equals("set")) {
             entity.hp = hp;
         }

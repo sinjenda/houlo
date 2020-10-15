@@ -167,7 +167,7 @@ public class Krmic implements Serializable {
 
     }
 
-    public ArrayList<Prisoner> createPrisoners(ArrayList<String> names) {
+    public ArrayList<Prisoner> createPrisoners(ArrayList<String> names, EntityRender render) {
 
 
         ArrayList<Prisoner> uloziste = new ArrayList<>();
@@ -177,7 +177,7 @@ public class Krmic implements Serializable {
             hp = (ThreadLocalRandom.current().nextInt(1, 100 + 1));
             String name = Prison.nams[ThreadLocalRandom.current().nextInt(0, Prison.nams.length)];
             Prisoner prisoner = new Prisoner(name, ThreadLocalRandom.current().nextInt(0, 100));
-            EntityRender render = new EntityRender();
+            render.renderEntity(prisoner);
             render.renderHp(hp, "set", prisoner);
             uloziste.add(prisoner);
 

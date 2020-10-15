@@ -25,6 +25,7 @@ public class Prison {
 
     public void prison(int sentence1) {
         sentence = sentence1;
+        vezni = krmic.createPrisoners(Krmic.polePut(nams), m.render);
     }
 
     public void solitary(int time) {
@@ -74,6 +75,7 @@ public class Prison {
                                         for (; true; i++) {
                                             m.render.renderHp(weapon.damage, "decrease", prisoner);
                                             weapon.weaponEffect();
+                                            //noinspection ConstantConditions
                                             m.render.renderEffect(weapon.effect, prisoner, weapon.effect.countRendered, m.effectRenderData);
                                             m.render.renderHp(ThreadLocalRandom.current().nextInt(1, 25), "decrease", m.me);
                                             if (prisoner.hp < 1) {

@@ -22,6 +22,7 @@ import com.sin.lifesim.Item.Item;
 import com.sin.lifesim.Item.ItemExtended;
 import com.sin.lifesim.Item.ItemTool;
 import com.sin.lifesim.Item.ItemWeapon;
+import com.sin.lifesim.Item.computer.ComputerComponent;
 import com.sin.lifesim.entity.DataClass;
 import com.sin.lifesim.entity.Effect;
 import com.sin.lifesim.entity.Entity;
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         public void effect(Entity entity) {
             entity.effects.clear();
         }
-    }, "clear"), 0)};
+    }, "clear"), 0), new ComputerComponent("cpu", 50, 1), new ComputerComponent("ram", 50, 1), new ComputerComponent("screen", 50, 1), new ComputerComponent("keyboard", 25, 1), new ComputerComponent("mouse", 25, 1)};
     public String SchoolName;
     TextView out;
     String randomBlocker = "";
@@ -316,7 +317,6 @@ public class MainActivity extends AppCompatActivity {
             basicskills.put("strength", data.getInt("strength", -1));
             basicskills.put("luck", -1);
             money = data.getInt("money", -1);
-            // TODO: 15.10.2020 repair zamestnani
             String place = this.place = data.getString("place", null);
             Calendar calendar = Calendar.getInstance();
             DateFormat format = new SimpleDateFormat("DD");
