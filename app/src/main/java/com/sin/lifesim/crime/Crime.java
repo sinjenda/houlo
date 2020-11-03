@@ -26,16 +26,19 @@ public abstract class Crime {
         this.name = name;
         this.risk = risk;
         this.place = place;
+        this.risk = this.risk + place;
     }
+
+    abstract void onSuccess();
 
     public void cached(Entity who) {
 
     }
 
     protected static class places {
-        public static final int HOME = 1;
-        public static final int STREET = 2;
-        public static final int SHOP = 3;
+        public static final int HOME = 10;
+        public static final int STREET = 50;
+        public static final int SHOP = 30;
     }
 
     @Override

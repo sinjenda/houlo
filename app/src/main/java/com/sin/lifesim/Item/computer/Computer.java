@@ -2,14 +2,21 @@ package com.sin.lifesim.Item.computer;
 
 import androidx.annotation.NonNull;
 
+import com.sin.lifesim.MainActivity;
+import com.sin.lifesim.entity.Entity;
+import com.sin.lifesim.entity.EntityRender;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 @SuppressWarnings({"CloneDoesntDeclareCloneNotSupportedException", "MethodDoesntCallSuperMethod"})
 public class Computer {
     HashMap<String, Integer> data = new HashMap<>();
+    private static MainActivity m;
     ArrayList<ComputerComponent> components = new ArrayList<>();
+    public ArrayList<ComputerComponent> usedComponents = new ArrayList<>();
     boolean started = false;
+    public Entity owner;
     boolean build = false;
 
     public boolean start() {
@@ -22,7 +29,15 @@ public class Computer {
         throw new ComputerError("computer is already started");
     }
 
-    Computer(ArrayList<ComputerComponent> components) {
+
+    Computer(ArrayList<ComputerComponent> components, Entity owner, MainActivity m) {
+        Computer.m = m;
+        try {
+            m.render.renderedTest(owner);
+
+        } catch (EntityRender.EntityError e) {
+            throw new ComputerError("notRendered", e);
+        }
         boolean cpu = false;
         boolean ram = false;
         boolean screen = false;
@@ -61,38 +76,44 @@ public class Computer {
                         if (!cpu) {
                             components.remove(comp);
                             cpu = true;
+                            usedComponents.add(comp);
                         }
                     case "ram":
                         if (!ram) {
                             components.remove(comp);
                             ram = true;
+                            usedComponents.add(comp);
                         }
                     case "screen":
                         if (!screen) {
                             components.remove(comp);
                             screen = true;
+                            usedComponents.add(comp);
                         }
                     case "keyboard":
                         if (!keyboard) {
                             components.remove(comp);
                             keyboard = true;
+                            usedComponents.add(comp);
                         }
                     case "mouse":
                         if (!mouse) {
                             components.remove(comp);
                             mouse = true;
+                            usedComponents.add(comp);
                         }
                 }
             }
             this.components = components;
             build = true;
         }
+
     }
 
     @NonNull
     @Override
     protected Object clone() {
-        Computer c = new Computer(components);
+        Computer c = new Computer(components, owner, m);
         if (c.build = false) {
             return "you need more components to clone your pc";
         } else {

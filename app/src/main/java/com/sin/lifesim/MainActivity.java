@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     HashMap<String, Integer> basicskills = new HashMap<String, Integer>();
     ArrayList<String> skills = new ArrayList<String>();
     public ArrayList<Item> itemshave = new ArrayList<>();
+    public ArrayList<String> courses = new ArrayList<>();
     public ArrayList<String> schools = new ArrayList<>();
     ArrayList<String> nms = new ArrayList<String>();
     public ArrayList<Item> itemssell = new ArrayList<>();
