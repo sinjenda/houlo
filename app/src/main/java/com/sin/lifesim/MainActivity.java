@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         public void effect(Entity entity) {
             entity.effects.clear();
         }
-    }, "clear"), 0), new ComputerComponent("cpu", 50, 1), new ComputerComponent("ram", 50, 1), new ComputerComponent("screen", 50, 1), new ComputerComponent("keyboard", 25, 1), new ComputerComponent("mouse", 25, 1)};
+    }, "clear"), 0), new ComputerComponent("cpu", 50, 1), new ComputerComponent("ram", 50, 1), new ComputerComponent("screen", 50, 1), new ComputerComponent("keyboard", 25, 1), new ComputerComponent("mouse", 25, 1), new ComputerComponent("net", 15, 1)};
     public String SchoolName;
     TextView out;
     String randomBlocker = "";

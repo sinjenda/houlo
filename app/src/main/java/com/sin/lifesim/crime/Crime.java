@@ -29,7 +29,7 @@ public abstract class Crime {
         this.risk = this.risk + place;
     }
 
-    abstract void onSuccess();
+    abstract void onSuccess(Object[] data);
 
     public void cached(Entity who) {
 

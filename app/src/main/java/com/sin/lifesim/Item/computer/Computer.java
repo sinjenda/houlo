@@ -7,11 +7,10 @@ import com.sin.lifesim.entity.Entity;
 import com.sin.lifesim.entity.EntityRender;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 @SuppressWarnings({"CloneDoesntDeclareCloneNotSupportedException", "MethodDoesntCallSuperMethod"})
 public class Computer {
-    HashMap<String, Integer> data = new HashMap<>();
+    public ArrayList<String> data = new ArrayList<>();
     private static MainActivity m;
     ArrayList<ComputerComponent> components = new ArrayList<>();
     public ArrayList<ComputerComponent> usedComponents = new ArrayList<>();
@@ -29,8 +28,17 @@ public class Computer {
         throw new ComputerError("computer is already started");
     }
 
+    public boolean insertComponent(ComputerComponent component) {
+        switch (component.name) {
+            case "net":
+                components.add(component);
+                return true;
+            default:
+                return false;
+        }
+    }
 
-    Computer(ArrayList<ComputerComponent> components, Entity owner, MainActivity m) {
+    public Computer(ArrayList<ComputerComponent> components, Entity owner, MainActivity m) {
         Computer.m = m;
         try {
             m.render.renderedTest(owner);
